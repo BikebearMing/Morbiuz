@@ -7,6 +7,9 @@ export const GET_HOME_PAGE = gql`
       home {
         hero
         subtext
+        featuredClients {
+          client
+        }
         heroImages {
           heroImage1 {
             node {

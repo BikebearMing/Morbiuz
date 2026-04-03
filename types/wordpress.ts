@@ -26,9 +26,14 @@ export interface HomeHeroImages {
   heroImage5: AcfImage | null;
 }
 
+export interface FeaturedClient {
+  client: string;
+}
+
 export interface HomeFields {
   hero: string | null;
   subtext: string | null;
+  featuredClients: FeaturedClient[] | null;
   heroImages: HomeHeroImages | null;
 }
 
@@ -47,6 +52,14 @@ export interface Post {
   categories: {
     nodes: Category[];
   };
+}
+
+export interface MenuItem {
+  id: string;
+  label: string;
+  uri: string;
+  parentId: string | null;
+  cssClasses: string[];
 }
 
 export interface Page {
