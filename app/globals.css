@@ -216,6 +216,19 @@ section.home-hero {
       position: relative;
       width: 100%;
       height: 49.389vw;
+      z-index: 99;
+
+      &::before {
+        content: '';
+        position: absolute;
+        width: 35.987vw;
+        height: 17.103vw;
+        background: url(https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/orange-circle.svg);
+        background-size: 100% 100%;
+        bottom: 5.417vw;
+        left: 50%;
+        transform: translateX(-50%);
+      }
 
       & .content {
         position: absolute;
@@ -237,6 +250,7 @@ section.home-hero {
         position: relative;
         width: 100%;
         height: 100%;
+        z-index: 2;
 
         & .orbit-parent {
           position: absolute;
@@ -284,13 +298,18 @@ section.home-hero {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 8px;
+      gap: .556vw;
       padding: 1vw 0;
+      display: flex;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 0;
     }
 
     & .trail-bar {
-      width: 127px;
-      height: 8px;
+      width: 8.819vw;
+      height: 0.556vw;
       background: var(--orange);
     }
 
@@ -364,6 +383,61 @@ section.featured-clients {
   width: 100%;
   height: 100vh;
   overflow: hidden;
+
+
+   & .cassete-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 18.218vw;
+    height: 5.395vw;
+    z-index: 999;
+
+    & .body {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      inset: 0;
+
+    }
+
+    & .roller {
+      object-fit: cover;
+    width: 2.9vw;
+    height: 2.9vw;
+    position: absolute;
+    top: 1.112vw;
+    display: block;
+    left: 1.112vw;
+    &.second {
+      right: 1.112vw;
+      left: unset !important;
+      display: block;
+    }
+
+    }
+
+
+    & .content {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 0.833vw;
+      font-family: var(--font-mont-blanc);
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: -0.6px;
+      text-transform: uppercase;
+      
+    
+    }
+  }
+
+
+  
 }
 
 .vs-base,

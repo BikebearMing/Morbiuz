@@ -8,6 +8,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function VideoStack() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const rollerTween = useRef<gsap.core.Tween | null>(null);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -16,8 +17,34 @@ export default function VideoStack() {
     const video1 = container.querySelector(".vs-video-1") as HTMLVideoElement;
     const video2 = container.querySelector(".vs-video-2") as HTMLVideoElement;
     const slide = container.querySelector(".vs-slide") as HTMLElement;
+    const rollers = container.querySelectorAll(".roller");
+
+    const contentLabel = container.querySelector(".cassete-wrapper .content") as HTMLElement;
 
     if (!video1 || !video2 || !slide) return;
+
+    // Infinite spin tween, starts paused
+    rollerTween.current = gsap.to(rollers, {
+      rotation: 360,
+      duration: 2,
+      ease: "none",
+      repeat: -1,
+      paused: true,
+    });
+
+    function startRollers() {
+      rollerTween.current?.play();
+    }
+
+    function stopRollers() {
+      rollerTween.current?.pause();
+    }
+
+    // Sync rollers with video play/pause
+    video1.addEventListener("play", startRollers);
+    video1.addEventListener("pause", stopRollers);
+    video2.addEventListener("play", startRollers);
+    video2.addEventListener("pause", stopRollers);
 
     let ctx: gsap.Context | null = null;
 
@@ -25,10 +52,10 @@ export default function VideoStack() {
       if (ctx) ctx.revert();
 
       ctx = gsap.context(() => {
-        // Video 2 starts off-screen below
         gsap.set(slide, { yPercent: 100 });
 
-        // Pin container, slide video 2 up over video 1
+        let switched = false;
+
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: container,
@@ -36,6 +63,15 @@ export default function VideoStack() {
             end: "+=100%",
             scrub: 1.5,
             pin: true,
+            onUpdate: (self) => {
+              if (self.progress >= 0.5 && !switched) {
+                switched = true;
+                if (contentLabel) contentLabel.textContent = "02 - 03";
+              } else if (self.progress < 0.5 && switched) {
+                switched = false;
+                if (contentLabel) contentLabel.textContent = "01 - 03";
+              }
+            },
             onEnter: () => video1.play(),
             onLeave: () => {
               video1.pause();
@@ -70,13 +106,26 @@ export default function VideoStack() {
     return () => {
       window.removeEventListener("resize", onResize);
       clearTimeout(resizeTimer);
+      video1.removeEventListener("play", startRollers);
+      video1.removeEventListener("pause", stopRollers);
+      video2.removeEventListener("play", startRollers);
+      video2.removeEventListener("pause", stopRollers);
+      rollerTween.current?.kill();
       if (ctx) ctx.revert();
     };
   }, []);
 
   return (
     <section className="video-stack" ref={containerRef}>
+
+       <div className="cassete-wrapper">
+          <img className="roller" src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/cassete-roller.png" alt="" />
+          <img className="body" src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/cassete-body.png" alt="" />
+          <img className="roller second" src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/cassete-roller.png" alt="" />
+          <p className="content dark">01 - 03</p>
+        </div>
       <div className="vs-base">
+
         <video
           className="vs-video-1"
           src="https://streamable.com/l/vcx2gh/mp4.mp4"

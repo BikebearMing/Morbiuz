@@ -57,7 +57,7 @@ export default async function Home() {
             </div>
 
 
-            {/* <div className="trail-bars">
+            <div className="trail-bars">
               {Array.from({ length: 70 }).map((_, i) => (
                 <div
                   key={i}
@@ -65,7 +65,7 @@ export default async function Home() {
                   style={{ opacity: 1 - i * (1 / 40) }}
                 />
               ))}
-            </div> */}
+            </div>
 
             <div className="second-half">
                 <div className="video-zoom-wrapper">
