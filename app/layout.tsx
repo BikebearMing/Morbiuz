@@ -3,6 +3,7 @@ import { Outfit } from "next/font/google";
 import localFont from "next/font/local";
 import SmoothScroll from "@/components/SmoothScroll";
 import Preloader from "@/components/Preloader";
+import SplitTextReveal from "@/components/SplitTextReveal";
 import { Navigation } from "@/components/Navigation";
 import "./globals.css";
 
@@ -47,6 +48,7 @@ export default function RootLayout({
         <div className="noise-overlay" />
         <Preloader />
         <Navigation />
+        <SplitTextReveal />
         <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>

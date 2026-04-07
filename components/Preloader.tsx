@@ -61,6 +61,9 @@ export default function Preloader() {
         duration: 1.4,
         ease: "power4.inOut",
         delay: 0.3,
+        onComplete: () => {
+          window.dispatchEvent(new CustomEvent("preloader-done"));
+        },
       });
     };
 

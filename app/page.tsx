@@ -27,7 +27,7 @@ export default async function Home() {
                   <span className="subhead-text">WE ARE MOBIUZ</span>
                   <span className="bracket bracket-right">]</span>
                 </h5>
-                {hero && <h1 className="h1" dangerouslySetInnerHTML={{ __html: hero }} />}
+                {hero && <h1 className="h1" data-split-text dangerouslySetInnerHTML={{ __html: hero }} />}
               </div>
 
               <div className="image-parent">
@@ -58,7 +58,7 @@ export default async function Home() {
 
 
             <div className="trail-bars">
-              {Array.from({ length: 70 }).map((_, i) => (
+              {Array.from({ length: 80 }).map((_, i) => (
                 <div
                   key={i}
                   className="trail-bar"
@@ -91,7 +91,7 @@ export default async function Home() {
               <span className="subhead-text">FEATURED CLIENTS</span>
               <span className="bracket bracket-right">]</span>
             </h5>
-            <h1 className="h2-v2 orange client-list">
+            <h1 className="h2-v2 orange client-list" data-split-text="scroll">
               {featuredClients && featuredClients.map((fc, i) => (
                 <span key={i}>
                   {i > 0 && <span className="client-slash"> / </span>}{fc.client}
@@ -102,6 +102,18 @@ export default async function Home() {
         </section>
       </HeroAnimation>
       <VideoStack />
+      <section className="our-team">
+        <div className="wrapper">
+              <div className="parallax-container">
+                <img src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/our-team-bg-scaled.jpg" alt="" />
+                <img src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/our-team-ppl-scaled.png" alt="" />
+              </div>
+
+          <h5 className="subhead">OUR TEAM</h5>
+          <h1 className="h1 beige">THE <span className="cursive">minds</span> <br /> BEHIND MOBIUS</h1>
+          <a href="#" className="custom-button">About Us</a>
+        </div>
+      </section>
     </main>
   );
 }

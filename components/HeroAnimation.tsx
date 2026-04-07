@@ -74,6 +74,20 @@ export default function HeroAnimation({
         const arrivalOrder = new Map<HTMLImageElement, number>();
         sorted.forEach((d, i) => arrivalOrder.set(d.img, i));
 
+        // ---- Image clip-path reveal (after preloader) ----
+        gsap.set(images, { clipPath: "inset(100% 0 0 0)" });
+
+        const revealImages = () => {
+          gsap.to(Array.from(images), {
+            clipPath: "inset(0% 0 0 0)",
+            duration: 1,
+            ease: "power3.inOut",
+            stagger: 0.12,
+          });
+        };
+
+        window.addEventListener("preloader-done", revealImages, { once: true });
+
         // ---- Subhead bracket reveal ----
         const subheadText = section.querySelector(".subhead-text") as HTMLElement;
         if (subheadText) {
@@ -132,95 +146,125 @@ export default function HeroAnimation({
           );
         });
 
-        // ---- Scrub images down to video position ----
+        // ---- Scrub images + video down to second-half ----
         if (video) {
           const convergeEllipseY = ellipseCY + Math.sin(convergeAngle) * radiusY;
-          const videoRect = video.getBoundingClientRect();
-          const videoCY =
-            videoRect.top - sectionRect.top + videoRect.height / 2;
-
-          const deltaY = videoCY - convergeEllipseY;
 
           const secondHalf = section.querySelector(".second-half") as HTMLElement;
 
+          const squareSize = window.innerWidth * 0.17778 * 0.7; // 17.778vw × 0.7 scale
+          const targetW16_9 = squareSize * (16 / 9);
+          const scaleToFill = Math.max(
+            window.innerWidth / targetW16_9,
+            window.innerHeight / squareSize
+          );
+
+          // Set video to square size first, then measure its position
+          gsap.set(video, {
+            width: squareSize,
+            height: squareSize,
+            left: "50%",
+            xPercent: -50,
+            scale: 1,
+            zIndex: 100,
+          });
+
+          const videoRect = video.getBoundingClientRect();
+          const videoNaturalTop = videoRect.top - sectionRect.top;
+          const videoCY = videoNaturalTop + videoRect.height / 2;
+          const deltaY = videoCY - convergeEllipseY;
+
+          // Where the video should rest when pin starts (viewport center)
+          const secondHalfRect = secondHalf.getBoundingClientRect();
+          const secondHalfTop = secondHalfRect.top - sectionRect.top;
+          // When pinned, secondHalf top = viewport top, so video center should be at viewport center
+          const desiredCenterInSH = window.innerHeight / 2;
+          // Video's natural center relative to secondHalf
+          const videoNaturalCenterInSH = videoNaturalTop - secondHalfTop + squareSize / 2;
+          // Offset to move video to viewport center during pin
+          const restingY = desiredCenterInSH - videoNaturalCenterInSH;
+
+          // Now hide it and position at converge point
+          gsap.set(video, {
+            scale: 0,
+            y: -deltaY,
+          });
+
+          // ---- Travel timeline: video appears + everything moves down ----
           const travelTl = gsap.timeline({
             scrollTrigger: {
               trigger: secondHalf,
-              start: "top 50%",
-              end: "top 30%",
+              start: "top 60%",
+              end: "top 25%",
               scrub: 1.5,
             },
           });
 
+          // Video reveals as square at the start of travel
+          travelTl.to(
+            video,
+            { scale: 1, duration: 0.15, ease: "power2.out" },
+            0
+          );
+
+          // How far everything actually travels (converge point → viewport center of pinned section)
+          const travelDistance = deltaY + restingY;
+
+          // Images + video all travel down together
           images.forEach((img) => {
             travelTl.to(
               img,
-              {
-                y: `+=${deltaY}`,
-                duration: 1,
-                ease: "none",
-              },
+              { y: `+=${travelDistance}`, duration: 1, ease: "none" },
               0
             );
             travelTl.to(
               img,
-              {
-                opacity: 0,
-                duration: 0.8,
-                ease: "none",
-              },
+              { opacity: 0, duration: 0.8, ease: "none" },
               0.1
             );
           });
 
-          // ---- Debug: check element positions ----
-          const featuredSection = document.querySelector("section.featured-clients") as HTMLElement;
-          if (featuredSection) {
-            const fsRect = featuredSection.getBoundingClientRect();
-            const shRect = secondHalf.getBoundingClientRect();
-            console.log("=== POSITION DEBUG ===");
-            console.log(`secondHalf: top=${shRect.top.toFixed(0)} bottom=${shRect.bottom.toFixed(0)} height=${shRect.height.toFixed(0)}`);
-            console.log(`featuredClients: top=${fsRect.top.toFixed(0)} bottom=${fsRect.bottom.toFixed(0)}`);
-            console.log(`secondHalf offsetTop=${secondHalf.offsetTop} offsetHeight=${secondHalf.offsetHeight}`);
-            console.log(`featuredClients offsetTop=${featuredSection.offsetTop} offsetHeight=${featuredSection.offsetHeight}`);
-            console.log(`home-hero height=${(section.querySelector('.home-hero') as HTMLElement)?.offsetHeight}`);
+          // Video travels down too (from -deltaY to restingY)
+          travelTl.to(
+            video,
+            { y: restingY, duration: 1, ease: "none" },
+            0
+          );
+
+          // ---- Move title + subtext up to match video's resting position ----
+          const titleEl = section.querySelector(".video-zoom-wrapper .title") as HTMLElement;
+          const subtextEl = section.querySelector(".video-zoom-wrapper .subtext") as HTMLElement;
+
+          if (titleEl) gsap.set(titleEl, { y: restingY });
+          if (subtextEl) {
+            // Position subtext just below the video
+            const subtextRect = subtextEl.getBoundingClientRect();
+            const subtextNaturalTop = subtextRect.top - secondHalfRect.top;
+            // Video bottom in pinned viewport = viewport center + half square
+            const videoBottomInSH = desiredCenterInSH + squareSize / 2;
+            const subtextTargetY = videoBottomInSH - subtextNaturalTop + window.innerHeight * 0.55;
+            gsap.set(subtextEl, { y: subtextTargetY });
           }
 
-          // ---- Pin second-half: video scale sequence ----
-          const videoW = window.innerWidth * 0.17778;
-          const scaleToFill = window.innerWidth / videoW;
-
+          // ---- Pin second-half: video expand + scale sequence ----
           const videoTl = gsap.timeline({
             scrollTrigger: {
               trigger: secondHalf,
               start: "top top",
-              end: "+=200%",
+              end: "+=250%",
               scrub: 1.5,
               pin: true,
             },
           });
 
-          gsap.set(video, { zIndex: 10 });
-
-          const wrapper = section.querySelector(".video-zoom-wrapper") as HTMLElement;
-          const titleEl = section.querySelector(".video-zoom-wrapper .title") as HTMLElement;
-          const secondHalfRect = secondHalf.getBoundingClientRect();
-          const titleRect = titleEl.getBoundingClientRect();
-          const titleCenterInPinned = titleRect.top - secondHalfRect.top + titleRect.height / 2;
-          const moveToCenter = window.innerHeight / 2 - titleCenterInPinned;
-
-          videoTl.to(
-            wrapper,
-            { y: moveToCenter, duration: 0.2, ease: "power2.out" },
-            0
-          );
-
+          // Phase 1: expand width to 16:9 (height stays, width grows)
           videoTl.to(
             video,
-            { scale: 1, duration: 0.2, ease: "power2.out" },
+            { width: targetW16_9, duration: 0.25, ease: "power2.inOut" },
             0
           );
 
+          // Phase 2: scale to fill viewport
           let videoPlaying = false;
           videoTl.to(
             video,
@@ -239,7 +283,7 @@ export default function HeroAnimation({
                 }
               },
             },
-            0.2
+            0.25
           );
         }
       }, section);

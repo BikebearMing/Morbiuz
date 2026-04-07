@@ -20,6 +20,7 @@ export default function VideoStack() {
     const rollers = container.querySelectorAll(".roller");
 
     const contentLabel = container.querySelector(".cassete-wrapper .content") as HTMLElement;
+    const speakerLines = container.querySelector(".speaker-lines") as HTMLElement;
 
     if (!video1 || !video2 || !slide) return;
 
@@ -34,10 +35,12 @@ export default function VideoStack() {
 
     function startRollers() {
       rollerTween.current?.play();
+      if (speakerLines) speakerLines.classList.add("playing");
     }
 
     function stopRollers() {
       rollerTween.current?.pause();
+      if (speakerLines) speakerLines.classList.remove("playing");
     }
 
     // Sync rollers with video play/pause
@@ -53,6 +56,8 @@ export default function VideoStack() {
 
       ctx = gsap.context(() => {
         gsap.set(slide, { yPercent: 100 });
+
+        // Text mask-up reveal for h3, h4, p
 
         let switched = false;
 
@@ -117,6 +122,36 @@ export default function VideoStack() {
 
   return (
     <section className="video-stack" ref={containerRef}>
+
+      <div className="overlay">
+        <img className="corner-circle tl" src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/grey-circle.png" alt="" />
+        <img className="corner-circle tr" src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/grey-circle.png" alt="" />
+        <img className="corner-circle bl" src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/grey-circle.png" alt="" />
+        <div className="speaker-lines">
+          {Array.from({ length: 30 }).map((_, i) => (
+            <div
+              key={i}
+              className="speaker-line"
+              style={{ animationDelay: `${(i * 0.07) % 0.5}s`, animationDuration: `${0.5 + (i % 5) * 0.15}s` }}
+            />
+          ))}
+        </div>
+        <img className="corner-circle br" src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/grey-circle.png" alt="" />
+        <div className="wrapper">
+          <div className="top">
+            <h3 className="h3 title dark" data-mask-up>室内高人 MV</h3>
+            <div className="meta-wrapper client">
+              <p className="body grey" data-mask-up>CLIENT</p>
+              <p className="body dark" data-mask-up>NICOLE LAI</p>
+            </div>
+
+            <div className="meta-wrapper year">
+              <p className="body grey" data-mask-up>YEAR</p>
+              <p className="body dark" data-mask-up>2025</p>
+            </div>
+          </div>
+        </div>
+      </div>
 
        <div className="cassete-wrapper">
           <img className="roller" src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/cassete-roller.png" alt="" />
