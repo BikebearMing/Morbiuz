@@ -3,6 +3,7 @@ import { GET_HOME_PAGE } from "@/lib/queries/home";
 import { HomePage } from "@/types/wordpress";
 import HeroAnimation from "@/components/HeroAnimation";
 import VideoStack from "@/components/VideoStack";
+import ServicesList from "@/components/ServicesList";
 
 export const revalidate = 3600;
 
@@ -10,7 +11,8 @@ export default async function Home() {
   const client = getClient();
   const { page } = await client.request<{ page: HomePage }>(GET_HOME_PAGE);
 
-  const { hero, subtext, heroImages, featuredClients } = page.home;
+  const { hero, subtext, heroImages, featuredClients, services } = page.home;
+  const serviceItems = services?.serviceRepeater || [];
 
   return (
     <main>
@@ -102,6 +104,21 @@ export default async function Home() {
         </section>
       </HeroAnimation>
       <VideoStack />
+      <section className="hp-services">
+        <h5 className="subhead">
+          <span className="bracket bracket-left">[</span>
+          <span className="subhead-text">SERVICES</span>
+          <span className="bracket bracket-right">]</span>
+        </h5>
+        <div className="wrapper">
+          <div className="left">
+            <h4 className="h4 dark caps">WE Deliver eye-catching motion graphics and campaigns, spark emotion and increase conversions.</h4>
+            <img src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/Rectangle.png" alt="" />
+          </div>
+
+          <ServicesList items={serviceItems} />
+        </div>
+      </section>
       <section className="our-team">
         <div className="wrapper">
               <div className="parallax-container">

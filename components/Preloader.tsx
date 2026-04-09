@@ -79,7 +79,7 @@ export default function Preloader() {
       style={{
         position: "fixed",
         inset: 0,
-        zIndex: 9999,
+        zIndex: 99999,
         background: "var(--black)",
         display: "flex",
         flexDirection: "column",

@@ -42,6 +42,20 @@ export const GET_HOME_PAGE = gql`
             }
           }
         }
+        services {
+          serviceRepeater {
+            serviceGroup {
+              title
+              subtext
+              serviceImage {
+                node {
+                  sourceUrl
+                  altText
+                }
+              }
+            }
+          }
+        }
       }
     }
   }

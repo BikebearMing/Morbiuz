@@ -30,11 +30,24 @@ export interface FeaturedClient {
   client: string;
 }
 
+export interface ServiceItem {
+  serviceGroup: {
+    title: string;
+    subtext: string;
+    serviceImage: AcfImage | null;
+  };
+}
+
+export interface Services {
+  serviceRepeater: ServiceItem[] | null;
+}
+
 export interface HomeFields {
   hero: string | null;
   subtext: string | null;
   featuredClients: FeaturedClient[] | null;
   heroImages: HomeHeroImages | null;
+  services: Services | null;
 }
 
 export interface HomePage {

@@ -237,6 +237,30 @@ export default function SplitTextReveal() {
           );
         }
       }
+
+      // ---- Page fold entrance for sections ----
+      const foldSections = document.querySelectorAll<HTMLElement>("section.hp-services, section.our-team");
+      foldSections.forEach((section) => {
+        gsap.fromTo(section,
+          {
+            transformOrigin: "center bottom",
+            rotationX: 2,
+            scale: 0.99,
+            transformPerspective: 1200,
+          },
+          {
+            rotationX: 0,
+            scale: 1,
+            ease: "none",
+            scrollTrigger: {
+              trigger: section,
+              start: "top bottom",
+              end: "top 20%",
+              scrub: 1,
+            },
+          }
+        );
+      });
     }, 500);
 
     return () => {
