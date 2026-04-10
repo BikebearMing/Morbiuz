@@ -72,8 +72,8 @@ export default async function Home() {
             <div className="second-half">
                 <div className="video-zoom-wrapper">
                   <div className="title">
-                    <h2 className="h2 dark">strategy</h2>
-                    <h2 className="h2 dark">imagination</h2>
+                    <div className="title-clip"><h2 className="h2 dark">strategy</h2></div>
+                    <div className="title-clip"><h2 className="h2 dark">imagination</h2></div>
                   </div>
 
                   <video src="https://streamable.com/l/4wsqgh/mp4-high.mp4" muted playsInline loop></video>

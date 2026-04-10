@@ -81,3 +81,22 @@ export interface Page {
   content: string;
   featuredImage: FeaturedImage | null;
 }
+
+export interface SocialItem {
+  socialGroup: {
+    socialLink: {
+      title: string;
+      url: string;
+      target: string | null;
+    };
+  };
+}
+
+export interface FooterFields {
+  topTitle: string | null;
+  projectEnquiries: string | null;
+  address: string | null;
+  socials: {
+    socialsRepeater: SocialItem[] | null;
+  } | null;
+}

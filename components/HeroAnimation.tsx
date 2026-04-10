@@ -233,17 +233,45 @@ export default function HeroAnimation({
 
           // ---- Move title + subtext up to match video's resting position ----
           const titleEl = section.querySelector(".video-zoom-wrapper .title") as HTMLElement;
-          const subtextEl = section.querySelector(".video-zoom-wrapper .subtext") as HTMLElement;
+          const titleH2s = section.querySelectorAll(".video-zoom-wrapper .title h2") as NodeListOf<HTMLElement>;
+          const subtextH4 = section.querySelector(".video-zoom-wrapper .subtext h4") as HTMLElement;
 
-          if (titleEl) gsap.set(titleEl, { y: restingY });
-          if (subtextEl) {
-            // Position subtext just below the video
-            const subtextRect = subtextEl.getBoundingClientRect();
-            const subtextNaturalTop = subtextRect.top - secondHalfRect.top;
-            // Video bottom in pinned viewport = viewport center + half square
-            const videoBottomInSH = desiredCenterInSH + squareSize / 2;
-            const subtextTargetY = videoBottomInSH - subtextNaturalTop + window.innerHeight * 0.55;
-            gsap.set(subtextEl, { y: subtextTargetY });
+          if (titleEl) {
+            gsap.set(titleEl, { y: restingY });
+            gsap.set(titleH2s, { yPercent: 100 });
+          }
+          // Split h4 subtext into lines with overflow-hidden clips
+          let subtextLines: HTMLElement[] = [];
+          if (subtextH4) {
+            const text = subtextH4.textContent || "";
+            // Temporarily render as word spans to measure line breaks
+            subtextH4.innerHTML = text.split(" ").map((w) => `<span>${w}</span>`).join(" ");
+            const wordSpans = subtextH4.querySelectorAll("span");
+
+            const lineGroups: string[][] = [];
+            let lastTop = -1;
+            wordSpans.forEach((span) => {
+              const top = span.getBoundingClientRect().top;
+              if (Math.abs(top - lastTop) > 2 || lastTop === -1) {
+                lineGroups.push([]);
+                lastTop = top;
+              }
+              lineGroups[lineGroups.length - 1].push(span.textContent || "");
+            });
+
+            subtextH4.innerHTML = "";
+            lineGroups.forEach((lineWords) => {
+              const clip = document.createElement("div");
+              clip.style.overflow = "hidden";
+              const span = document.createElement("span");
+              span.style.display = "block";
+              span.textContent = lineWords.join(" ");
+              clip.appendChild(span);
+              subtextH4.appendChild(clip);
+            });
+
+            subtextLines = Array.from(subtextH4.querySelectorAll("span"));
+            gsap.set(subtextLines, { yPercent: 100 });
           }
 
           // ---- Pin second-half: video expand + scale sequence ----
@@ -263,6 +291,24 @@ export default function HeroAnimation({
             { width: targetW16_9, duration: 0.25, ease: "power2.inOut" },
             0
           );
+
+          // Title h2s slide up into view
+          if (titleH2s.length) {
+            videoTl.to(
+              titleH2s,
+              { yPercent: 0, duration: 0.15, ease: "power3.out", stagger: 0.05 },
+              0.05
+            );
+          }
+
+          // Subtext lines slide up into view one by one
+          if (subtextLines.length) {
+            videoTl.to(
+              subtextLines,
+              { yPercent: 0, duration: 0.15, ease: "power3.out", stagger: 0.04 },
+              0.12
+            );
+          }
 
           // Phase 2: scale to fill viewport
           let videoPlaying = false;

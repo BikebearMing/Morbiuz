@@ -5,6 +5,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 import Preloader from "@/components/Preloader";
 import SplitTextReveal from "@/components/SplitTextReveal";
 import { Navigation } from "@/components/Navigation";
+import { Footer } from "@/components/Footer";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -50,6 +51,7 @@ export default function RootLayout({
         <Navigation />
         <SplitTextReveal />
         <SmoothScroll>{children}</SmoothScroll>
+        <Footer />
       </body>
     </html>
   );

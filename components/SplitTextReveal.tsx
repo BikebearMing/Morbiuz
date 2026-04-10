@@ -238,6 +238,25 @@ export default function SplitTextReveal() {
         }
       }
 
+      // Parallax on footer mobius image
+      const footerImage = document.querySelector<HTMLElement>(".site-footer .footer-image");
+      const siteFooter = document.querySelector<HTMLElement>(".site-footer");
+      if (footerImage && siteFooter) {
+        gsap.fromTo(footerImage,
+          { y: -60 },
+          {
+            y: 60,
+            ease: "none",
+            scrollTrigger: {
+              trigger: siteFooter,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: true,
+            },
+          }
+        );
+      }
+
       // ---- Page fold entrance for sections ----
       const foldSections = document.querySelectorAll<HTMLElement>("section.hp-services, section.our-team");
       foldSections.forEach((section) => {
