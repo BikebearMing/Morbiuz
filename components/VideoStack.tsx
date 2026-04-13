@@ -95,7 +95,7 @@ export default function VideoStack() {
           duration: 1,
           ease: "none",
         });
-      }, container);
+      }, container!);
     }
 
     setup();
