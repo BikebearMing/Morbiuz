@@ -181,6 +181,12 @@ a {
   width: 100%;
   z-index: 100;
   padding: 1.667vw 2.778vw;
+  transform: translateY(0);
+  transition: transform 0.4s ease;
+
+  &.header-hidden {
+    transform: translateY(-100%);
+  }
 }
 
 .nav {
@@ -282,9 +288,9 @@ section.home-hero {
         position: absolute;
         width: 35.987vw;
         height: 17.103vw;
-        background: url(https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/orange-circle.svg);
+        background: url(https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/Morbius-GIF-1B.gif);
         background-size: 100% 100%;
-        bottom: 3.417vw;
+        bottom: 2.717vw;
         left: 50%;
         transform: translateX(-50%);
       }
@@ -388,6 +394,38 @@ section.home-hero {
           position: absolute;
           right: 5.833vw;
           gap: 39.306vw;
+
+          & .title-item {
+            position: relative;
+
+            &:nth-child(1)::before {
+              content: '';
+              position: absolute;
+              left: 50%;
+              bottom: -1.2em;
+              transform: translateX(-50%);
+              width: 23.194vw;
+              height: 1.5vw;
+              background: url(https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/Morbius-GIF-6.gif);
+              background-size: 100% 100%;
+              background-repeat: no-repeat;
+              pointer-events: none;
+            }
+
+            &:nth-child(2)::before {
+              content: '';
+              position: absolute;
+              left: 50%;
+              bottom: -0.7em;
+              transform: translateX(-50%);
+              width: 100%;
+              height: 1.5vw;
+              background: url(https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/Morbius-GIF-5.gif);
+              background-size: 100% 100%;
+              background-repeat: no-repeat;
+              pointer-events: none;
+            }
+          }
 
           & .title-clip {
             overflow: hidden;
@@ -672,28 +710,69 @@ section.our-team {
     position: absolute;
     top: 2.778vw;
     right: 2.993vw;
-    color: var(--white);
-    font-family: var(--font-outfit);
-    font-size: 0.972vw;
-    letter-spacing: 0.5px;
-    border: 1px solid rgba(255, 254, 226, 0.4);
-    padding: 0.556vw 1.389vw;
-    border-radius: 100px;
-    display: flex;
+    color: var(--black);
+    background: var(--white);
+    font-family: var(--font-alga);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1.667vw;
+    letter-spacing: -0.5px;
+    line-height: 1;
+    border: none;
+    cursor: pointer;
+    padding: 0.833vw 1.667vw 0.833vw 2.5vw;
+    border-radius: 10px;
+    display: inline-flex;
     align-items: center;
-    gap: 0.5vw;
-    transition: border-color 0.3s;
+    transition: color 0.4s ease;
+    z-index: 10;
+    overflow: hidden;
+    isolation: isolate;
 
     &::before {
       content: "";
-      width: 5px;
-      height: 5px;
+      position: absolute;
+      left: 1.111vw;
+      top: 50%;
+      width: 0.556vw;
+      height: 0.556vw;
       border-radius: 50%;
       background: var(--orange);
+      transform: translateY(-50%) scale(1);
+      transform-origin: center;
+      transition: transform 0.6s cubic-bezier(0.7, 0, 0.3, 1);
+      z-index: 0;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 1.111vw;
+      top: 50%;
+      width: 0.556vw;
+      height: 0.556vw;
+      border-radius: 50%;
+      background: var(--white);
+      transform: translateY(-50%) scale(0);
+      transition: transform 0.3s ease 0.3s;
+      z-index: 2;
+    }
+
+    & .custom-button-label {
+      position: relative;
+      z-index: 1;
     }
 
     &:hover {
-      border-color: var(--white);
+      color: var(--white);
+
+      &::before {
+        transform: translateY(-50%) scale(80);
+      }
+
+      &::after {
+        transform: translateY(-50%) scale(1);
+      }
     }
   }
 }
@@ -745,7 +824,23 @@ section.hp-services {
     flex: 1;
     display: flex;
     flex-direction: column;
+    position: relative;
     /* gap: 1.542vw; */
+
+    &::before {
+      content: '';
+      position: absolute;
+         top: -1vw;
+    left: -8vw;
+    transform: rotate(56deg);
+      width: 6vw;
+      height: 6vw;
+      background: url(https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/Morbius-GIF-4.gif);
+      background-size: contain;
+      background-repeat: no-repeat;
+      pointer-events: none;
+      z-index: 2;
+    }
   }
 
   & .service-titles {
@@ -753,6 +848,22 @@ section.hp-services {
     flex-direction: column;
     gap: 0.5vw;
     margin-bottom: 2.5vw;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: -7.5vw;
+      transform: translateY(-50%);
+      width: 6vw;
+      height: 6vw;
+      background: url(https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/Morbius-GIF-4.gif);
+      background-size: contain;
+      background-repeat: no-repeat;
+      pointer-events: none;
+      z-index: 2;
+    }
   }
 
   & .service-title {
@@ -778,6 +889,22 @@ section.hp-services {
     display: flex;
     align-items: flex-start;
     gap: 1.5vw;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -4vw;
+      left: 41vw;
+      transform: rotate(150deg);
+      width: 6vw;
+      height: 6vw;
+      background: url(https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/Morbius-GIF-4.gif);
+      background-size: contain;
+      background-repeat: no-repeat;
+      pointer-events: none;
+      z-index: 2;
+    }
   }
 
   & .service-img-clip {
@@ -824,6 +951,20 @@ footer.site-footer {
 
     & .footer-title {
       max-width: 80vw;
+      position: relative;
+
+      &::after {
+        content: '';
+        display: block;
+        width: 35vw;
+        height: 8vw;
+        margin-top: 1.5vw;
+        background: url(https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/Morbius-GIF-3.gif);
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: left center;
+        pointer-events: none;
+      }
     }
 
     & .footer-image {
@@ -871,6 +1012,10 @@ footer.site-footer {
     text-transform: uppercase;
     max-width: 14vw;
     line-height: 1.4;
+
+    & .mona-symbol {
+      font-family: "Mona Sans", sans-serif;
+    }
   }
 
   & .footer-social-link {

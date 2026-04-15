@@ -31,7 +31,14 @@ export default function SmoothScroll({
       requestAnimationFrame(() => lenis.resize());
     });
 
+    const onResize = () => {
+      lenis.resize();
+      ScrollTrigger.refresh();
+    };
+    window.addEventListener("resize", onResize);
+
     return () => {
+      window.removeEventListener("resize", onResize);
       lenis.destroy();
     };
   }, []);

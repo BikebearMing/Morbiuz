@@ -72,8 +72,12 @@ export default async function Home() {
             <div className="second-half">
                 <div className="video-zoom-wrapper">
                   <div className="title">
-                    <div className="title-clip"><h2 className="h2 dark">strategy</h2></div>
-                    <div className="title-clip"><h2 className="h2 dark">imagination</h2></div>
+                    <div className="title-item">
+                      <div className="title-clip"><h2 className="h2 dark">strategy</h2></div>
+                    </div>
+                    <div className="title-item">
+                      <div className="title-clip"><h2 className="h2 dark">imagination</h2></div>
+                    </div>
                   </div>
 
                   <video src="https://streamable.com/l/4wsqgh/mp4-high.mp4" muted playsInline loop></video>
@@ -128,7 +132,7 @@ export default async function Home() {
 
           <h5 className="subhead">OUR TEAM</h5>
           <h1 className="h1 beige">THE <span className="cursive">minds</span> <br /> BEHIND MOBIUS</h1>
-          <a href="#" className="custom-button">About Us</a>
+          <a href="#" className="custom-button"><span className="custom-button-label">About Us</span></a>
         </div>
       </section>
     </main>

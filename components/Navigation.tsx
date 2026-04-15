@@ -2,6 +2,7 @@ import { getClient } from "@/lib/graphql-client";
 import { GET_MENU_BY_LOCATION } from "@/lib/queries/menus";
 import { MenuItem } from "@/types/wordpress";
 import NavLink from "@/components/NavLink";
+import HeaderScroll from "@/components/HeaderScroll";
 
 export async function Navigation() {
   const client = getClient();
@@ -18,6 +19,7 @@ export async function Navigation() {
 
   return (
     <header className="header">
+      <HeaderScroll />
       <nav className="nav">
         <NavLink href="/">
           <img className="logo"

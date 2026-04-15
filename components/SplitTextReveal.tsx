@@ -171,7 +171,6 @@ export default function SplitTextReveal() {
     window.addEventListener("preloader-done", startAnimations, { once: true });
 
     // ---- data-mask-up: whole-line clip reveal ----
-    // Hide immediately, but defer ScrollTrigger creation until after pins are set up
     const maskUpEls = document.querySelectorAll<HTMLElement>("[data-mask-up]");
     const maskUpWrappers: HTMLElement[] = [];
 
@@ -249,6 +248,25 @@ export default function SplitTextReveal() {
             ease: "none",
             scrollTrigger: {
               trigger: siteFooter,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: true,
+            },
+          }
+        );
+      }
+
+      // Parallax on services left image
+      const servicesImage = document.querySelector<HTMLElement>("section.hp-services .left img");
+      const servicesSection = document.querySelector<HTMLElement>("section.hp-services");
+      if (servicesImage && servicesSection) {
+        gsap.fromTo(servicesImage,
+          { y: -60 },
+          {
+            y: 60,
+            ease: "none",
+            scrollTrigger: {
+              trigger: servicesSection,
               start: "top bottom",
               end: "bottom top",
               scrub: true,

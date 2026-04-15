@@ -29,17 +29,23 @@ export async function Footer() {
       <div className="footer-bottom">
         <div className="footer-info">
           <div className="footer-col">
-            <p className="body footer-label" data-mask-up>PROJECT INQUIRIES</p>
+            <p className="body footer-label">PROJECT INQUIRIES</p>
             {projectEnquiries && (
-              <a href={`mailto:${projectEnquiries}`} className="body footer-value" data-mask-up>
-                {projectEnquiries}
+              <a href={`mailto:${projectEnquiries}`} className="body footer-value">
+                {projectEnquiries.split(/([^a-zA-Z0-9\s])/g).map((part, i) =>
+                  /[^a-zA-Z0-9\s]/.test(part) ? (
+                    <span key={i} className="mona-symbol">{part}</span>
+                  ) : (
+                    part
+                  )
+                )}
               </a>
             )}
           </div>
 
           <div className="footer-col">
-            <p className="body footer-label" data-mask-up>ADDRESS</p>
-            {address && <p className="body footer-value" data-mask-up>{address}</p>}
+            <p className="body footer-label">ADDRESS</p>
+            {address && <p className="body footer-value">{address}</p>}
           </div>
 
           <div className="footer-col">
@@ -50,7 +56,6 @@ export async function Footer() {
                 target={item.socialGroup.socialLink.target || "_blank"}
                 rel="noopener noreferrer"
                 className="body footer-social-link"
-                data-mask-up
               >
                 {item.socialGroup.socialLink.title}
               </a>
@@ -61,9 +66,9 @@ export async function Footer() {
         <FooterBars />
 
         <div className="footer-legal">
-          <span className="body" data-mask-up><span className="copyright-symbol">&copy;</span>MOBIUZ STUDIO</span>
-          <a href="#" className="body" data-mask-up>COOKIE</a>
-          <a href="#" className="body" data-mask-up>PRIVACY POLICY</a>
+          <span className="body"><span className="copyright-symbol">&copy;</span>MOBIUZ STUDIO</span>
+          <a href="#" className="body">COOKIE</a>
+          <a href="#" className="body">PRIVACY POLICY</a>
         </div>
       </div>
     </footer>
