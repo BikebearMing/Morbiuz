@@ -28,7 +28,7 @@ const montBlanc = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Morbiuz",
+  title: "Mobiuz",
   description: "Stories that influence culture",
 };
 
