@@ -3,7 +3,7 @@ import { GET_ALL_POSTS, GET_POST_BY_SLUG } from "@/lib/queries/posts";
 import { Post } from "@/types/wordpress";
 import { notFound } from "next/navigation";
 
-export const revalidate = 3600;
+export const revalidate = 60;
 
 export async function generateStaticParams() {
   const client = getClient();

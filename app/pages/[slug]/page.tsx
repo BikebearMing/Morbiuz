@@ -3,7 +3,7 @@ import { GET_ALL_PAGES, GET_PAGE_BY_SLUG } from "@/lib/queries/pages";
 import { Page } from "@/types/wordpress";
 import { notFound } from "next/navigation";
 
-export const revalidate = 3600;
+export const revalidate = 60;
 
 export async function generateStaticParams() {
   const client = getClient();

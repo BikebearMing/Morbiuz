@@ -5,7 +5,7 @@ import HeroAnimation from "@/components/HeroAnimation";
 import VideoStack from "@/components/VideoStack";
 import ServicesList from "@/components/ServicesList";
 
-export const revalidate = 3600;
+export const revalidate = 60;
 
 export default async function Home() {
   const client = getClient();
