@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useRef } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import gsap from "gsap";
 
@@ -22,18 +22,20 @@ export default function PageTransition({ children }: { children: React.ReactNode
   const overlayRef = useRef<HTMLDivElement>(null);
   const stateRef = useRef<"idle" | "covering" | "covered" | "revealing">("idle");
   const pendingHrefRef = useRef<string | null>(null);
+  const safetyRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (!overlayRef.current) return;
     gsap.set(overlayRef.current, { yPercent: 100 });
   }, []);
 
-  useEffect(() => {
+  const reveal = useCallback(() => {
     if (stateRef.current !== "covered") return;
-    const target = pendingHrefRef.current;
-    if (!target) return;
-    if (norm(pathname) !== norm(target)) return;
     pendingHrefRef.current = null;
+    if (safetyRef.current) {
+      clearTimeout(safetyRef.current);
+      safetyRef.current = null;
+    }
 
     requestAnimationFrame(() => {
       stateRef.current = "revealing";
@@ -53,7 +55,15 @@ export default function PageTransition({ children }: { children: React.ReactNode
         ease: "power4.inOut",
       });
     });
-  }, [pathname]);
+  }, []);
+
+  useEffect(() => {
+    if (stateRef.current !== "covered") return;
+    const target = pendingHrefRef.current;
+    if (!target) return;
+    if (norm(pathname) !== norm(target)) return;
+    reveal();
+  }, [pathname, reveal]);
 
   const navigate = (href: string) => {
     if (stateRef.current !== "idle") return;
@@ -67,6 +77,12 @@ export default function PageTransition({ children }: { children: React.ReactNode
       onComplete: () => {
         stateRef.current = "covered";
         router.push(href);
+
+        // Safety net: if pathname doesn't update within 2.5s (slow RSC, dev mode,
+        // or anything else holding navigation), reveal anyway so the overlay
+        // never gets stuck on screen.
+        if (safetyRef.current) clearTimeout(safetyRef.current);
+        safetyRef.current = setTimeout(() => reveal(), 2500);
       },
     });
 

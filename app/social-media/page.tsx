@@ -1,7 +1,7 @@
 import SplitTextReveal from "@/components/SplitTextReveal";
 import WorksList from "@/components/WorksList";
 import { getClient } from "@/lib/graphql-client";
-import { GET_VIDEO_PRODUCTION_PAGE } from "@/lib/queries/video-production";
+import { GET_SOCIAL_MEDIA_PAGE } from "@/lib/queries/social-media";
 import { notFound } from "next/navigation";
 
 export const revalidate = 60;
@@ -45,7 +45,7 @@ type OurWorks = {
   } | null;
 } | null;
 
-type VideoProductionPage = {
+type SocialMediaPage = {
   title: string;
   content: string | null;
   workPages: {
@@ -69,10 +69,10 @@ function renderTitleWithLastWord(title: string) {
   );
 }
 
-export default async function VideoProduction() {
+export default async function SocialMedia() {
   const client = getClient();
-  const { page } = await client.request<{ page: VideoProductionPage | null }>(
-    GET_VIDEO_PRODUCTION_PAGE
+  const { page } = await client.request<{ page: SocialMediaPage | null }>(
+    GET_SOCIAL_MEDIA_PAGE
   );
 
   if (!page) notFound();
@@ -89,7 +89,7 @@ export default async function VideoProduction() {
       const slug = r.workGroup?.workLink?.nodes?.[0]?.slug || null;
       return {
         title: r.workGroup?.workTitle || "",
-        href: slug ? `/video-production/${slug}` : null,
+        href: slug ? `/social-media/${slug}` : null,
         image: r.workGroup?.workImage?.node || null,
       };
     })

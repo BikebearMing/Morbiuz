@@ -148,22 +148,13 @@ export default function SplitTextReveal() {
           });
         }
 
-        allChars.forEach(({ el, chars, mode }) => {
-          const shuffled = shuffle(Array.from(chars));
-
-          if (mode === "scroll") {
-            gsap.to(shuffled, {
-              yPercent: 0,
-              duration: 0.6,
-              ease: "power3.out",
-              stagger: 0.025,
-              scrollTrigger: {
-                trigger: el,
-                start: "top 85%",
-                toggleActions: "play none none reverse",
-              },
-            });
-          } else {
+        // Only run immediate (non-scroll) animations here. Scroll-triggered
+        // ones are created later (after pinning) so they compute positions
+        // against the final scroll length.
+        allChars
+          .filter(({ mode }) => mode !== "scroll")
+          .forEach(({ chars }) => {
+            const shuffled = shuffle(Array.from(chars));
             gsap.to(shuffled, {
               yPercent: 0,
               duration: 0.4,
@@ -171,8 +162,7 @@ export default function SplitTextReveal() {
               stagger: 0.015,
               delay: 0.2,
             });
-          }
-        });
+          });
       });
     };
 
@@ -187,19 +177,128 @@ export default function SplitTextReveal() {
       requestAnimationFrame(() => startAnimations());
     }
 
-    // ---- data-mask-up: whole-line clip reveal ----
+    // ---- data-mask-up: per-line clip reveal (auto-detects wrapped lines) ----
     const maskUpEls = document.querySelectorAll<HTMLElement>("[data-mask-up]");
-    const maskUpWrappers: HTMLElement[] = [];
+    type MaskUpLine = {
+      wrapper: HTMLElement;
+      inner: HTMLElement;
+      el: HTMLElement;
+      cursiveItems: HTMLElement[];
+    };
+    const maskUpLines: MaskUpLine[] = [];
+    const maskUpOriginalHtml = new Map<HTMLElement, string>();
 
     ctx.add(() => {
       maskUpEls.forEach((el) => {
-        const wrapper = document.createElement("div");
-        wrapper.style.overflow = "hidden";
-        el.parentNode!.insertBefore(wrapper, el);
-        wrapper.appendChild(el);
-        wrapper.style.height = (el.offsetHeight + 10) + "px";
-        maskUpWrappers.push(wrapper);
-        gsap.set(el, { y: wrapper.offsetHeight });
+        if (!(el.textContent || "").trim()) return;
+
+        type InlineItem = { kind: "inline"; el: HTMLElement; cursive: boolean };
+        type Item = InlineItem | { kind: "break" };
+        const items: Item[] = [];
+
+        const walk = (container: Node) => {
+          Array.from(container.childNodes).forEach((node) => {
+            if (node.nodeType === Node.TEXT_NODE) {
+              (node.textContent || "").split(/(\s+)/).forEach((part) => {
+                if (part === "" || /^\s+$/.test(part)) return;
+                const span = document.createElement("span");
+                span.textContent = part;
+                span.style.display = "inline-block";
+                items.push({ kind: "inline", el: span, cursive: false });
+              });
+            } else if (node.nodeName === "BR") {
+              items.push({ kind: "break" });
+            } else if (
+              node instanceof HTMLElement &&
+              node.classList.contains("cursive")
+            ) {
+              const wrap = document.createElement("span");
+              wrap.style.display = "inline-block";
+              wrap.appendChild(node.cloneNode(true));
+              items.push({ kind: "inline", el: wrap, cursive: true });
+            } else if (node instanceof HTMLElement) {
+              walk(node);
+            }
+          });
+        };
+        walk(el);
+
+        if (items.length === 0) return;
+
+        maskUpOriginalHtml.set(el, el.innerHTML);
+        el.innerHTML = "";
+        items.forEach((item, i) => {
+          if (item.kind === "break") {
+            el.appendChild(document.createElement("br"));
+          } else {
+            el.appendChild(item.el);
+            const next = items[i + 1];
+            if (next && next.kind !== "break") {
+              el.appendChild(document.createTextNode(" "));
+            }
+          }
+        });
+
+        const groups: InlineItem[][] = [];
+        let currentGroup: InlineItem[] = [];
+        let lastTop = -Infinity;
+        items.forEach((item) => {
+          if (item.kind === "break") {
+            if (currentGroup.length > 0) {
+              groups.push(currentGroup);
+              currentGroup = [];
+            }
+            lastTop = -Infinity;
+          } else {
+            const top = item.el.offsetTop;
+            if (top > lastTop + 1 && currentGroup.length > 0) {
+              groups.push(currentGroup);
+              currentGroup = [];
+            }
+            currentGroup.push(item);
+            lastTop = top;
+          }
+        });
+        if (currentGroup.length > 0) groups.push(currentGroup);
+        if (groups.length === 0) return;
+
+        const firstInline = items.find(
+          (i): i is InlineItem => i.kind === "inline"
+        )!;
+        const lineHeight =
+          groups.length >= 2 && groups[0].length > 0 && groups[1].length > 0
+            ? groups[1][0].el.offsetTop - groups[0][0].el.offsetTop
+            : firstInline.el.offsetHeight;
+
+        el.innerHTML = "";
+        groups.forEach((group) => {
+          const wrapper = document.createElement("div");
+          wrapper.style.overflow = "hidden";
+          wrapper.style.height = lineHeight + "px";
+
+          const inner = document.createElement("div");
+          const cursiveItems: HTMLElement[] = [];
+
+          group.forEach((item, j) => {
+            item.el.style.display = "";
+            inner.appendChild(item.el);
+            if (j < group.length - 1) {
+              inner.appendChild(document.createTextNode(" "));
+            }
+            if (item.cursive) cursiveItems.push(item.el);
+          });
+
+          wrapper.appendChild(inner);
+          el.appendChild(wrapper);
+
+          gsap.set(inner, { y: lineHeight });
+          // Cursive children are counter-translated so they appear stationary
+          // (not animated) while the surrounding text masks up around them.
+          if (cursiveItems.length > 0) {
+            gsap.set(cursiveItems, { y: -lineHeight });
+          }
+          maskUpLines.push({ wrapper, inner, el, cursiveItems });
+        });
       });
     });
 
@@ -207,18 +306,33 @@ export default function SplitTextReveal() {
     const maskUpTimeout = setTimeout(() => {
       ctx.add(() => {
       ScrollTrigger.refresh();
-      maskUpWrappers.forEach((wrapper) => {
-        const el = wrapper.firstElementChild as HTMLElement;
-        if (!el) return;
-        gsap.to(el, {
-          y: 0,
-          duration: 0.8,
-          ease: "power3.out",
+      const linesByEl = new Map<HTMLElement, MaskUpLine[]>();
+      maskUpLines.forEach((line) => {
+        if (!linesByEl.has(line.el)) linesByEl.set(line.el, []);
+        linesByEl.get(line.el)!.push(line);
+      });
+      linesByEl.forEach((lines, el) => {
+        const tl = gsap.timeline({
           scrollTrigger: {
-            trigger: wrapper,
+            trigger: el,
             start: "top 85%",
             toggleActions: "play none none reverse",
           },
+        });
+        lines.forEach((line, idx) => {
+          const at = idx * 0.1;
+          tl.to(
+            line.inner,
+            { y: 0, duration: 0.8, ease: "power3.out" },
+            at
+          );
+          if (line.cursiveItems.length > 0) {
+            tl.to(
+              line.cursiveItems,
+              { y: 0, duration: 0.8, ease: "power3.out" },
+              at
+            );
+          }
         });
       });
 
@@ -382,6 +496,25 @@ export default function SplitTextReveal() {
         );
       }
 
+      // Parallax on our-culture left image
+      const ourCultureImg = document.querySelector<HTMLElement>(".our-culture .left .parallax-container img");
+      const ourCultureSection = document.querySelector<HTMLElement>(".our-culture");
+      if (ourCultureImg && ourCultureSection) {
+        gsap.fromTo(ourCultureImg,
+          { y: -80 },
+          {
+            y: 80,
+            ease: "none",
+            scrollTrigger: {
+              trigger: ourCultureSection,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: true,
+            },
+          }
+        );
+      }
+
       // Parallax on services left image
       const servicesImage = document.querySelector<HTMLElement>("section.hp-services .left img");
       const servicesSection = document.querySelector<HTMLElement>("section.hp-services");
@@ -424,6 +557,27 @@ export default function SplitTextReveal() {
           }
         );
       });
+
+      // Now that pins exist (and scroll length is final), create the
+      // scroll-mode split-text triggers so they compute positions correctly.
+      allChars
+        .filter(({ mode }) => mode === "scroll")
+        .forEach(({ el, chars }) => {
+          const shuffled = shuffle(Array.from(chars));
+          gsap.to(shuffled, {
+            yPercent: 0,
+            duration: 0.6,
+            ease: "power3.out",
+            stagger: 0.025,
+            scrollTrigger: {
+              trigger: el,
+              start: "top 85%",
+              toggleActions: "play none none reverse",
+            },
+          });
+        });
+
+      ScrollTrigger.refresh();
       });
     }, 500);
 
@@ -434,13 +588,9 @@ export default function SplitTextReveal() {
       originalHtmlByElement.forEach((html, el) => {
         el.innerHTML = html;
       });
-      // Unwrap mask-up wrappers
-      maskUpWrappers.forEach((wrapper) => {
-        const child = wrapper.firstChild;
-        if (child && wrapper.parentNode) {
-          wrapper.parentNode.insertBefore(child, wrapper);
-          wrapper.remove();
-        }
+      // Restore mask-up elements' original innerHTML
+      maskUpOriginalHtml.forEach((html, el) => {
+        el.innerHTML = html;
       });
       // Kill all GSAP tweens + ScrollTriggers created in this mount
       ctx.revert();

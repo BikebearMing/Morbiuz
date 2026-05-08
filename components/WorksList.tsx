@@ -24,7 +24,7 @@ export default function WorksList({ items }: { items: WorkItem[] }) {
           const rowInner = (
             <>
               <span className="works-num">[ {num} ]</span>
-              <h3 className="works-title">{item.title}</h3>
+              <h3 className="works-title" data-mask-up>{item.title}</h3>
             </>
           );
           return (

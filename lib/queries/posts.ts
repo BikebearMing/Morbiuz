@@ -20,6 +20,10 @@ export const GET_ALL_POSTS = gql`
             slug
           }
         }
+        videoProductionPostGroup {
+          projectName
+          rightSideLabel
+        }
       }
     }
   }
@@ -43,6 +47,33 @@ export const GET_POST_BY_SLUG = gql`
         nodes {
           name
           slug
+        }
+      }
+      videoProductionPostGroup {
+        projectName
+        projectYear
+        rightSideLabel
+        videoLink {
+          url
+          title
+          target
+        }
+        overviewText
+        imageGallery {
+          nodes {
+            sourceUrl
+            altText
+          }
+        }
+        btsGroup {
+          btsCreditsRepeater {
+            btsCredit {
+              role
+              nameRepeater {
+                name
+              }
+            }
+          }
         }
       }
     }

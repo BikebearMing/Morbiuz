@@ -11,7 +11,7 @@
   font-weight: 100;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0020-0021, U+0027, U+002C-002E, U+0030-0039, U+003A-003B, U+003F, U+0041-005A, U+0061-007A, U+00A0-00FF;
+  unicode-range: U+0020-0021, U+002C-002E, U+0030-0039, U+003A-003B, U+003F, U+0041-005A, U+0061-007A, U+00A0-00FF;
 }
 @font-face {
   font-family: "Mont Blanc";
@@ -19,7 +19,7 @@
   font-weight: 200;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0020-0021, U+0027, U+002C-002E, U+0030-0039, U+003A-003B, U+003F, U+0041-005A, U+0061-007A, U+00A0-00FF;
+  unicode-range: U+0020-0021, U+002C-002E, U+0030-0039, U+003A-003B, U+003F, U+0041-005A, U+0061-007A, U+00A0-00FF;
 }
 @font-face {
   font-family: "Mont Blanc";
@@ -27,7 +27,7 @@
   font-weight: 300;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0020-0021, U+0027, U+002C-002E, U+0030-0039, U+003A-003B, U+003F, U+0041-005A, U+0061-007A, U+00A0-00FF;
+  unicode-range: U+0020-0021, U+002C-002E, U+0030-0039, U+003A-003B, U+003F, U+0041-005A, U+0061-007A, U+00A0-00FF;
 }
 @font-face {
   font-family: "Mont Blanc";
@@ -35,7 +35,7 @@
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0020-0021, U+0027, U+002C-002E, U+0030-0039, U+003A-003B, U+003F, U+0041-005A, U+0061-007A, U+00A0-00FF;
+  unicode-range: U+0020-0021, U+002C-002E, U+0030-0039, U+003A-003B, U+003F, U+0041-005A, U+0061-007A, U+00A0-00FF;
 }
 @font-face {
   font-family: "Mont Blanc";
@@ -43,7 +43,7 @@
   font-weight: 600;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0020-0021, U+0027, U+002C-002E, U+0030-0039, U+003A-003B, U+003F, U+0041-005A, U+0061-007A, U+00A0-00FF;
+  unicode-range: U+0020-0021, U+002C-002E, U+0030-0039, U+003A-003B, U+003F, U+0041-005A, U+0061-007A, U+00A0-00FF;
 }
 @font-face {
   font-family: "Mont Blanc";
@@ -51,7 +51,7 @@
   font-weight: 700;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0020-0021, U+0027, U+002C-002E, U+0030-0039, U+003A-003B, U+003F, U+0041-005A, U+0061-007A, U+00A0-00FF;
+  unicode-range: U+0020-0021, U+002C-002E, U+0030-0039, U+003A-003B, U+003F, U+0041-005A, U+0061-007A, U+00A0-00FF;
 }
 @font-face {
   font-family: "Mont Blanc";
@@ -59,7 +59,7 @@
   font-weight: 800;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0020-0021, U+0027, U+002C-002E, U+0030-0039, U+003A-003B, U+003F, U+0041-005A, U+0061-007A, U+00A0-00FF;
+  unicode-range: U+0020-0021, U+002C-002E, U+0030-0039, U+003A-003B, U+003F, U+0041-005A, U+0061-007A, U+00A0-00FF;
 }
 @font-face {
   font-family: "Mont Blanc";
@@ -67,7 +67,7 @@
   font-weight: 900;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0020-0021, U+0027, U+002C-002E, U+0030-0039, U+003A-003B, U+003F, U+0041-005A, U+0061-007A, U+00A0-00FF;
+  unicode-range: U+0020-0021, U+002C-002E, U+0030-0039, U+003A-003B, U+003F, U+0041-005A, U+0061-007A, U+00A0-00FF;
 }
 
 :root {
@@ -160,7 +160,7 @@ body {
 }
 
 .orange {
-  color: var(--orange);
+  color: var(--orange) !important;
 }
 
 .h1 {
@@ -372,8 +372,7 @@ a {
     z-index: 10;
   }
 
-  & .has-submenu:hover .submenu,
-  & .has-submenu:focus-within .submenu {
+  & .has-submenu:hover .submenu {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
@@ -800,6 +799,7 @@ section.our-team {
   will-change: transform;
   margin-top: -5vw;
   overflow: hidden;
+  /* padding-bottom: 6.111vw; */
 
   & .wrapper {
     width: 100%;
@@ -1357,6 +1357,7 @@ z-index: 5;
 
 section.about-our-team {
   padding: var(--sidepadding-xs);
+  padding-block: 2vw 7.556vw;
 
   & .wrapper {
     display: flex;
@@ -1432,18 +1433,18 @@ section.about-our-team {
 
 .team-position-symbol {
   font-family: var(--font-montserrat);
-  font-weight: 500;
+  font-weight: 800;
 }
 
 .team-row-image {
   position: absolute;
-  left: 50%;
+  left: 40%;
   top: 50%;
-width: 18.417vw;
-height: 22.792vw;
+width: 16.417vw;
+height: 19.792vw;
   overflow: hidden;
   opacity: 0;
-  transform: translate(-50%, -50%) scale(0.96);
+  transform: translate(-30%, -50%) scale(0.96);
   transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
   pointer-events: none;
   z-index: 100;
@@ -1502,10 +1503,24 @@ section.our-culture {
 
     }
 
-    & .left img {
+    & .left {
+      position: relative;
+      overflow: hidden;
+    }
+
+    & .left .parallax-container {
+      position: absolute;
+      inset: 0;
+    }
+
+    & .left .parallax-container img {
+      position: absolute;
       width: 100%;
-      height: 100%;
+      height: 120%;
+      top: -10%;
+      left: 0;
       object-fit: cover;
+      will-change: transform;
     }
 
     & .right {
@@ -1579,6 +1594,7 @@ section.our-culture {
   margin-left: auto;
   display: flex;
   flex-direction: column;
+  gap: 1vw;
   font-family: "Mont Blanc", var(--font-montserrat);
 }
 
@@ -2297,5 +2313,438 @@ section.work-info {
     font-size: 3.5vw;
     max-width: 100%;
     margin-top: 1vw;
+  }
+}
+
+main.work-post {
+  background: var(--black);
+  color: var(--white);
+  min-height: 100vh;
+}
+
+.work-post-head {
+  padding-top: 8.5vw;
+  padding-bottom: 1.5vw;
+
+  & .wrapper {
+    padding-inline: var(--sidepadding-xs);
+  }
+}
+
+.work-post-title {
+  margin: 0;
+  width: 42.917vw;
+  font-weight: 800;
+
+}
+
+.work-post-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 1.5vw;
+  color: var(--orange);
+  font-family: "Mont Blanc", var(--font-montserrat);
+  font-size: 0.972vw;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  text-transform: uppercase;
+}
+
+.work-post-meta-left {
+  display: inline-flex;
+  gap: 1.5vw;
+}
+
+.work-post-meta-right {
+  text-align: right;
+}
+
+.work-hero {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--black);
+}
+
+.work-hero-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.6) sepia(1) hue-rotate(330deg) saturate(4);
+}
+
+.work-hero-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6vw;
+  height: 6vw;
+  border-radius: 50%;
+  border: 1px solid var(--white);
+  background: transparent;
+  color: var(--white);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: "Mont Blanc", var(--font-montserrat);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.work-hero-play:hover {
+  background: var(--white);
+  color: var(--black);
+}
+
+.work-hero-play-icon {
+  font-size: 1vw;
+  line-height: 1;
+}
+
+.work-hero-play-label {
+  font-size: 0.75vw;
+  margin-top: 0.3vw;
+}
+
+.work-hero-player {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  background: #000;
+}
+
+.work-overview {
+  position: relative;
+  width: 100%;
+  background: var(--black);
+  color: var(--white);
+  overflow: hidden;
+  padding: 5vw 0 1vw;
+}
+
+.work-overview .wrapper {
+  padding-inline: var(--sidepadding-xs);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5vw;
+  flex-shrink: 0;
+}
+
+.work-overview .subhead {
+  color: var(--white);
+}
+
+.overview-text {
+  color: var(--white);
+  max-width: 85vw;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.overview-track-viewport {
+  margin-top: 3vw;
+  overflow: visible;
+}
+
+.overview-track {
+  display: flex;
+  gap: 1.5vw;
+  padding-inline: var(--sidepadding-xs);
+  align-items: flex-start;
+  will-change: transform;
+}
+
+.overview-image {
+  flex-shrink: 0;
+  width: 39.167vw;
+  height: 37.917vw;
+  overflow: hidden;
+  position: relative;
+}
+
+.overview-image-inner {
+  position: absolute;
+  inset: 0 -4.5%;
+  will-change: transform;
+}
+
+.overview-image-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.behind-the-scene {
+  background: var(--black);
+  color: var(--white);
+  padding: 4.792vw 0 15.972vw;
+}
+
+.behind-the-scene .wrapper {
+  padding-inline: var(--sidepadding-xs);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5vw;
+}
+
+.bts-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 4vw;
+}
+
+.bts-title {
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.bts-credits {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 4vw;
+  row-gap: 3vw;
+  width: 36vw;
+}
+
+.bts-credit {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5vw;
+}
+
+.bts-role {
+  text-transform: uppercase;
+  color: var(--white);
+  opacity: 0.7;
+}
+
+.bts-name {
+  text-transform: uppercase;
+  color: var(--white);
+}
+
+.next-project {
+  background: var(--orange);
+  padding: 4vw 0 4vw;
+  color: var(--white);
+}
+
+.next-project .wrapper {
+  padding-inline: 0.556vw;
+  display: flex;
+  flex-direction: column;
+  gap: 3vw;
+}
+
+.next-project-title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: var(--white);
+  margin: 0;
+  line-height: 0.85;
+}
+
+.next-project-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 2vw;
+}
+
+.next-project-arrow {
+  width: 6vw;
+  height: auto;
+  transform: rotate(90deg);
+  display: inline-block;
+}
+
+.next-project-cards {
+  display: flex;
+  gap: 0.556vw;
+  align-items: flex-start;
+}
+
+.next-project-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.556vw;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.next-project-card > img {
+  display: block;
+  object-fit: cover;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.next-project-card:nth-child(1) > img {
+  width: 41.806vw;
+  height: 23.472vw;
+}
+
+.next-project-card:nth-child(2) > img {
+  width: 55.528vw;
+  height: 31.806vw;
+}
+
+.next-project-card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2vw;
+  color: var(--white);
+  font-family: "Mont Blanc", var(--font-montserrat);
+  text-transform: uppercase;
+}
+
+.next-project-card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4vw;
+}
+
+.next-project-card-project {
+  font-family: "Mont Blanc", var(--font-montserrat);
+  font-size: 0.833vw;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  text-transform: uppercase;
+  color: var(--white);
+  opacity: 0.7;
+}
+
+.next-project-card-title {
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.next-project-card-label {
+  font-size: 0.833vw;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  text-align: right;
+  opacity: 0.85;
+}
+
+@media (max-width: 768px) {
+  .work-post-head {
+    padding-top: 24vw;
+  }
+
+  .work-post-meta {
+    font-size: 3vw;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2vw;
+  }
+
+  .work-hero-play {
+    width: 18vw;
+    height: 18vw;
+  }
+
+  .work-hero-play-icon {
+    font-size: 3vw;
+  }
+
+  .work-hero-play-label {
+    font-size: 2.5vw;
+    margin-top: 1vw;
+  }
+
+  .work-overview {
+    height: auto;
+    padding: 12vw 0 8vw;
+  }
+
+  .overview-text {
+    font-size: 7vw;
+    letter-spacing: -0.4vw;
+  }
+
+  .overview-track-viewport {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    margin-top: 8vw;
+  }
+
+  .overview-track {
+    gap: 4vw;
+    height: 60vw;
+  }
+
+  .overview-image {
+    aspect-ratio: 4 / 5;
+  }
+
+  .behind-the-scene {
+    padding: 16vw 0 18vw;
+  }
+
+  .behind-the-scene .wrapper {
+    flex-direction: column;
+    gap: 10vw;
+  }
+
+  .bts-credits {
+    width: 100%;
+    column-gap: 6vw;
+    row-gap: 6vw;
+  }
+
+  .bts-role {
+    font-size: 2.5vw;
+  }
+
+  .bts-name {
+    font-size: 3.5vw;
+  }
+
+  .next-project {
+    padding: 12vw 0 14vw;
+  }
+
+  .next-project .wrapper {
+    gap: 8vw;
+  }
+
+  .next-project-arrow {
+    font-size: 10vw;
+  }
+
+  .next-project-cards {
+    flex-direction: column;
+    gap: 4vw;
+  }
+
+  .next-project-card:nth-child(1),
+  .next-project-card:nth-child(2) {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+  }
+
+  .next-project-card-title {
+    font-size: 4vw;
+  }
+
+  .next-project-card-label {
+    font-size: 2.5vw;
   }
 }

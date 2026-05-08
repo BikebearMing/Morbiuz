@@ -84,7 +84,7 @@ export default async function Contact() {
         <div className="wrapper">
             <div className="top">
                 <h5 className="subhead dark">[ ASK US ]</h5>
-                <h1 className="h1 orange">FAQs</h1>
+                <h1 className="h1 orange" data-split-text="scroll">FAQs</h1>
             </div>
 
             <div className="bottom">

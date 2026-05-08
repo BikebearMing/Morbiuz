@@ -2,6 +2,7 @@ import { getClient } from "@/lib/graphql-client";
 import { GET_MENU_BY_LOCATION } from "@/lib/queries/menus";
 import { MenuItem } from "@/types/wordpress";
 import NavLink from "@/components/NavLink";
+import TransitionLink from "@/components/TransitionLink";
 import HeaderScroll from "@/components/HeaderScroll";
 
 type MenuNode = MenuItem & { children: MenuItem[] };
@@ -39,12 +40,12 @@ export async function Navigation() {
     <header className="header">
       <HeaderScroll />
       <nav className="nav">
-        <NavLink href="/">
+        <TransitionLink href="/">
           <img className="logo"
             src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/Vector.png"
             alt="Morbiuz"
           />
-        </NavLink>
+        </TransitionLink>
         <ul className="nav-links">
           {tree.length > 0
             ? tree.map((item) => (

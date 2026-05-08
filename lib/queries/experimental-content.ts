@@ -1,8 +1,8 @@
 import { gql } from "graphql-request";
 
-export const GET_VIDEO_PRODUCTION_PAGE = gql`
-  query GetVideoProductionPage {
-    page(id: "video-production", idType: URI) {
+export const GET_EXPERIMENTAL_CONTENT_PAGE = gql`
+  query GetExperimentalContentPage {
+    page(id: "experimental-content", idType: URI) {
       title
       content
       workPages {

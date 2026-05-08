@@ -55,6 +55,44 @@ export interface HomePage {
   home: HomeFields;
 }
 
+export interface AcfLinkValue {
+  url: string | null;
+  title: string | null;
+  target: string | null;
+}
+
+export interface GalleryImage {
+  sourceUrl: string;
+  altText: string;
+}
+
+export interface BtsName {
+  name: string | null;
+}
+
+export interface BtsCredit {
+  role: string | null;
+  nameRepeater: BtsName[] | null;
+}
+
+export interface BtsCreditRow {
+  btsCredit: BtsCredit | null;
+}
+
+export interface BtsGroup {
+  btsCreditsRepeater: BtsCreditRow[] | null;
+}
+
+export interface VideoProductionPostGroup {
+  projectName: string | null;
+  projectYear: string | null;
+  rightSideLabel: string | null;
+  videoLink: AcfLinkValue | null;
+  overviewText: string | null;
+  imageGallery: { nodes: GalleryImage[] } | null;
+  btsGroup: BtsGroup | null;
+}
+
 export interface Post {
   title: string;
   slug: string;
@@ -65,6 +103,7 @@ export interface Post {
   categories: {
     nodes: Category[];
   };
+  videoProductionPostGroup?: VideoProductionPostGroup | null;
 }
 
 export interface MenuItem {
