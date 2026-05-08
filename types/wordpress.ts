@@ -92,6 +92,14 @@ export interface SocialItem {
   };
 }
 
+export interface TeamMember {
+  title: string;
+  memberDetails: {
+    position: string | null;
+  } | null;
+  featuredImage: FeaturedImage | null;
+}
+
 export interface FooterFields {
   topTitle: string | null;
   projectEnquiries: string | null;

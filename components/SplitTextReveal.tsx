@@ -113,79 +113,99 @@ function animateElement(el: HTMLElement) {
 
 export default function SplitTextReveal() {
   useEffect(() => {
+    const ctx = gsap.context(() => {});
     const elements = document.querySelectorAll<HTMLElement>("[data-split-text]");
+    const originalHtmlByElement = new Map<HTMLElement, string>();
 
     // Split immediately (so text is hidden), but don't animate yet
     const allChars: { el: HTMLElement; chars: NodeListOf<Element>; mode: string | null }[] = [];
     const cursiveEls: HTMLElement[] = [];
-    elements.forEach((el) => {
-      const chars = splitElement(el);
-      if (chars.length) {
-        gsap.set(chars, { yPercent: 100 });
-        allChars.push({ el, chars, mode: el.getAttribute("data-split-text") });
-      }
-      // Hide cursive elements for mask-up reveal
-      el.querySelectorAll<HTMLElement>(".cursive").forEach((c) => {
-        gsap.set(c, { clipPath: "inset(100% 0 0 0)", display: "inline-block" });
-        cursiveEls.push(c);
+    ctx.add(() => {
+      elements.forEach((el) => {
+        originalHtmlByElement.set(el, el.innerHTML);
+        const chars = splitElement(el);
+        if (chars.length) {
+          gsap.set(chars, { yPercent: 100 });
+          allChars.push({ el, chars, mode: el.getAttribute("data-split-text") });
+        }
+        el.querySelectorAll<HTMLElement>(".cursive").forEach((c) => {
+          gsap.set(c, { clipPath: "inset(100% 0 0 0)", display: "inline-block" });
+          cursiveEls.push(c);
+        });
       });
     });
 
     const startAnimations = () => {
-      allChars.forEach(({ el, chars, mode }) => {
-        const shuffled = shuffle(Array.from(chars));
-
-        if (mode === "scroll") {
-          gsap.to(shuffled, {
-            yPercent: 0,
-            duration: 0.6,
+      ctx.add(() => {
+        // Reveal cursive in parallel with chars so it doesn't depend on
+        // the chars tween's onComplete (which can be killed/overwritten).
+        if (cursiveEls.length) {
+          gsap.to(cursiveEls, {
+            clipPath: "inset(0% 0 0 0)",
+            duration: 0.5,
             ease: "power3.out",
-            stagger: 0.025,
-            scrollTrigger: {
-              trigger: el,
-              start: "top 85%",
-              toggleActions: "play none none reverse",
-            },
-          });
-        } else {
-          gsap.to(shuffled, {
-            yPercent: 0,
-            duration: 0.4,
-            ease: "power3.out",
-            stagger: 0.015,
-            delay: 0.2,
-            onComplete: () => {
-              cursiveEls.forEach((c) => {
-                gsap.to(c, {
-                  clipPath: "inset(0% 0 0 0)",
-                  duration: 0.5,
-                  ease: "power3.out",
-                });
-              });
-            },
+            delay: 0.5,
           });
         }
+
+        allChars.forEach(({ el, chars, mode }) => {
+          const shuffled = shuffle(Array.from(chars));
+
+          if (mode === "scroll") {
+            gsap.to(shuffled, {
+              yPercent: 0,
+              duration: 0.6,
+              ease: "power3.out",
+              stagger: 0.025,
+              scrollTrigger: {
+                trigger: el,
+                start: "top 85%",
+                toggleActions: "play none none reverse",
+              },
+            });
+          } else {
+            gsap.to(shuffled, {
+              yPercent: 0,
+              duration: 0.4,
+              ease: "power3.out",
+              stagger: 0.015,
+              delay: 0.2,
+            });
+          }
+        });
       });
     };
 
-    window.addEventListener("preloader-done", startAnimations, { once: true });
+    // Wait for the preloader OR the page-transition curtain — both dispatch
+    // "preloader-done" when they finish revealing. If neither is active
+    // (cold load on a non-home page), reveal immediately.
+    const preloaderExists = document.querySelector("[data-preloader]") !== null;
+    const transitioning = document.body.dataset.transitioning === "true";
+    if (preloaderExists || transitioning) {
+      window.addEventListener("preloader-done", startAnimations, { once: true });
+    } else {
+      requestAnimationFrame(() => startAnimations());
+    }
 
     // ---- data-mask-up: whole-line clip reveal ----
     const maskUpEls = document.querySelectorAll<HTMLElement>("[data-mask-up]");
     const maskUpWrappers: HTMLElement[] = [];
 
-    maskUpEls.forEach((el) => {
-      const wrapper = document.createElement("div");
-      wrapper.style.overflow = "hidden";
-      el.parentNode!.insertBefore(wrapper, el);
-      wrapper.appendChild(el);
-      wrapper.style.height = (el.offsetHeight + 10) + "px";
-      maskUpWrappers.push(wrapper);
-      gsap.set(el, { y: wrapper.offsetHeight });
+    ctx.add(() => {
+      maskUpEls.forEach((el) => {
+        const wrapper = document.createElement("div");
+        wrapper.style.overflow = "hidden";
+        el.parentNode!.insertBefore(wrapper, el);
+        wrapper.appendChild(el);
+        wrapper.style.height = (el.offsetHeight + 10) + "px";
+        maskUpWrappers.push(wrapper);
+        gsap.set(el, { y: wrapper.offsetHeight });
+      });
     });
 
     // Wait for all other ScrollTriggers (pins) to be created, then set up mask-up triggers + parallax
     const maskUpTimeout = setTimeout(() => {
+      ctx.add(() => {
       ScrollTrigger.refresh();
       maskUpWrappers.forEach((wrapper) => {
         const el = wrapper.firstElementChild as HTMLElement;
@@ -235,6 +255,112 @@ export default function SplitTextReveal() {
             }
           );
         }
+      }
+
+      // Parallax on about page banner image
+      const aboutBanner = document.querySelector<HTMLElement>(".parallax-banner");
+      const aboutBannerImg = document.querySelector<HTMLElement>(".parallax-banner .parallax-container img");
+      if (aboutBanner && aboutBannerImg) {
+        gsap.fromTo(aboutBannerImg,
+          { y: -80 },
+          {
+            y: 80,
+            ease: "none",
+            scrollTrigger: {
+              trigger: aboutBanner,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: true,
+            },
+          }
+        );
+      }
+
+      // Sliding cards reveal on about page
+      const slidingWrapper = document.querySelector<HTMLElement>(".sliding-cards-wrapper");
+      const slidingCards = document.querySelectorAll<HTMLElement>(".sliding-cards-wrapper img");
+      if (slidingWrapper && slidingCards.length === 3) {
+        const vw = window.innerWidth / 100;
+        const cardsTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: slidingWrapper,
+            start: "top 55%",
+            end: "top 5%",
+            scrub: 1,
+          },
+        });
+        cardsTl
+          .to(slidingCards[0], { rotation: -2.184, x: 1.5 * vw, y: -0.5 * vw, ease: "none" }, 0)
+          .to(slidingCards[1], { rotation: 6.471,  x: 7 * vw,   y: -2.5 * vw, ease: "none" }, 0.15)
+          .to(slidingCards[2], {                   x: 13 * vw,  y: -5 * vw,   ease: "none" }, 0.3);
+      }
+
+      // Contact FAQ left images: card swap on scroll
+      const faqLeft = document.querySelector<HTMLElement>(".contact-faq .left");
+      const faqImgs = document.querySelectorAll<HTMLElement>(".contact-faq .left img");
+      if (faqLeft && faqImgs.length === 2) {
+        const vw = window.innerWidth / 100;
+        const swapTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: faqLeft,
+            start: "top 70%",
+            toggleActions: "play none none reverse",
+          },
+        });
+        swapTl
+          .to(faqImgs[0], {
+            left: 10.417 * vw,
+            rotation: 9.6,
+            duration: 1.2,
+            ease: "power2.inOut",
+          }, 0)
+          .to(faqImgs[0], {
+            y: -2.5 * vw,
+            duration: 0.6,
+            ease: "power2.out",
+          }, 0)
+          .to(faqImgs[0], {
+            y: 0,
+            duration: 0.6,
+            ease: "power2.in",
+          }, 0.6)
+          .to(faqImgs[1], {
+            left: -1.5 * vw,
+            rotation: -6.6,
+            duration: 1.2,
+            ease: "power2.inOut",
+          }, 0)
+          .to(faqImgs[1], {
+            y: 1.5 * vw,
+            duration: 0.6,
+            ease: "power2.out",
+          }, 0)
+          .to(faqImgs[1], {
+            y: 0,
+            duration: 0.6,
+            ease: "power2.in",
+          }, 0.6);
+      }
+
+      // Work Info: pin section, scale wrapper from 5 → 1 over 120vh of scroll
+      const workInfo = document.querySelector<HTMLElement>("section.work-info");
+      const workInfoWrapper = workInfo?.querySelector<HTMLElement>(".wrapper");
+      if (workInfo && workInfoWrapper) {
+        gsap.fromTo(workInfoWrapper,
+          { scale: 5, transformOrigin: "left top" },
+          {
+            scale: 1,
+            ease: "none",
+            scrollTrigger: {
+              trigger: workInfo,
+              start: "top top",
+              end: "+=120%",
+              pin: true,
+              scrub: true,
+              anticipatePin: 1,
+            },
+          }
+        );
       }
 
       // Parallax on footer mobius image
@@ -298,16 +424,17 @@ export default function SplitTextReveal() {
           }
         );
       });
+      });
     }, 500);
 
     return () => {
       clearTimeout(maskUpTimeout);
       window.removeEventListener("preloader-done", startAnimations);
-      elements.forEach((el) => {
-        const original = el.getAttribute("aria-label");
-        if (original) el.textContent = original;
+      // Restore original innerHTML (preserves nested elements like .cursive)
+      originalHtmlByElement.forEach((html, el) => {
+        el.innerHTML = html;
       });
-      // Unwrap mask-up elements
+      // Unwrap mask-up wrappers
       maskUpWrappers.forEach((wrapper) => {
         const child = wrapper.firstChild;
         if (child && wrapper.parentNode) {
@@ -315,6 +442,8 @@ export default function SplitTextReveal() {
           wrapper.remove();
         }
       });
+      // Kill all GSAP tweens + ScrollTriggers created in this mount
+      ctx.revert();
     };
   }, []);
 

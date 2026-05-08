@@ -4,6 +4,22 @@ import { MenuItem } from "@/types/wordpress";
 import NavLink from "@/components/NavLink";
 import HeaderScroll from "@/components/HeaderScroll";
 
+type MenuNode = MenuItem & { children: MenuItem[] };
+
+function buildTree(items: MenuItem[]): MenuNode[] {
+  const map = new Map<string, MenuNode>();
+  items.forEach((it) => map.set(it.id, { ...it, children: [] }));
+  const roots: MenuNode[] = [];
+  map.forEach((node) => {
+    if (node.parentId && map.has(node.parentId)) {
+      map.get(node.parentId)!.children.push(node);
+    } else {
+      roots.push(node);
+    }
+  });
+  return roots;
+}
+
 export async function Navigation() {
   const client = getClient();
 
@@ -17,6 +33,8 @@ export async function Navigation() {
     console.error("Navigation menu fetch failed:", error);
   }
 
+  const tree = buildTree(menuItems);
+
   return (
     <header className="header">
       <HeaderScroll />
@@ -28,14 +46,20 @@ export async function Navigation() {
           />
         </NavLink>
         <ul className="nav-links">
-          {menuItems.length > 0
-            ? menuItems
-                .filter((item) => !item.parentId)
-                .map((item) => (
-                  <NavLink key={item.id} href={item.uri}>
-                    {item.label}
-                  </NavLink>
-                ))
+          {tree.length > 0
+            ? tree.map((item) => (
+                <NavLink
+                  key={item.id}
+                  href={item.uri}
+                  submenu={item.children.map((c) => ({
+                    id: c.id,
+                    href: c.uri,
+                    label: c.label,
+                  }))}
+                >
+                  {item.label}
+                </NavLink>
+              ))
             : (
               <>
                 <NavLink href="/">Home</NavLink>

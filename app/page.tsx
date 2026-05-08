@@ -4,6 +4,9 @@ import { HomePage } from "@/types/wordpress";
 import HeroAnimation from "@/components/HeroAnimation";
 import VideoStack from "@/components/VideoStack";
 import ServicesList from "@/components/ServicesList";
+import Preloader from "@/components/Preloader";
+import SplitTextReveal from "@/components/SplitTextReveal";
+import TransitionLink from "@/components/TransitionLink";
 
 export const revalidate = 60;
 
@@ -16,6 +19,8 @@ export default async function Home() {
 
   return (
     <main>
+      <Preloader />
+      <SplitTextReveal />
       <HeroAnimation>
         <section className="home-hero">
           <div className="wrapper">
@@ -132,7 +137,7 @@ export default async function Home() {
 
           <h5 className="subhead">OUR TEAM</h5>
           <h1 className="h1 beige">THE <span className="cursive">minds</span> <br /> BEHIND MOBIUS</h1>
-          <a href="#" className="custom-button"><span className="custom-button-label">About Us</span></a>
+          <TransitionLink href="/about" className="custom-button"><span className="custom-button-label">About Us</span></TransitionLink>
         </div>
       </section>
     </main>

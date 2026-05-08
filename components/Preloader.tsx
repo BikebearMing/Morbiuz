@@ -3,44 +3,61 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
+// Module-level flag — survives client-side route remounts but resets on full reload.
+// Ensures the preloader only ever runs on the cold load, not when the curtain
+// transition brings the user back to "/".
+let hasRunOnce = false;
+
 export default function Preloader() {
   const [progress, setProgress] = useState(0);
+  const [active] = useState(() => !hasRunOnce);
   const overlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const counter = { value: 0 };
+    if (!active) return;
+    hasRunOnce = true;
+
+    // Reset overlay position in case the DOM is being re-used by the router cache
+    if (overlayRef.current) {
+      gsap.set(overlayRef.current, { yPercent: 0 });
+    }
+    setProgress(0);
+
     let loaded = false;
+    let revealTween: gsap.core.Tween | null = null;
 
-    // Choreographed count: 0 → 100 over ~2.8s with a deliberate pause
-    const tl = gsap.timeline();
+    // Choreographed count: 0 → 100 over ~2.8s, driven by rAF (not GSAP timeline,
+    // which can get stuck on remount in some routing edge cases).
+    const start = performance.now();
+    const phase1 = 0.6;             // 0 → 30   (power1.out)
+    const phase2 = phase1 + 1.2;    // 30 → 70  (linear)
+    const total  = phase2 + 1.0;    // 70 → 100 (power2.in)
+    let raf = 0;
 
-    // 0 → 30 (fast start)
-    tl.to(counter, {
-      value: 30,
-      duration: 0.6,
-      ease: "power1.out",
-      onUpdate: () => setProgress(Math.round(counter.value)),
-    });
-
-    // 30 → 70 (slower, deliberate)
-    tl.to(counter, {
-      value: 70,
-      duration: 1.2,
-      ease: "none",
-      onUpdate: () => setProgress(Math.round(counter.value)),
-    });
-
-    // 70 → 100 (accelerate to finish)
-    tl.to(counter, {
-      value: 100,
-      duration: 1,
-      ease: "power2.in",
-      onUpdate: () => setProgress(Math.round(counter.value)),
-      onComplete: () => {
+    const tick = (now: number) => {
+      const t = (now - start) / 1000;
+      let value: number;
+      if (t < phase1) {
+        const local = t / phase1;
+        value = 30 * (1 - Math.pow(1 - local, 2));
+      } else if (t < phase2) {
+        const local = (t - phase1) / 1.2;
+        value = 30 + 40 * local;
+      } else if (t < total) {
+        const local = (t - phase2) / 1.0;
+        value = 70 + 30 * (local * local);
+      } else {
+        value = 100;
+      }
+      setProgress(Math.round(value));
+      if (t < total) {
+        raf = requestAnimationFrame(tick);
+      } else {
         loaded = true;
         reveal();
-      },
-    });
+      }
+    };
+    raf = requestAnimationFrame(tick);
 
     // Also wait for real window.load — whichever is later wins
     const onLoad = () => {
@@ -54,9 +71,9 @@ export default function Preloader() {
     }
 
     const reveal = () => {
-      if (!loaded) return;
+      if (!loaded || !overlayRef.current) return;
 
-      gsap.to(overlayRef.current, {
+      revealTween = gsap.to(overlayRef.current, {
         yPercent: -100,
         duration: 1.4,
         ease: "power4.inOut",
@@ -68,14 +85,18 @@ export default function Preloader() {
     };
 
     return () => {
-      tl.kill();
+      cancelAnimationFrame(raf);
+      revealTween?.kill();
       window.removeEventListener("load", onLoad);
     };
-  }, []);
+  }, [active]);
+
+  if (!active) return null;
 
   return (
     <div
       ref={overlayRef}
+      data-preloader=""
       style={{
         position: "fixed",
         inset: 0,
