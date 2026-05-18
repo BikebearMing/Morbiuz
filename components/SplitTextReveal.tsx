@@ -535,7 +535,7 @@ export default function SplitTextReveal() {
       }
 
       // ---- Page fold entrance for sections ----
-      const foldSections = document.querySelectorAll<HTMLElement>("section.hp-services, section.our-team");
+      const foldSections = document.querySelectorAll<HTMLElement>("section.our-team");
       foldSections.forEach((section) => {
         gsap.fromTo(section,
           {

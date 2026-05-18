@@ -60,31 +60,36 @@ export default function VideoStack() {
         // Text mask-up reveal for h3, h4, p
 
         let switched = false;
+        const SWAP_AT = 1 / 1.5;
 
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: container,
             start: "top top",
-            end: "+=100%",
+            end: "+=150%",
             scrub: 1.5,
             pin: true,
             onUpdate: (self) => {
-              if (self.progress >= 0.5 && !switched) {
+              if (self.progress >= SWAP_AT && !switched) {
                 switched = true;
+                video1.pause();
+                video2.play();
                 if (contentLabel) contentLabel.textContent = "02 - 03";
-              } else if (self.progress < 0.5 && switched) {
+              } else if (self.progress < SWAP_AT && switched) {
                 switched = false;
+                video2.pause();
+                video1.play();
                 if (contentLabel) contentLabel.textContent = "01 - 03";
               }
             },
-            onEnter: () => video1.play(),
-            onLeave: () => {
-              video1.pause();
-              video2.play();
+            onEnter: () => {
+              if (switched) video2.play();
+              else video1.play();
             },
+            onLeave: () => video2.pause(),
             onEnterBack: () => {
-              video2.pause();
-              video1.play();
+              if (switched) video2.play();
+              else video1.play();
             },
             onLeaveBack: () => video1.pause(),
           },
@@ -95,6 +100,7 @@ export default function VideoStack() {
           duration: 1,
           ease: "none",
         });
+        tl.to({}, { duration: 0.5 });
       }, container!);
     }
 
@@ -172,11 +178,11 @@ export default function VideoStack() {
       <div className="vs-slide">
         <video
           className="vs-video-2"
-          src="https://streamable.com/l/4wsqgh/mp4.mp4"
+          src="https://streamable.com/l/pb93s5/mp4.mp4"
           muted
           playsInline
           loop
-          poster="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/video-2-poster.avif"
+          // poster="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/video-2-poster.avif"
         />
       </div>
     </section>
