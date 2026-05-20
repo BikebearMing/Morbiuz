@@ -2748,3 +2748,641 @@ main.work-post {
     font-size: 2.5vw;
   }
 }
+
+@media (max-width: 768px) {
+
+  /* ========== TYPOGRAPHY ========== */
+  .body {
+    font-size: 3.5vw;
+    letter-spacing: -0.2vw;
+  }
+
+  .h1 {
+    font-size: 16vw;
+    letter-spacing: -2px;
+    line-height: 0.88;
+  }
+
+  .h2-v2 {
+    font-size: 14vw;
+    letter-spacing: -0.8vw;
+  }
+
+  .h2 {
+    font-size: 14vw;
+    letter-spacing: -0.5vw;
+  }
+
+  .h3 {
+    font-size: 9vw;
+    letter-spacing: -0.5vw;
+    line-height: 0.9;
+  }
+
+  .h3-v2 {
+    font-size: 9vw;
+  }
+
+  .h4 {
+    font-size: 4.5vw;
+    letter-spacing: -0.3vw;
+    line-height: 1.1;
+  }
+
+  .h5 {
+    font-size: 3.8vw;
+    letter-spacing: -0.15vw;
+    line-height: 1.2;
+  }
+
+  .subhead {
+    font-size: 3vw;
+    letter-spacing: -0.3px;
+    gap: 1.2vw;
+
+    & .bracket {
+      font-size: 3.6vw;
+    }
+  }
+
+  .client-slash {
+    font-size: 16vw;
+  }
+
+  /* ========== HEADER / NAV ========== */
+  .header {
+    padding: 4.5vw 5vw;
+  }
+
+  .logo {
+    height: 7vw;
+  }
+
+  .nav-links {
+    gap: 6vw;
+
+    & a {
+      font-size: 4.5vw;
+    }
+
+    & .nav-active > a {
+      padding-left: 3vw;
+
+      &::before {
+        width: 1.2vw;
+        height: 1.2vw;
+      }
+    }
+
+    & .submenu {
+      padding: 3vw 3.5vw;
+      min-width: 36vw;
+      gap: 2vw;
+    }
+
+    & .submenu a {
+      font-size: 3.5vw;
+    }
+  }
+
+  /* ========== HOME HERO ========== */
+  section.home-hero {
+    min-height: 180vw;
+
+    & .cursive {
+      font-size: 18vw;
+      line-height: 0.95;
+    }
+
+    & .wrapper {
+      & .mobius-bg-wrapper {
+        width: 220vw;
+        height: 90vw;
+        left: -60vw;
+      }
+
+      & .first-half {
+        height: 90vw;
+
+        &::before {
+          width: 70vw;
+          height: 33vw;
+          bottom: 6vw;
+        }
+
+        & .content {
+          top: 18vw;
+          gap: 3vw;
+        }
+
+        & .image-parent {
+          & .orbit-parent {
+            top: 50vw;
+          }
+
+          & img {
+            width: 28vw;
+            height: 28vw;
+          }
+
+          & img:nth-of-type(1) {
+            top: 14vw;
+            left: -14vw;
+          }
+
+          & img:nth-of-type(2) {
+            top: -10vw;
+            left: 25vw;
+          }
+
+          & img:nth-of-type(3) {
+            top: -3vw;
+            right: 20vw;
+          }
+
+          & img:nth-of-type(4) {
+            top: 50vw;
+            right: 6vw;
+          }
+
+          & img:nth-of-type(5) {
+            top: 52vw;
+            left: 22vw;
+          }
+        }
+      }
+
+      & .trail-bars {
+        gap: 1.4vw;
+        padding: 2vw 0;
+      }
+
+      & .trail-bar {
+        width: 22vw;
+        height: 1.4vw;
+      }
+
+      & .second-half {
+        padding-top: 50vw;
+        height: 90vw;
+
+        & .video-zoom-wrapper {
+          & .title {
+            right: 12vw;
+            gap: 70vw;
+
+            & .title-item {
+              &:nth-child(1)::before {
+                width: 50vw;
+                height: 3.5vw;
+              }
+
+              &:nth-child(2)::before {
+                height: 3.5vw;
+              }
+            }
+          }
+
+          & video {
+            width: 36vw;
+            height: 36vw;
+          }
+
+          & .subtext {
+            bottom: 18vw;
+
+            & h4 {
+              max-width: 60vw;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /* ========== FEATURED CLIENTS ========== */
+  section.featured-clients {
+    padding: 14vw 5vw;
+  }
+
+  /* ========== VIDEO STACK ========== */
+  .video-stack {
+    height: 70vh;
+
+    & .overlay {
+      & .corner-circle {
+        width: 3vw;
+        height: 3vw;
+      }
+
+      & .corner-circle.tl { top: 2.5vw; left: 2.5vw; }
+      & .corner-circle.tr { top: 2.5vw; right: 2.5vw; }
+      & .corner-circle.bl { bottom: 2.5vw; left: 2.5vw; }
+      & .corner-circle.br { bottom: 2.5vw; right: 2.5vw; }
+
+      & .speaker-lines {
+        bottom: 2.5vw;
+        left: calc(2.5vw + 3vw + 1.5vw);
+        gap: 0.6vw;
+
+        & .speaker-line {
+          width: 0.4vw;
+          height: 2.2vw;
+        }
+      }
+
+      & .wrapper {
+        padding-inline: 6vw;
+        padding-block: 3vw;
+
+        & .top {
+          flex-direction: column;
+          gap: 8vw;
+        }
+      }
+    }
+
+    & .cassete-wrapper {
+      width: 50vw;
+      height: 15vw;
+
+      & .roller {
+        width: 8vw;
+        height: 8vw;
+        top: 3vw;
+        left: 3vw;
+
+        &.second {
+          right: 3vw;
+        }
+      }
+
+      & .content {
+        font-size: 2.5vw;
+        letter-spacing: -0.3px;
+      }
+    }
+  }
+
+  /* ========== OUR TEAM ========== */
+  section.our-team {
+    height: auto;
+    min-height: 80vh;
+    margin-top: -12vw;
+    padding-bottom: 10vw;
+
+    & .parallax-container {
+      & img:last-child {
+        height: 90vw;
+      }
+    }
+
+    & .subhead {
+      top: 8vw;
+      left: 6vw;
+    }
+
+    & .h1 {
+      top: 6%;
+    }
+
+    & .custom-button {
+      top: 7vw;
+      right: 6vw;
+    }
+  }
+
+  /* ========== CUSTOM BUTTON ========== */
+  .custom-button {
+    font-size: 4.5vw;
+    padding: 2.5vw 5vw 2.5vw 8vw;
+    border-radius: 2vw;
+
+    &::before,
+    &::after {
+      left: 3.5vw;
+      width: 1.8vw;
+      height: 1.8vw;
+    }
+  }
+
+  /* ========== HP SERVICES ========== */
+  section.hp-services {
+    margin-top: -12vw;
+    padding: 8vw 0 12vw;
+
+    & > .subhead {
+      margin-bottom: 8vw;
+    }
+
+    & .wrapper {
+      flex-direction: column;
+      gap: 12vw;
+      padding-bottom: 14vw;
+    }
+
+    & .left {
+      padding-inline: 5vw;
+
+      & .h4 {
+        padding-left: 0;
+        max-width: 70vw;
+      }
+
+      & img {
+        height: 70vw;
+        top: 50vw;
+        left: -30vw;
+      }
+    }
+
+    & .right {
+      padding-inline: 5vw;
+
+      &::before {
+        width: 14vw;
+        height: 14vw;
+        top: -2vw;
+        left: -2vw;
+      }
+    }
+
+    & .service-titles {
+      gap: 1.5vw;
+      margin-bottom: 6vw;
+
+      &::after {
+        width: 14vw;
+        height: 14vw;
+        left: unset;
+        right: -4vw;
+      }
+    }
+
+    & .service-title {
+      font-size: 11vw;
+      text-decoration-thickness: 0.5vw;
+      text-underline-offset: 1.5vw;
+    }
+
+    & .service-detail {
+      flex-direction: column;
+      gap: 5vw;
+
+      &::before {
+        width: 14vw;
+        height: 14vw;
+        top: -8vw;
+        left: unset;
+        right: 4vw;
+      }
+    }
+
+    & .service-img-clip {
+      width: 100%;
+      height: 80vw;
+    }
+
+    & .service-text-clip {
+      & .body {
+        max-width: 100%;
+        font-size: 3.5vw;
+      }
+    }
+  }
+
+  /* ========== FOOTER ========== */
+  footer.site-footer {
+    padding: 16vw 5vw 6vw;
+
+    & .footer-top {
+      & .footer-title {
+        max-width: 100%;
+
+        &::after {
+          width: 80vw;
+          height: 18vw;
+          margin-top: 4vw;
+        }
+      }
+
+      & .footer-image {
+        right: -40vw;
+        top: 30vw;
+        height: 50vw;
+      }
+    }
+
+    & .footer-bottom {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10vw;
+    }
+
+    & .footer-info {
+      flex-wrap: wrap;
+      gap: 8vw;
+    }
+
+    & .footer-col {
+      gap: 1.5vw;
+    }
+
+    & .footer-value {
+      max-width: 40vw;
+    }
+
+    & .footer-bars {
+      position: relative;
+
+      & .footer-bar {
+        width: 0.4vw;
+        height: 2.2vw;
+      }
+    }
+
+    & .footer-legal {
+      flex-wrap: wrap;
+      gap: 5vw;
+    }
+  }
+
+  /* ========== PARALLAX BANNER ========== */
+  section.parallax-banner {
+    height: 70vw;
+
+    &.tall {
+      height: 130vw;
+
+      & .content {
+        top: 22vw;
+      }
+    }
+
+    & .content {
+      min-width: 90vw;
+    }
+  }
+
+  /* ========== ABOUT US ========== */
+  section.about-us {
+    & .wrapper {
+      padding-top: 10vw;
+      padding-bottom: 110vw;
+      padding-inline: 5vw;
+      gap: 8vw;
+
+      & .top-content {
+        flex-direction: column;
+        gap: 8vw;
+
+        & .h3 {
+          max-width: 100%;
+        }
+
+        & .h5 {
+          max-width: 100%;
+        }
+      }
+
+      .sliding-cards-wrapper {
+        width: 100%;
+        height: 105vw;
+
+        & img {
+          width: 60vw;
+          height: 78vw;
+        }
+
+        & img:first-child {
+          left: -30vw;
+        }
+
+        & img:nth-child(2) {
+          left: 5vw;
+          bottom: 5vw;
+        }
+
+        & img:nth-child(3) {
+          left: 30vw;
+          bottom: 1.5vw;
+        }
+      }
+    }
+  }
+
+  /* ========== ABOUT OUR TEAM ========== */
+  section.about-our-team {
+    padding-block: 8vw 18vw;
+
+    & .wrapper {
+      gap: 20vw;
+    }
+  }
+
+  .team-row {
+    grid-template-columns: 1fr;
+    padding: 4vw 0;
+    gap: 1.5vw;
+  }
+
+  .team-row-left {
+    font-size: 7vw;
+    gap: 4vw;
+  }
+
+  .team-num {
+    font-size: 2.6vw;
+  }
+
+  .team-position {
+    padding-right: 0;
+    white-space: normal;
+  }
+
+  .team-row-image {
+    left: 50%;
+    width: 42vw;
+    height: 52vw;
+  }
+
+  .team-row-right {
+    justify-self: start;
+    font-size: 6vw;
+    letter-spacing: -0.15vw;
+  }
+
+  /* ========== OUR CULTURE ========== */
+  section.our-culture {
+    & .wrapper {
+      flex-direction: column;
+      min-height: auto;
+
+      & .left, & .right {
+        width: 100%;
+      }
+
+      & .left {
+        height: 100vw;
+      }
+
+      & .right {
+        padding-block: 12vw 12vw;
+
+        & .h3 {
+          max-width: 100%;
+        }
+
+        & .content-wrapper {
+          gap: 18vw;
+        }
+
+        & .bottom-body {
+          height: auto;
+          flex-direction: column;
+          gap: 8vw;
+
+          & .h5 {
+            width: 100%;
+          }
+
+          & .h5:nth-child(2) {
+            margin-top: 0;
+          }
+        }
+      }
+    }
+  }
+
+  /* ========== CONTACT FAQ IMAGES ========== */
+  section.contact-faq {
+    & .bottom .left {
+      width: 100%;
+      height: 100vw;
+    }
+  }
+
+  .contact-faq .left img {
+    width: 60vw;
+    height: 78vw;
+  }
+
+  .contact-faq .left img:first-child {
+    left: 0;
+  }
+
+  .contact-faq .left img:nth-of-type(2) {
+    left: 28vw;
+  }
+
+  /* ========== WORK POST ========== */
+  .work-post-title {
+    width: 100%;
+  }
+
+  /* ========== OVERVIEW ========== */
+  .overview-image {
+    width: 80vw;
+    height: 90vw;
+  }
+}

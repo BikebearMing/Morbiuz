@@ -107,7 +107,8 @@ export default function HeroAnimation({
         const orbitTl = gsap.timeline({
           scrollTrigger: {
             trigger: firstHalf,
-            start: "bottom bottom",
+            start: () =>
+              firstHalf.offsetHeight < window.innerHeight ? "top 20%" : "bottom bottom",
             end: "+=150%",
             scrub: 1.5,
             pin: true,
