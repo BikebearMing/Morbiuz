@@ -65,6 +65,18 @@ export const GET_POST_BY_SLUG = gql`
             altText
           }
         }
+        imageMasonry {
+          nodes {
+            sourceUrl
+            altText
+          }
+        }
+        imageBannerHero {
+          node {
+            sourceUrl
+            altText
+          }
+        }
         btsGroup {
           btsCreditsRepeater {
             btsCredit {

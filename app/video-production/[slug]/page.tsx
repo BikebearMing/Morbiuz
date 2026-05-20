@@ -1,4 +1,6 @@
 import BehindTheScene from "@/components/BehindTheScene";
+import ImageBannerHero from "@/components/ImageBannerHero";
+import ImageMasonry from "@/components/ImageMasonry";
 import NextProject, { NextProjectItem } from "@/components/NextProject";
 import VideoHero from "@/components/VideoHero";
 import WorkOverview from "@/components/WorkOverview";
@@ -96,6 +98,10 @@ export default async function VideoProductionPostPage({
         overviewText={acf?.overviewText || null}
         images={acf?.imageGallery?.nodes || []}
       />
+
+      <ImageMasonry images={acf?.imageMasonry?.nodes || []} />
+
+      <ImageBannerHero image={acf?.imageBannerHero?.node || null} />
 
       <BehindTheScene
         credits={

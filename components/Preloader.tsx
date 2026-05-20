@@ -8,10 +8,24 @@ import gsap from "gsap";
 // transition brings the user back to "/".
 let hasRunOnce = false;
 
+const SPRITE_URL = "/assets/preloader-sprite.png";
+const SPRITE_COLS = 5;
+const SPRITE_ROWS = 20;
+const END_FRAME = 74; // 1-indexed; animation pauses here
+const DISPLAY_SIZE = 96;
+
 export default function Preloader() {
   const [progress, setProgress] = useState(0);
   const [active] = useState(() => !hasRunOnce);
   const overlayRef = useRef<HTMLDivElement>(null);
+  const barRef = useRef<HTMLDivElement>(null);
+
+  const frameIndex = Math.min(
+    END_FRAME - 1,
+    Math.round((progress / 100) * (END_FRAME - 1))
+  );
+  const col = frameIndex % SPRITE_COLS;
+  const row = Math.floor(frameIndex / SPRITE_COLS);
 
   useEffect(() => {
     if (!active) return;
@@ -24,7 +38,7 @@ export default function Preloader() {
     setProgress(0);
 
     let loaded = false;
-    let revealTween: gsap.core.Tween | null = null;
+    let revealTl: gsap.core.Timeline | null = null;
 
     // Choreographed count: 0 → 100 over ~2.8s, driven by rAF (not GSAP timeline,
     // which can get stuck on remount in some routing edge cases).
@@ -73,20 +87,37 @@ export default function Preloader() {
     const reveal = () => {
       if (!loaded || !overlayRef.current) return;
 
-      revealTween = gsap.to(overlayRef.current, {
-        yPercent: -100,
-        duration: 1.4,
-        ease: "power4.inOut",
+      revealTl = gsap.timeline({
         delay: 0.3,
         onComplete: () => {
           window.dispatchEvent(new CustomEvent("preloader-done"));
         },
       });
+
+      if (barRef.current) {
+        revealTl
+          .to(barRef.current, {
+            yPercent: 100,
+            duration: 0.5,
+            ease: "power3.in",
+          })
+          .set(barRef.current, { display: "none" });
+      }
+
+      revealTl.to(
+        overlayRef.current,
+        {
+          yPercent: -100,
+          duration: 1.4,
+          ease: "power4.inOut",
+        },
+        "+=0.05"
+      );
     };
 
     return () => {
       cancelAnimationFrame(raf);
-      revealTween?.kill();
+      revealTl?.kill();
       window.removeEventListener("load", onLoad);
     };
   }, [active]);
@@ -109,10 +140,17 @@ export default function Preloader() {
         gap: "12px",
       }}
     >
-      <img
-        src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/Vector.png"
-        alt="Morbiuz"
-        style={{ width: "48px", height: "auto" }}
+      <div
+        role="img"
+        aria-label="Morbiuz"
+        style={{
+          width: `${DISPLAY_SIZE}px`,
+          height: `${DISPLAY_SIZE}px`,
+          backgroundImage: `url(${SPRITE_URL})`,
+          backgroundSize: `${SPRITE_COLS * DISPLAY_SIZE}px ${SPRITE_ROWS * DISPLAY_SIZE}px`,
+          backgroundPosition: `${-col * DISPLAY_SIZE}px ${-row * DISPLAY_SIZE}px`,
+          backgroundRepeat: "no-repeat",
+        }}
       />
       <span
         style={{
@@ -125,6 +163,26 @@ export default function Preloader() {
       >
         {progress} %
       </span>
+      <div
+        ref={barRef}
+        style={{
+          position: "absolute",
+          left: 0,
+          bottom: 0,
+          width: "100vw",
+          height: "3px",
+          background: "rgba(255, 255, 255, 0.08)",
+        }}
+      >
+        <div
+          style={{
+            width: `${progress}%`,
+            height: "100%",
+            background: "var(--orange)",
+            transition: "width 80ms linear",
+          }}
+        />
+      </div>
     </div>
   );
 }

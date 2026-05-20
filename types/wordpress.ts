@@ -90,6 +90,8 @@ export interface VideoProductionPostGroup {
   videoLink: AcfLinkValue | null;
   overviewText: string | null;
   imageGallery: { nodes: GalleryImage[] } | null;
+  imageMasonry: { nodes: GalleryImage[] } | null;
+  imageBannerHero: AcfImage | null;
   btsGroup: BtsGroup | null;
 }
 
