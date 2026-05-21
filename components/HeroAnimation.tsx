@@ -108,7 +108,7 @@ export default function HeroAnimation({
           scrollTrigger: {
             trigger: firstHalf,
             start: () =>
-              firstHalf.offsetHeight < window.innerHeight ? "top 20%" : "bottom bottom",
+              window.innerWidth <= 768 ? "center center" : "bottom bottom",
             end: "+=150%",
             scrub: 1.5,
             pin: true,
