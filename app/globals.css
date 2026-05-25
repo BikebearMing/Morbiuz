@@ -105,6 +105,10 @@
 
 html {
     overflow-x: hidden;
+    background: var(--black);
+    /* Stops iOS/Android rubber-band overscroll from revealing
+       the next section's color in the toolbar/home-indicator area. */
+    overscroll-behavior-y: none;
 }
 
 body {
@@ -115,6 +119,7 @@ body {
     width: 100%;
     /* min-height: 500vh; */
     background: var(--black);
+    overscroll-behavior-y: none;
 }
 
 .body {
@@ -2877,10 +2882,10 @@ main.work-post {
     }
 
     .nav-links {
-        gap: 6vw;
+        gap: 2.5vw;
 
         & a {
-            font-size: 4.5vw;
+            font-size: 3.5vw;
         }
 
         & .nav-active > a {
@@ -2920,22 +2925,24 @@ main.work-post {
             }
 
             & .first-half {
-                height: 90vw;
+                height: 100dvh !important;
 
                 &::before {
                     width: 70vw;
                     height: 33vw;
-                    bottom: -3vw;
+                    bottom: 28vh;
                 }
 
                 & .content {
-                    top: 18vw;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
                     gap: 3vw;
                 }
 
                 & .image-parent {
                     & .orbit-parent {
-                        top: 50vw;
+                        top: 50%;
+                        transform: translate(-50%, -50%);
                     }
 
                     & img {
@@ -2944,28 +2951,28 @@ main.work-post {
                     }
 
                     & img:nth-of-type(1) {
-                        top: 32vw;
-                        left: -80vw;
+                        top: 67vw;
+                        left: -14vw;
                     }
 
                     & img:nth-of-type(2) {
-                        top: -61vw;
-                        left: -40vw;
+                        top: 50vw;
+                        left: 22vw;
                     }
 
                     & img:nth-of-type(3) {
-                        top: -27vw;
-                        right: 28vw;
+                        top: 68vw;
+                        right: -12vw;
                     }
 
                     & img:nth-of-type(4) {
-                        top: 53vw;
-                        right: -85vw;
+                        top: 126vw;
+                        right: -6vw;
                     }
 
                     & img:nth-of-type(5) {
-                        top: 110vw;
-                        left: 40vw;
+                        top: 125vw;
+                        left: -2vw;
                     }
                 }
             }
@@ -2981,22 +2988,50 @@ main.work-post {
             }
 
             & .second-half {
-                padding-top: 50vw;
-                height: 90vw;
+                padding-top: 0;
+                height: 100vh;
+                height: 100dvh !important;
+                display: flex;
+                align-items: center;
+                justify-content: center;
 
                 & .video-zoom-wrapper {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    width: 100%;
+                    height: 100%;
+                    position: relative;
                     & .title {
-                        right: 12vw;
-                        gap: 70vw;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        position: absolute;
+                        left: 50%;
+                        top: 50%;
+                        transform: translate(-50%, -50%);
+                        right: auto;
+                        gap: 40vw;
+                        width: 100%;
+                        justify-content: center;
+                        z-index: 101;
 
                         & .title-item {
+                            & h2 {
+                                font-size: 8.5vw;
+                            }
+
                             &:nth-child(1)::before {
-                                width: 50vw;
-                                height: 3.5vw;
+                                width: 25vw;
+                                height: 2vw;
+                                bottom: -1.2em;
                             }
 
                             &:nth-child(2)::before {
-                                height: 3.5vw;
+                                width: 25vw;
+                                height: 2vw;
+                                bottom: -1.2em;
                             }
                         }
                     }
@@ -3004,13 +3039,19 @@ main.work-post {
                     & video {
                         width: 36vw;
                         height: 36vw;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
                     }
 
                     & .subtext {
-                        bottom: 18vw;
+                        bottom: 12vh;
+                        z-index: 101;
+                        width: 100%;
 
                         & h4 {
-                            max-width: 60vw;
+                            max-width: 90vw;
+                            margin: 0 auto;
                         }
                     }
                 }
@@ -3108,12 +3149,12 @@ main.work-post {
         }
 
         & .subhead {
-            top: 8vw;
+            top: 15vw;
             left: 6vw;
         }
 
         & .h1 {
-            top: 6%;
+            top: 15%;
         }
 
         & .custom-button {
@@ -3160,9 +3201,7 @@ main.work-post {
             }
 
             & img {
-                height: 70vw;
-                top: 50vw;
-                left: -30vw;
+                display: none;
             }
         }
 
@@ -3170,29 +3209,25 @@ main.work-post {
             padding-inline: 5vw;
 
             &::before {
-                width: 14vw;
-                height: 14vw;
-                top: -2vw;
-                left: -2vw;
+                display: none;
             }
         }
 
         & .service-titles {
-            gap: 1.5vw;
-            margin-bottom: 6vw;
+            gap: 4vw;
+            margin-bottom: 12vw;
 
             &::after {
-                width: 14vw;
-                height: 14vw;
-                left: unset;
-                right: -4vw;
+                display: none;
             }
         }
 
         & .service-title {
             font-size: 11vw;
-            text-decoration-thickness: 0.5vw;
-            text-underline-offset: 1.5vw;
+            text-decoration-thickness: 0.2vw;
+            text-underline-offset: 1vw;
+            line-height: 1.1;
+            padding-bottom: 2vw;
         }
 
         & .service-detail {
@@ -3200,11 +3235,7 @@ main.work-post {
             gap: 5vw;
 
             &::before {
-                width: 14vw;
-                height: 14vw;
-                top: -8vw;
-                left: unset;
-                right: 4vw;
+                display: none;
             }
         }
 
@@ -3214,6 +3245,7 @@ main.work-post {
         }
 
         & .service-text-clip {
+            padding-bottom: 5vw;
             & .body {
                 max-width: 100%;
                 font-size: 3.5vw;
@@ -3228,6 +3260,7 @@ main.work-post {
         & .footer-top {
             & .footer-title {
                 max-width: 100%;
+                font-size: 12vw;
 
                 &::after {
                     width: 80vw;
@@ -3237,9 +3270,10 @@ main.work-post {
             }
 
             & .footer-image {
-                right: -40vw;
-                top: 30vw;
+                right: -60vw;
+                top: 50vw;
                 height: 50vw;
+                opacity: 0.3;
             }
         }
 
@@ -3259,7 +3293,9 @@ main.work-post {
         }
 
         & .footer-value {
-            max-width: 40vw;
+            max-width: 100%;
+            word-break: normal;
+            overflow-wrap: break-word;
         }
 
         & .footer-bars {

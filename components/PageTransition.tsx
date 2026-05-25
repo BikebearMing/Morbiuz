@@ -26,7 +26,7 @@ export default function PageTransition({ children }: { children: React.ReactNode
 
   useEffect(() => {
     if (!overlayRef.current) return;
-    gsap.set(overlayRef.current, { yPercent: 100 });
+    gsap.set(overlayRef.current, { yPercent: 100, autoAlpha: 0 });
   }, []);
 
   const reveal = useCallback(() => {
@@ -44,13 +44,17 @@ export default function PageTransition({ children }: { children: React.ReactNode
         onComplete: () => {
           stateRef.current = "idle";
           delete document.body.dataset.transitioning;
-          if (overlayRef.current) gsap.set(overlayRef.current, { yPercent: 100 });
+          if (overlayRef.current) {
+            gsap.set(overlayRef.current, { yPercent: 100, autoAlpha: 0 });
+          }
           window.dispatchEvent(new CustomEvent("preloader-done"));
         },
       });
 
+      // Animate past -100% so a mid-animation viewport resize
+      // (mobile dynamic toolbar retracting) can't leave a residual strip.
       tl.to({}, { duration: 0.7 }).to(overlayRef.current, {
-        yPercent: -100,
+        yPercent: -110,
         duration: 1.1,
         ease: "power4.inOut",
       });
@@ -72,6 +76,10 @@ export default function PageTransition({ children }: { children: React.ReactNode
     stateRef.current = "covering";
     pendingHrefRef.current = href;
     document.body.dataset.transitioning = "true";
+
+    if (overlayRef.current) {
+      gsap.set(overlayRef.current, { autoAlpha: 1 });
+    }
 
     const tl = gsap.timeline({
       onComplete: () => {

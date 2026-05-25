@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import gsap from "gsap";
 
 gsap.registerPlugin(ScrollTrigger);
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 export default function SmoothScroll({
   children,
@@ -33,7 +34,6 @@ export default function SmoothScroll({
 
     const onResize = () => {
       lenis.resize();
-      ScrollTrigger.refresh();
     };
     window.addEventListener("resize", onResize);
 
