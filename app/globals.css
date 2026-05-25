@@ -382,6 +382,7 @@ a {
 
     & .has-submenu {
         position: relative;
+        text-align: center;
     }
 
     & .submenu {
@@ -2821,6 +2822,18 @@ main.work-post {
 }
 
 @media (max-width: 768px) {
+    /* Contain horizontal overflow from GSAP-animated absolute video
+       in the hero (its layout box extends past 100vw even though the
+       transform centers it visually). Without this, the fixed .header
+       stretches to the document's real width on mobile. */
+    body {
+        overflow-x: clip;
+    }
+
+    section.home-hero {
+        overflow-x: clip;
+    }
+
     /* ========== TYPOGRAPHY ========== */
     .body {
         font-size: 3.5vw;
@@ -2906,7 +2919,6 @@ main.work-post {
 
         & a {
             font-size: 8vw;
-            font-style: normal;
         }
 
         & .has-submenu .submenu {
@@ -3081,10 +3093,10 @@ main.work-post {
                         align-items: center;
                         position: absolute;
                         left: 50%;
-                        top: 50%;
+                        top: 25%;
                         transform: translate(-50%, -50%);
                         right: auto;
-                        gap: 40vw;
+                        gap: 37vh;
                         width: 100%;
                         justify-content: center;
                         z-index: 101;
@@ -3138,7 +3150,7 @@ main.work-post {
 
     /* ========== VIDEO STACK ========== */
     .video-stack {
-        height: 70vh;
+        height: 100vh;
 
         & .overlay {
             & .corner-circle {
@@ -3213,6 +3225,14 @@ main.work-post {
         min-height: 80vh;
         margin-top: -12vw;
         padding-bottom: 10vw;
+
+        /* Section uses min-height (not explicit height), so .wrapper's
+           `height: 100%` can't resolve and the absolute .parallax-container
+           inside it collapses — hiding both bg + ppl images. Force the
+           wrapper to fill the section. */
+        & .wrapper {
+            min-height: 80vh;
+        }
 
         & .parallax-container {
             & img:last-child {

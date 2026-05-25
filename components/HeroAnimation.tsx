@@ -173,15 +173,10 @@ export default function HeroAnimation({
           const squareScale = isMobile ? 1 : 0.7;
           const squareSize = window.innerWidth * vwSize * squareScale;
           const targetW16_9 = squareSize * (16 / 9);
-          const scaleToFill = isMobile
-            ? Math.min(
-                window.innerWidth / targetW16_9,
-                window.innerHeight / squareSize
-              )
-            : Math.max(
-                window.innerWidth / targetW16_9,
-                window.innerHeight / squareSize
-              );
+          const scaleToFill = Math.max(
+            window.innerWidth / targetW16_9,
+            window.innerHeight / squareSize
+          );
 
           // Set video to square size first, then measure its position
           const videoSetProps: any = {
