@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { usePathname } from "next/navigation";
 import TransitionLink from "./TransitionLink";
 
@@ -15,6 +16,8 @@ export default function NavLink({
   submenu?: SubmenuItem[];
 }) {
   const pathname = usePathname();
+  const [isExpanded, setIsExpanded] = useState(false);
+
   const isActive =
     pathname === href ||
     pathname === href.replace(/\/$/, "") ||
@@ -30,11 +33,22 @@ export default function NavLink({
       className={[
         isActive ? "nav-active" : "",
         hasSubmenu ? "has-submenu" : "",
+        isExpanded ? "expanded" : ""
       ]
         .filter(Boolean)
         .join(" ")}
     >
-      <TransitionLink href={href}>{children}</TransitionLink>
+      <TransitionLink 
+        href={href}
+        onClick={(e) => {
+          if (hasSubmenu && window.innerWidth <= 768) {
+            e.preventDefault();
+            setIsExpanded(!isExpanded);
+          }
+        }}
+      >
+        {children}
+      </TransitionLink>
       {hasSubmenu && (
         <ul className="submenu">
           {submenu!.map((s) => {
