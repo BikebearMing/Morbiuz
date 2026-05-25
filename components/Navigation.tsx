@@ -4,6 +4,7 @@ import { MenuItem } from "@/types/wordpress";
 import NavLink from "@/components/NavLink";
 import TransitionLink from "@/components/TransitionLink";
 import HeaderScroll from "@/components/HeaderScroll";
+import HamburgerToggle from "@/components/HamburgerToggle";
 
 type MenuNode = MenuItem & { children: MenuItem[] };
 
@@ -46,6 +47,7 @@ export async function Navigation() {
             alt="Morbiuz"
           />
         </TransitionLink>
+        <HamburgerToggle />
         <ul className="nav-links">
           {tree.length > 0
             ? tree.map((item) => (

@@ -333,7 +333,14 @@ a {
 .logo {
     height: 2.5vw;
     width: auto;
+    position: relative;
+    z-index: 102; /* Ensure logo is above the mobile menu overlay */
 }
+
+.hamburger {
+    display: none;
+}
+
 
 .nav-links {
     display: flex;
@@ -2882,29 +2889,94 @@ main.work-post {
     }
 
     .nav-links {
-        gap: 2.5vw;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(4, 7, 4, 0.95);
+        backdrop-filter: blur(10px);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8vw;
+        transform: translateY(-100%);
+        transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+        z-index: 100;
 
         & a {
-            font-size: 3.5vw;
+            font-size: 8vw;
+            font-style: normal;
+        }
+
+        & .has-submenu .submenu {
+            position: static;
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            background: transparent;
+            backdrop-filter: none;
+            pointer-events: auto;
+            text-align: center;
+            padding: 2vw 0 0 0;
+            gap: 2vw;
+
+            & a {
+                font-size: 5vw;
+            }
         }
 
         & .nav-active > a {
             padding-left: 3vw;
 
             &::before {
-                width: 1.2vw;
-                height: 1.2vw;
+                width: 1.5vw;
+                height: 1.5vw;
             }
         }
+    }
 
-        & .submenu {
-            padding: 3vw 3.5vw;
-            min-width: 36vw;
-            gap: 2vw;
+    .header.menu-open {
+        transform: translateY(0) !important;
+        
+        & .nav-links {
+            transform: translateY(0);
+        }
+    }
+
+    .hamburger {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        width: 6vw;
+        height: 4.5vw;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        z-index: 101;
+        margin-left: auto;
+        padding: 0;
+        
+        & span {
+            width: 100%;
+            height: 0.4vw;
+            background: var(--white);
+            border-radius: 2px;
+            transition: all 0.3s linear;
+            position: relative;
+            transform-origin: 1px;
         }
 
-        & .submenu a {
-            font-size: 3.5vw;
+        &.active span:first-child {
+            transform: rotate(45deg) translate(0.5vw, 0.5vw);
+        }
+
+        &.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        &.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(0.5vw, -0.5vw);
         }
     }
 
