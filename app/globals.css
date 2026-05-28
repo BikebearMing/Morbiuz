@@ -2156,6 +2156,7 @@ section.our-works {
     height: 17.583vw;
     pointer-events: none;
     z-index: 1;
+    display: none;
 }
 
 .works-image {
@@ -3538,9 +3539,9 @@ main.work-post {
     }
 
     .team-row-image {
-        left: 50%;
-        width: 42vw;
-        height: 52vw;
+        width: 25vw;
+        height: 30vw;
+        left: 85%;
     }
 
     .team-row-right {

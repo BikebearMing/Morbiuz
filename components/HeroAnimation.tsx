@@ -352,7 +352,8 @@ export default function HeroAnimation({
               onUpdate: function () {
                 if (this.progress() >= 0.5 && !videoPlaying) {
                   videoPlaying = true;
-                  video.play();
+                  const p = video.play();
+                  if (p !== undefined) p.catch(() => {});
                 }
                 if (this.progress() < 0.5 && videoPlaying) {
                   videoPlaying = false;
