@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 
 gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 export default function HeroAnimation({
   children,
@@ -13,9 +14,11 @@ export default function HeroAnimation({
   children: React.ReactNode;
 }) {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const hasRevealedRef = useRef(false);
 
   useEffect(() => {
     let ctx: gsap.Context | null = null;
+    let originalSubtextHtml: string | null = null;
 
     function setup() {
       // Clean up previous
@@ -75,18 +78,29 @@ export default function HeroAnimation({
         sorted.forEach((d, i) => arrivalOrder.set(d.img, i));
 
         // ---- Image clip-path reveal (after preloader) ----
-        gsap.set(images, { clipPath: "inset(100% 0 0 0)" });
+        if (!hasRevealedRef.current) {
+          gsap.set(images, { clipPath: "inset(100% 0 0 0)" });
 
-        const revealImages = () => {
-          gsap.to(Array.from(images), {
-            clipPath: "inset(0% 0 0 0)",
-            duration: 1,
-            ease: "power3.inOut",
-            stagger: 0.12,
-          });
-        };
+          const revealImages = () => {
+            hasRevealedRef.current = true;
+            gsap.to(Array.from(images), {
+              clipPath: "inset(0% 0 0 0)",
+              duration: 1,
+              ease: "power3.inOut",
+              stagger: 0.12,
+            });
+          };
 
-        window.addEventListener("preloader-done", revealImages, { once: true });
+          const preloaderExists = document.querySelector("[data-preloader]") !== null;
+          const transitioning = document.body.dataset.transitioning === "true";
+          if (preloaderExists || transitioning) {
+            window.addEventListener("preloader-done", revealImages, { once: true });
+          } else {
+            revealImages();
+          }
+        } else {
+          gsap.set(images, { clipPath: "inset(0% 0 0 0)" });
+        }
 
         // ---- Subhead bracket reveal ----
         const subheadText = section.querySelector(".subhead-text") as HTMLElement;
@@ -94,21 +108,23 @@ export default function HeroAnimation({
           const naturalWidth = subheadText.offsetWidth;
           console.log("subhead naturalWidth:", naturalWidth);
 
-          gsap.set(subheadText, { width: 0, overflow: "hidden" });
+          if (!hasRevealedRef.current) {
+            gsap.set(subheadText, { width: 0, overflow: "hidden" });
 
-          gsap.to(subheadText, {
-            width: naturalWidth,
-            duration: 1.2,
-            ease: "power2.out",
-            delay: 0.5,
-          });
+            gsap.to(subheadText, {
+              width: naturalWidth,
+              duration: 1.2,
+              ease: "power2.out",
+              delay: 0.5,
+            });
+          }
         }
 
         const orbitTl = gsap.timeline({
           scrollTrigger: {
             trigger: firstHalf,
             start: () =>
-              firstHalf.offsetHeight < window.innerHeight ? "top 20%" : "bottom bottom",
+              window.innerWidth <= 768 ? "top top" : "bottom bottom",
             end: "+=150%",
             scrub: 1.5,
             pin: true,
@@ -147,13 +163,15 @@ export default function HeroAnimation({
           );
         });
 
-        // ---- Scrub images + video down to second-half ----
         if (video) {
           const convergeEllipseY = ellipseCY + Math.sin(convergeAngle) * radiusY;
 
           const secondHalf = section.querySelector(".second-half") as HTMLElement;
 
-          const squareSize = window.innerWidth * 0.17778 * 0.7; // 17.778vw × 0.7 scale
+          const isMobile = window.innerWidth <= 768;
+          const vwSize = isMobile ? 0.36 : 0.17778;
+          const squareScale = isMobile ? 1 : 0.7;
+          const squareSize = window.innerWidth * vwSize * squareScale;
           const targetW16_9 = squareSize * (16 / 9);
           const scaleToFill = Math.max(
             window.innerWidth / targetW16_9,
@@ -161,28 +179,34 @@ export default function HeroAnimation({
           );
 
           // Set video to square size first, then measure its position
-          gsap.set(video, {
+          const videoSetProps: any = {
             width: squareSize,
             height: squareSize,
             left: "50%",
             xPercent: -50,
             scale: 1,
             zIndex: 100,
-          });
+          };
+          if (isMobile) {
+            videoSetProps.top = "50%";
+            videoSetProps.yPercent = -50;
+          }
+          gsap.set(video, videoSetProps);
 
           const videoRect = video.getBoundingClientRect();
           const videoNaturalTop = videoRect.top - sectionRect.top;
           const videoCY = videoNaturalTop + videoRect.height / 2;
           const deltaY = videoCY - convergeEllipseY;
-
-          // Where the video should rest when pin starts (viewport center)
           const secondHalfRect = secondHalf.getBoundingClientRect();
           const secondHalfTop = secondHalfRect.top - sectionRect.top;
-          // When pinned, secondHalf top = viewport top, so video center should be at viewport center
-          const desiredCenterInSH = window.innerHeight / 2;
-          // Video's natural center relative to secondHalf
+          // Use visualViewport when available — it's the only API that reports
+          // the *real* visible viewport on mobile when the browser toolbar is
+          // shown. window.innerHeight and CSS 100dvh can both report the larger
+          // "no-toolbar" value, which would push the video below the visible area.
+          const vvh = window.visualViewport?.height ?? window.innerHeight;
+          const visibleHeight = Math.min(vvh, window.innerHeight, secondHalfRect.height);
+          const desiredCenterInSH = visibleHeight / 2;
           const videoNaturalCenterInSH = videoNaturalTop - secondHalfTop + squareSize / 2;
-          // Offset to move video to viewport center during pin
           const restingY = desiredCenterInSH - videoNaturalCenterInSH;
 
           // Now hide it and position at converge point
@@ -196,7 +220,7 @@ export default function HeroAnimation({
             scrollTrigger: {
               trigger: secondHalf,
               start: "top 60%",
-              end: "top 25%",
+              end: isMobile ? "top top" : "top 25%",
               scrub: 1.5,
             },
           });
@@ -215,12 +239,12 @@ export default function HeroAnimation({
           images.forEach((img) => {
             travelTl.to(
               img,
-              { y: `+=${travelDistance}`, duration: 1, ease: "none" },
+              { y: `+=${travelDistance}`, duration: 1, ease: "none", immediateRender: false },
               0
             );
             travelTl.to(
               img,
-              { opacity: 0, duration: 0.8, ease: "none" },
+              { opacity: 0, duration: 0.8, ease: "none", immediateRender: false },
               0.1
             );
           });
@@ -244,6 +268,11 @@ export default function HeroAnimation({
           // Split h4 subtext into lines with overflow-hidden clips
           let subtextLines: HTMLElement[] = [];
           if (subtextH4) {
+            if (originalSubtextHtml === null) {
+              originalSubtextHtml = subtextH4.innerHTML;
+            } else {
+              subtextH4.innerHTML = originalSubtextHtml;
+            }
             const text = subtextH4.textContent || "";
             // Temporarily render as word spans to measure line breaks
             subtextH4.innerHTML = text.split(" ").map((w) => `<span>${w}</span>`).join(" ");
@@ -264,6 +293,7 @@ export default function HeroAnimation({
             lineGroups.forEach((lineWords) => {
               const clip = document.createElement("div");
               clip.style.overflow = "hidden";
+              clip.style.paddingBottom = "0.2em";
               const span = document.createElement("span");
               span.style.display = "block";
               span.textContent = lineWords.join(" ");
@@ -280,7 +310,7 @@ export default function HeroAnimation({
             scrollTrigger: {
               trigger: secondHalf,
               start: "top top",
-              end: "+=250%",
+              end: isMobile ? "+=150%" : "+=250%",
               scrub: 1.5,
               pin: true,
             },
@@ -322,7 +352,8 @@ export default function HeroAnimation({
               onUpdate: function () {
                 if (this.progress() >= 0.5 && !videoPlaying) {
                   videoPlaying = true;
-                  video.play();
+                  const p = video.play();
+                  if (p !== undefined) p.catch(() => {});
                 }
                 if (this.progress() < 0.5 && videoPlaying) {
                   videoPlaying = false;
@@ -339,13 +370,16 @@ export default function HeroAnimation({
     // Initial setup
     setup();
 
-    // Rebuild on resize (debounced)
     let resizeTimer: ReturnType<typeof setTimeout>;
+    let lastWidth = window.innerWidth;
+    const WIDTH_THRESHOLD = 100;
     const onResize = () => {
+      if (Math.abs(window.innerWidth - lastWidth) < WIDTH_THRESHOLD) return;
+      lastWidth = window.innerWidth;
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
-        window.scrollTo(0, 0);
         setup();
+        ScrollTrigger.refresh();
       }, 300);
     };
 
@@ -355,6 +389,10 @@ export default function HeroAnimation({
       window.removeEventListener("resize", onResize);
       clearTimeout(resizeTimer);
       if (ctx) ctx.revert();
+      if (originalSubtextHtml !== null) {
+        const h4 = sectionRef.current?.querySelector(".video-zoom-wrapper .subtext h4");
+        if (h4) h4.innerHTML = originalSubtextHtml;
+      }
     };
   }, []);
 

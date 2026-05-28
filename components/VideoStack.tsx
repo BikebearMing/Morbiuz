@@ -62,6 +62,11 @@ export default function VideoStack() {
         let switched = false;
         const SWAP_AT = 1 / 1.5;
 
+        const safePlay = (vid: HTMLVideoElement) => {
+          const p = vid.play();
+          if (p !== undefined) p.catch(() => {});
+        };
+
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: container,
@@ -73,23 +78,23 @@ export default function VideoStack() {
               if (self.progress >= SWAP_AT && !switched) {
                 switched = true;
                 video1.pause();
-                video2.play();
+                safePlay(video2);
                 if (contentLabel) contentLabel.textContent = "02 - 03";
               } else if (self.progress < SWAP_AT && switched) {
                 switched = false;
                 video2.pause();
-                video1.play();
+                safePlay(video1);
                 if (contentLabel) contentLabel.textContent = "01 - 03";
               }
             },
             onEnter: () => {
-              if (switched) video2.play();
-              else video1.play();
+              if (switched) safePlay(video2);
+              else safePlay(video1);
             },
             onLeave: () => video2.pause(),
             onEnterBack: () => {
-              if (switched) video2.play();
-              else video1.play();
+              if (switched) safePlay(video2);
+              else safePlay(video1);
             },
             onLeaveBack: () => video1.pause(),
           },
@@ -106,17 +111,7 @@ export default function VideoStack() {
 
     setup();
 
-    let resizeTimer: ReturnType<typeof setTimeout>;
-    const onResize = () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(setup, 300);
-    };
-
-    window.addEventListener("resize", onResize);
-
     return () => {
-      window.removeEventListener("resize", onResize);
-      clearTimeout(resizeTimer);
       video1.removeEventListener("play", startRollers);
       video1.removeEventListener("pause", stopRollers);
       video2.removeEventListener("play", startRollers);
@@ -169,7 +164,7 @@ export default function VideoStack() {
 
         <video
           className="vs-video-1"
-          src="https://streamable.com/l/vcx2gh/mp4.mp4"
+          src="https://streamable.com/l/vcx2gh/mp4.mp4#t=0.001"
           muted
           playsInline
           loop
@@ -178,7 +173,7 @@ export default function VideoStack() {
       <div className="vs-slide">
         <video
           className="vs-video-2"
-          src="https://streamable.com/l/pb93s5/mp4.mp4"
+          src="https://streamable.com/l/pb93s5/mp4.mp4#t=0.001"
           muted
           playsInline
           loop

@@ -74,16 +74,7 @@ export default function WorkOverview({ overviewText, images }: Props) {
 
     setup();
 
-    let resizeTimer: ReturnType<typeof setTimeout>;
-    const onResize = () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(setup, 300);
-    };
-    window.addEventListener("resize", onResize);
-
     return () => {
-      window.removeEventListener("resize", onResize);
-      clearTimeout(resizeTimer);
       if (ctx) ctx.revert();
     };
   }, [images.length]);

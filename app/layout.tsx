@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Outfit, Montserrat } from "next/font/google";
 import SmoothScroll from "@/components/SmoothScroll";
 import { Navigation } from "@/components/Navigation";
@@ -21,13 +21,20 @@ export const metadata: Metadata = {
   description: "Stories that influence culture",
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#040704",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${outfit.variable} ${montserrat.variable}`}>
+    <html lang="en" className={`${outfit.variable} ${montserrat.variable}`} suppressHydrationWarning>
       <head>
         <link rel="stylesheet" href="https://use.typekit.net/ekj7cky.css" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />

@@ -85,7 +85,7 @@ export default async function Home() {
                     </div>
                   </div>
 
-                  <video src="https://streamable.com/l/4wsqgh/mp4-high.mp4" muted playsInline loop></video>
+                  <video src="https://streamable.com/l/4wsqgh/mp4-high.mp4#t=0.001" muted playsInline loop></video>
 
                   <div className="subtext">
                     <h4 className="h4 dark">We designs infinite creative experiences where strategy and imagination flow as one.</h4>
