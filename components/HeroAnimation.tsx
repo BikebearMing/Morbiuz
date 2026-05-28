@@ -310,7 +310,7 @@ export default function HeroAnimation({
             scrollTrigger: {
               trigger: secondHalf,
               start: "top top",
-              end: isMobile ? "+=80%" : "+=250%",
+              end: isMobile ? "+=150%" : "+=250%",
               scrub: 1.5,
               pin: true,
             },

@@ -1745,7 +1745,7 @@ section.our-culture {
 
 @media (max-width: 768px) {
     .contact-page {
-        padding: 30vw var(--sidepadding-xs) 20vw;
+        padding: 15vw 5vw 20vw;
     }
     .contact-top {
         grid-template-columns: 1fr;
@@ -1766,6 +1766,7 @@ section.our-culture {
     }
     .contact-form-wrapper {
         max-width: 100%;
+        margin-left: unset;
     }
     .contact-form {
         gap: 7vw;
@@ -1801,8 +1802,7 @@ section.our-culture {
 /* ---------- Contact FAQ ---------- */
 
 section.contact-faq {
-    padding: var(--sidepadding-xs);
-    padding-block: 4vw 8vw;
+    padding: 4vw 5vw 8vw;
 
     & .wrapper {
         display: flex;
@@ -2047,7 +2047,7 @@ section.contact-faq {
 section.our-works {
     background: var(--black);
     padding: var(--sidepadding-xs);
-    padding-block: 4vw 8vw;
+    padding: 4vw 5vw 8vw;
 
     & .wrapper {
         display: flex;
@@ -2218,7 +2218,7 @@ section.our-works {
 
 section.work-info {
     padding: var(--sidepadding-xs);
-    padding-block: 6vw 8vw;
+    padding: 6vw 5vw 8vw;
     overflow: hidden;
     contain: layout paint;
 
@@ -2841,29 +2841,29 @@ main.work-post {
     }
 
     .h1 {
-        font-size: 16vw;
+        font-size: 13vw;
         letter-spacing: -2px;
         line-height: 0.88;
     }
 
     .h2-v2 {
-        font-size: 14vw;
+        font-size: 11vw;
         letter-spacing: -0.8vw;
     }
 
     .h2 {
-        font-size: 14vw;
+        font-size: 10vw;
         letter-spacing: -0.5vw;
     }
 
     .h3 {
-        font-size: 9vw;
+        font-size: 8vw;
         letter-spacing: -0.5vw;
         line-height: 0.9;
     }
 
     .h3-v2 {
-        font-size: 9vw;
+        font-size: 8vw;
     }
 
     .h4 {
@@ -3040,7 +3040,7 @@ main.work-post {
                 &::before {
                     width: 70vw;
                     height: 33vw;
-                    bottom: 28vh;
+                    bottom: 25vh;
                 }
 
                 & .content {
@@ -3126,6 +3126,7 @@ main.work-post {
                         width: 100%;
                         justify-content: center;
                         z-index: 101;
+                        display: none;
 
                         & .title-item {
                             & h2 {
@@ -3156,7 +3157,7 @@ main.work-post {
 
                     & .subtext {
                         bottom: 12vh;
-                        z-index: 101;
+                        z-index: 99;
                         width: 100%;
 
                         & h4 {
@@ -3260,7 +3261,7 @@ main.work-post {
         }
 
         & .subhead {
-            top: 15vw;
+            top: 7vw;
             left: 6vw;
         }
 
@@ -3426,13 +3427,13 @@ main.work-post {
 
     /* ========== PARALLAX BANNER ========== */
     section.parallax-banner {
-        height: 70vw;
+        height: 100vw;
 
         &.tall {
             height: 130vw;
 
             & .content {
-                top: 22vw;
+                top: 35vw;
             }
         }
 
@@ -3490,7 +3491,7 @@ main.work-post {
 
     /* ========== ABOUT OUR TEAM ========== */
     section.about-our-team {
-        padding-block: 8vw 18vw;
+        padding: 8vw 5vw 18vw;
 
         & .wrapper {
             gap: 20vw;
@@ -3545,7 +3546,7 @@ main.work-post {
             }
 
             & .right {
-                padding-block: 12vw 12vw;
+                padding: 12vw 5vw;
 
                 & .h3 {
                     max-width: 100%;
