@@ -2707,7 +2707,7 @@ main.work-post {
 
 @media (max-width: 768px) {
     .work-post-head {
-        padding-top: 24vw;
+        padding: 24vw 5vw 5vw;
     }
 
     .work-post-meta {
@@ -2733,7 +2733,7 @@ main.work-post {
 
     .work-overview {
         height: auto;
-        padding: 12vw 0 8vw;
+        padding: 12vw 5vw 8vw;
     }
 
     .overview-text {
@@ -2766,12 +2766,17 @@ main.work-post {
     }
 
     .behind-the-scene {
-        padding: 16vw 0 18vw;
-    }
+        padding: 16vw 5vw 18vw;
 
-    .behind-the-scene .wrapper {
-        flex-direction: column;
-        gap: 10vw;
+        .wrapper {
+            flex-direction: column;
+            gap: 10vw;
+
+            .bts-row {
+                flex-direction: column;
+                gap: 5vw;
+            }
+        }
     }
 
     .bts-credits {
@@ -2789,7 +2794,7 @@ main.work-post {
     }
 
     .next-project {
-        padding: 12vw 0 14vw;
+        padding: 12vw 5vw 14vw;
     }
 
     .next-project .wrapper {
@@ -2797,12 +2802,22 @@ main.work-post {
     }
 
     .next-project-arrow {
-        font-size: 10vw;
+        width: 13vw;
+        margin-left: 3vw;
     }
 
     .next-project-cards {
         flex-direction: column;
-        gap: 4vw;
+        gap: 8vw;
+
+        .next-project-card {
+            gap: 3vw;
+
+            img {
+                width: 100%;
+                height: 50vw;
+            }
+        }
     }
 
     .next-project-card:nth-child(1),
@@ -2818,6 +2833,10 @@ main.work-post {
 
     .next-project-card-label {
         font-size: 2.5vw;
+    }
+
+    .next-project-card-project {
+        font-size: 3vw;
     }
 }
 
