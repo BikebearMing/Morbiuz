@@ -8,7 +8,7 @@ import gsap from "gsap";
 // transition brings the user back to "/".
 let hasRunOnce = false;
 
-const SPRITE_URL = "/assets/preloader-sprite.png";
+const SPRITE_URL = "/assets/preloader-sprite.webp";
 const SPRITE_COLS = 5;
 const SPRITE_ROWS = 20;
 const END_FRAME = 74; // 1-indexed; animation pauses here

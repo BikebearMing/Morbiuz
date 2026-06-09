@@ -50,8 +50,9 @@ const nextConfig: NextConfig = {
     // re-uploading needed. Images come through the same-origin /media/* proxy,
     // so they're treated as local paths (no remotePatterns required).
     formats: ["image/avif", "image/webp"],
-    // Next 16 requires an explicit qualities allowlist.
-    qualities: [50, 75],
+    // Next 16 requires an explicit qualities allowlist. 40 is used for the
+    // faded hero LCP background where fidelity is irrelevant.
+    qualities: [40, 50, 75],
     // Optimized images are immutable per URL; cache them on the edge for a month.
     minimumCacheTTL: 2678400,
   },

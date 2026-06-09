@@ -53,6 +53,7 @@ export default async function Home() {
                     width={1600}
                     height={630}
                     sizes="100vw"
+                    quality={40}
                     preload
                   />
                 )}
