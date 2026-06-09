@@ -131,6 +131,31 @@ export default function VideoStack({
     };
   }, []);
 
+  // The reels are preload="none" so they stay off the initial load. Begin
+  // buffering them ~one viewport before the section scrolls into view so they
+  // play smoothly when the pinned timeline reaches them.
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    const videos = container.querySelectorAll("video");
+    if (!videos.length) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          videos.forEach((v) => {
+            v.preload = "auto";
+            v.load();
+          });
+          io.disconnect();
+        }
+      },
+      { rootMargin: "100% 0px" }
+    );
+    io.observe(container);
+    return () => io.disconnect();
+  }, []);
+
   return (
     <section className="video-stack" ref={containerRef}>
 
@@ -178,6 +203,7 @@ export default function VideoStack({
           muted
           playsInline
           loop
+          preload="none"
         />
       </div>
       <div className="vs-slide">
@@ -187,6 +213,7 @@ export default function VideoStack({
           muted
           playsInline
           loop
+          preload="none"
         />
       </div>
     </section>

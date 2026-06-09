@@ -396,5 +396,31 @@ export default function HeroAnimation({
     };
   }, []);
 
+  // The hero zoom video is preload="none" so it stays off the initial load
+  // (it only plays on scroll). Start buffering it as its section nears the
+  // viewport so playback is smooth by the time the scroll animation reaches it.
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const wrapper = section.querySelector(".video-zoom-wrapper");
+    const video = section.querySelector(
+      ".video-zoom-wrapper video"
+    ) as HTMLVideoElement | null;
+    if (!wrapper || !video) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          video.preload = "auto";
+          video.load();
+          io.disconnect();
+        }
+      },
+      { rootMargin: "0px 0px 50% 0px" }
+    );
+    io.observe(wrapper);
+    return () => io.disconnect();
+  }, []);
+
   return <div ref={sectionRef}>{children}</div>;
 }

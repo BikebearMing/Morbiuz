@@ -120,7 +120,7 @@ export default async function Home() {
                   </div>
 
                   {videoZoom?.video && (
-                    <video src={videoZoom.video} muted playsInline loop></video>
+                    <video src={videoZoom.video} muted playsInline loop preload="none"></video>
                   )}
 
                   <div className="subtext">
