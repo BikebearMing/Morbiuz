@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Outfit, Montserrat } from "next/font/google";
 import SmoothScroll from "@/components/SmoothScroll";
+import DeferredFonts from "@/components/DeferredFonts";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import PageTransition from "@/components/PageTransition";
@@ -81,16 +82,28 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${outfit.variable} ${montserrat.variable}`} suppressHydrationWarning>
       <head>
-        <link rel="stylesheet" href="https://use.typekit.net/ekj7cky.css" />
+        {/* preconnect only — the actual font stylesheets are injected after
+            hydration by <DeferredFonts /> so they don't block first render. */}
+        <link rel="preconnect" href="https://use.typekit.net" />
+        <link rel="preconnect" href="https://p.typekit.net" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet" />
+        {/* Preload the weight used by the large hero headline (h1 = 800) so the
+            LCP text paints in the real font quickly. */}
+        <link
+          rel="preload"
+          as="font"
+          type="font/woff2"
+          href="/fonts/mont_blanc/WEB/MontBlanc-Trial-ExtraBold.woff2"
+          crossOrigin="anonymous"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
       <body>
+        <DeferredFonts />
         <div className="noise-overlay" />
         <PageTransition>
           <Navigation />

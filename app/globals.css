@@ -11,7 +11,8 @@
    so special chars (@ # $ & * etc.) fall through to Montserrat via font-family fallback. */
 @font-face {
     font-family: "Mont Blanc";
-    src: url("/fonts/mont_blanc/MontBlanc-Trial-Thin.ttf") format("truetype");
+    src: url("/fonts/mont_blanc/WEB/MontBlanc-Trial-Thin.woff2") format("woff2"),
+        url("/fonts/mont_blanc/WEB/MontBlanc-Trial-Thin.woff") format("woff");
     font-weight: 100;
     font-style: normal;
     font-display: swap;
@@ -21,8 +22,8 @@
 }
 @font-face {
     font-family: "Mont Blanc";
-    src: url("/fonts/mont_blanc/MontBlanc-Trial-ExtraLight.ttf")
-        format("truetype");
+    src: url("/fonts/mont_blanc/WEB/MontBlanc-Trial-ExtraLight.woff2") format("woff2"),
+        url("/fonts/mont_blanc/WEB/MontBlanc-Trial-ExtraLight.woff") format("woff");
     font-weight: 200;
     font-style: normal;
     font-display: swap;
@@ -32,7 +33,8 @@
 }
 @font-face {
     font-family: "Mont Blanc";
-    src: url("/fonts/mont_blanc/MontBlanc-Trial-Light.ttf") format("truetype");
+    src: url("/fonts/mont_blanc/WEB/MontBlanc-Trial-Light.woff2") format("woff2"),
+        url("/fonts/mont_blanc/WEB/MontBlanc-Trial-Light.woff") format("woff");
     font-weight: 300;
     font-style: normal;
     font-display: swap;
@@ -42,7 +44,8 @@
 }
 @font-face {
     font-family: "Mont Blanc";
-    src: url("/fonts/mont_blanc/MontBlanc-Trial-Regular.ttf") format("truetype");
+    src: url("/fonts/mont_blanc/WEB/MontBlanc-Trial-Regular.woff2") format("woff2"),
+        url("/fonts/mont_blanc/WEB/MontBlanc-Trial-Regular.woff") format("woff");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
@@ -52,8 +55,8 @@
 }
 @font-face {
     font-family: "Mont Blanc";
-    src: url("/fonts/mont_blanc/MontBlanc-Trial-SemiBold.ttf")
-        format("truetype");
+    src: url("/fonts/mont_blanc/WEB/MontBlanc-Trial-SemiBold.woff2") format("woff2"),
+        url("/fonts/mont_blanc/WEB/MontBlanc-Trial-SemiBold.woff") format("woff");
     font-weight: 600;
     font-style: normal;
     font-display: swap;
@@ -63,7 +66,8 @@
 }
 @font-face {
     font-family: "Mont Blanc";
-    src: url("/fonts/mont_blanc/MontBlanc-Trial-Bold.ttf") format("truetype");
+    src: url("/fonts/mont_blanc/WEB/MontBlanc-Trial-Bold.woff2") format("woff2"),
+        url("/fonts/mont_blanc/WEB/MontBlanc-Trial-Bold.woff") format("woff");
     font-weight: 700;
     font-style: normal;
     font-display: swap;
@@ -73,8 +77,8 @@
 }
 @font-face {
     font-family: "Mont Blanc";
-    src: url("/fonts/mont_blanc/MontBlanc-Trial-ExtraBold.ttf")
-        format("truetype");
+    src: url("/fonts/mont_blanc/WEB/MontBlanc-Trial-ExtraBold.woff2") format("woff2"),
+        url("/fonts/mont_blanc/WEB/MontBlanc-Trial-ExtraBold.woff") format("woff");
     font-weight: 800;
     font-style: normal;
     font-display: swap;
@@ -84,7 +88,8 @@
 }
 @font-face {
     font-family: "Mont Blanc";
-    src: url("/fonts/mont_blanc/MontBlanc-Trial-Black.ttf") format("truetype");
+    src: url("/fonts/mont_blanc/WEB/MontBlanc-Trial-Black.woff2") format("woff2"),
+        url("/fonts/mont_blanc/WEB/MontBlanc-Trial-Black.woff") format("woff");
     font-weight: 900;
     font-style: normal;
     font-display: swap;

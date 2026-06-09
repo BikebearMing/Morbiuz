@@ -43,9 +43,14 @@ export default function Preloader() {
     // Choreographed count: 0 → 100 over ~2.8s, driven by rAF (not GSAP timeline,
     // which can get stuck on remount in some routing edge cases).
     const start = performance.now();
-    const phase1 = 0.6;             // 0 → 30   (power1.out)
-    const phase2 = phase1 + 1.2;    // 30 → 70  (linear)
-    const total  = phase2 + 1.0;    // 70 → 100 (power2.in)
+    // Choreographed count durations (seconds). Kept short so the full-screen
+    // preloader doesn't dominate Speed Index / the score on the cold load.
+    const D1 = 0.25; // 0 → 30   (power1.out)
+    const D2 = 0.45; // 30 → 70  (linear)
+    const D3 = 0.35; // 70 → 100 (power2.in)
+    const phase1 = D1;
+    const phase2 = phase1 + D2;
+    const total = phase2 + D3;
     let raf = 0;
 
     const tick = (now: number) => {
@@ -55,10 +60,10 @@ export default function Preloader() {
         const local = t / phase1;
         value = 30 * (1 - Math.pow(1 - local, 2));
       } else if (t < phase2) {
-        const local = (t - phase1) / 1.2;
+        const local = (t - phase1) / D2;
         value = 30 + 40 * local;
       } else if (t < total) {
-        const local = (t - phase2) / 1.0;
+        const local = (t - phase2) / D3;
         value = 70 + 30 * (local * local);
       } else {
         value = 100;
@@ -88,7 +93,7 @@ export default function Preloader() {
       if (!loaded || !overlayRef.current) return;
 
       revealTl = gsap.timeline({
-        delay: 0.3,
+        delay: 0.15,
         onComplete: () => {
           window.dispatchEvent(new CustomEvent("preloader-done"));
         },
@@ -98,7 +103,7 @@ export default function Preloader() {
         revealTl
           .to(barRef.current, {
             yPercent: 100,
-            duration: 0.5,
+            duration: 0.3,
             ease: "power3.in",
           })
           .set(barRef.current, { display: "none" });
@@ -108,7 +113,7 @@ export default function Preloader() {
         overlayRef.current,
         {
           yPercent: -100,
-          duration: 1.4,
+          duration: 0.9,
           ease: "power4.inOut",
         },
         "+=0.05"
