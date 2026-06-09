@@ -1,3 +1,5 @@
+import NextImage from "next/image";
+
 type Image = { sourceUrl: string; altText: string };
 
 type Props = {
@@ -25,7 +27,13 @@ export default function ImageMasonry({ images }: Props) {
       >
         {images.map((img, i) => (
           <div key={i} className="image-masonry-cell">
-            <img src={img.sourceUrl} alt={img.altText || ""} />
+            <NextImage
+              src={img.sourceUrl}
+              alt={img.altText || ""}
+              width={800}
+              height={800}
+              sizes="(max-width: 768px) 50vw, 33vw"
+            />
           </div>
         ))}
       </div>

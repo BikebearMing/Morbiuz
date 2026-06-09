@@ -3,6 +3,7 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Image from "next/image";
 import { TeamMember } from "@/types/wordpress";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -77,7 +78,13 @@ export default function TeamList({ members }: { members: TeamMember[] }) {
 
               {src && (
                 <div className="team-row-image" aria-hidden="true">
-                  <img src={src} alt="" />
+                  <Image
+                    src={src}
+                    alt=""
+                    width={700}
+                    height={840}
+                    sizes="(max-width: 768px) 25vw, 17vw"
+                  />
                 </div>
               )}
 

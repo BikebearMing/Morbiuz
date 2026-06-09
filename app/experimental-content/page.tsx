@@ -1,3 +1,4 @@
+import Image from "next/image";
 import SplitTextReveal from "@/components/SplitTextReveal";
 import WorksList from "@/components/WorksList";
 import { getClient } from "@/lib/graphql-client";
@@ -111,7 +112,14 @@ export default async function ExperimentalContent() {
       <section className="parallax-banner tall">
         <div className="parallax-container">
           {bannerImg && (
-            <img src={bannerImg.sourceUrl} alt={bannerImg.altText || ""} />
+            <Image
+              src={bannerImg.sourceUrl}
+              alt={bannerImg.altText || ""}
+              width={1600}
+              height={1100}
+              sizes="100vw"
+              loading="eager"
+            />
           )}
         </div>
         <div className="content">
@@ -152,9 +160,12 @@ export default async function ExperimentalContent() {
                       <div className="work-info-body">
                         {img && (
                           <div className="work-info-image">
-                            <img
+                            <Image
                               src={img.sourceUrl}
                               alt={img.altText || ""}
+                              width={600}
+                              height={450}
+                              sizes="(max-width: 768px) 50vw, 17vw"
                             />
                           </div>
                         )}

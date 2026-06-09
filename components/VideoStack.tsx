@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Image from "next/image";
 import type { FeaturedProject } from "@/types/wordpress";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -134,9 +135,9 @@ export default function VideoStack({
     <section className="video-stack" ref={containerRef}>
 
       <div className="overlay">
-        <img className="corner-circle tl" src="/media/wp-content/uploads/2026/04/grey-circle.png" alt="" />
-        <img className="corner-circle tr" src="/media/wp-content/uploads/2026/04/grey-circle.png" alt="" />
-        <img className="corner-circle bl" src="/media/wp-content/uploads/2026/04/grey-circle.png" alt="" />
+        <Image className="corner-circle tl" src="/media/wp-content/uploads/2026/04/grey-circle.png" alt="" width={40} height={40} sizes="3vw" />
+        <Image className="corner-circle tr" src="/media/wp-content/uploads/2026/04/grey-circle.png" alt="" width={40} height={40} sizes="3vw" />
+        <Image className="corner-circle bl" src="/media/wp-content/uploads/2026/04/grey-circle.png" alt="" width={40} height={40} sizes="3vw" />
         <div className="speaker-lines">
           {Array.from({ length: 30 }).map((_, i) => (
             <div
@@ -146,7 +147,7 @@ export default function VideoStack({
             />
           ))}
         </div>
-        <img className="corner-circle br" src="/media/wp-content/uploads/2026/04/grey-circle.png" alt="" />
+        <Image className="corner-circle br" src="/media/wp-content/uploads/2026/04/grey-circle.png" alt="" width={40} height={40} sizes="3vw" />
         <div className="wrapper">
           <div className="top">
             <h3 className="h3 title dark" data-mask-up>{project?.projectName}</h3>
@@ -164,9 +165,9 @@ export default function VideoStack({
       </div>
 
        <div className="cassete-wrapper">
-          <img className="roller" src="/media/wp-content/uploads/2026/04/cassete-roller.png" alt="" />
-          <img className="body" src="/media/wp-content/uploads/2026/04/cassete-body.png" alt="" />
-          <img className="roller second" src="/media/wp-content/uploads/2026/04/cassete-roller.png" alt="" />
+          <Image className="roller" src="/media/wp-content/uploads/2026/04/cassete-roller.png" alt="" width={120} height={120} sizes="8vw" />
+          <Image className="body" src="/media/wp-content/uploads/2026/04/cassete-body.png" alt="" width={900} height={266} sizes="(max-width: 768px) 50vw, 19vw" />
+          <Image className="roller second" src="/media/wp-content/uploads/2026/04/cassete-roller.png" alt="" width={120} height={120} sizes="8vw" />
           <p className="content dark">01 - 03</p>
         </div>
       <div className="vs-base">

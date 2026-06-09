@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 type Props = {
   image: { sourceUrl: string; altText: string } | null;
@@ -52,10 +53,14 @@ export default function VideoHero({ image, videoUrl, title }: Props) {
       ) : (
         <>
           {image ? (
-            <img
+            <Image
               src={image.sourceUrl}
               alt={image.altText || title}
               className="work-hero-image"
+              width={1600}
+              height={900}
+              sizes="100vw"
+              loading="eager"
             />
           ) : directFile && videoUrl ? (
             <video

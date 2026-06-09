@@ -1,3 +1,4 @@
+import Image from "next/image";
 import ContactForm, { GfForm } from "@/components/ContactForm";
 import FaqAccordion from "@/components/FaqAccordion";
 import SplitTextReveal from "@/components/SplitTextReveal";
@@ -41,7 +42,14 @@ export default async function Contact() {
       <section className="parallax-banner">
         <div className="parallax-container">
           {bannerImg && (
-            <img src={bannerImg.sourceUrl} alt={bannerImg.altText || ""} />
+            <Image
+              src={bannerImg.sourceUrl}
+              alt={bannerImg.altText || ""}
+              width={1600}
+              height={1100}
+              sizes="100vw"
+              loading="eager"
+            />
           )}
         </div>
         <div className="content">
@@ -124,10 +132,22 @@ export default async function Contact() {
             <div className="bottom">
                 <div className="left">
                     {faqImg1 && (
-                      <img src={faqImg1.sourceUrl} alt={faqImg1.altText || ""} />
+                      <Image
+                        src={faqImg1.sourceUrl}
+                        alt={faqImg1.altText || ""}
+                        width={800}
+                        height={1035}
+                        sizes="(max-width: 768px) 60vw, 27vw"
+                      />
                     )}
                     {faqImg2 && (
-                      <img src={faqImg2.sourceUrl} alt={faqImg2.altText || ""} />
+                      <Image
+                        src={faqImg2.sourceUrl}
+                        alt={faqImg2.altText || ""}
+                        width={800}
+                        height={1035}
+                        sizes="(max-width: 768px) 60vw, 27vw"
+                      />
                     )}
                 </div>
 

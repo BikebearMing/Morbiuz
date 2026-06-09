@@ -1,6 +1,7 @@
 "use client";
 
 import { Fragment, useState } from "react";
+import Image from "next/image";
 import TransitionLink from "./TransitionLink";
 
 type WorkItem = {
@@ -51,7 +52,15 @@ export default function WorksList({ items }: { items: WorkItem[] }) {
         {items.map((item, i) => {
           const img = item.image;
           if (!img) return null;
-          const imgEl = <img src={img.sourceUrl} alt={img.altText || ""} />;
+          const imgEl = (
+            <Image
+              src={img.sourceUrl}
+              alt={img.altText || ""}
+              width={1000}
+              height={560}
+              sizes="(max-width: 768px) 100vw, 32vw"
+            />
+          );
           return (
             <div
               key={i}

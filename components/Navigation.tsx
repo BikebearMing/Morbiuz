@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { getClient } from "@/lib/graphql-client";
 import { GET_MENU_BY_LOCATION } from "@/lib/queries/menus";
 import { MenuItem } from "@/types/wordpress";
@@ -42,9 +43,13 @@ export async function Navigation() {
       <HeaderScroll />
       <nav className="nav">
         <TransitionLink href="/">
-          <img className="logo"
+          <Image className="logo"
             src="/media/wp-content/uploads/2026/04/Vector.png"
             alt="Morbiuz"
+            width={128}
+            height={107}
+            sizes="(max-width: 768px) 7vw, 2.5vw"
+            loading="eager"
           />
         </TransitionLink>
         <HamburgerToggle />

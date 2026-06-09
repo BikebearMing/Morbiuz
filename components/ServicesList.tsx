@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
+import Image from "next/image";
 import type { ServiceItem } from "@/types/wordpress";
 
 export default function ServicesList({ items }: { items: ServiceItem[] }) {
@@ -115,9 +116,12 @@ export default function ServicesList({ items }: { items: ServiceItem[] }) {
       <div className="service-detail">
         <div className="service-img-clip" ref={imgContainerRef}>
           {firstItem?.serviceImage?.node && (
-            <img
+            <Image
               src={firstItem.serviceImage.node.sourceUrl}
               alt={firstItem.serviceImage.node.altText || ""}
+              width={900}
+              height={900}
+              sizes="(max-width: 768px) 100vw, 22vw"
             />
           )}
         </div>

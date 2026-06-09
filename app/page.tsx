@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { getClient } from "@/lib/graphql-client";
 import { GET_HOME_PAGE } from "@/lib/queries/home";
 import { HomePage } from "@/types/wordpress";
@@ -46,9 +47,13 @@ export default async function Home() {
             <div className="first-half">
               <div className="mobius-bg-wrapper">
                 {mobiusBgImage?.node && (
-                  <img
+                  <Image
                     src={mobiusBgImage.node.sourceUrl}
                     alt={mobiusBgImage.node.altText || ""}
+                    width={1600}
+                    height={630}
+                    sizes="100vw"
+                    preload
                   />
                 )}
               </div>
@@ -73,10 +78,14 @@ export default async function Home() {
                     ].map(
                       (image, index) =>
                         image?.node && (
-                          <img
+                          <Image
                             key={index}
                             src={image.node.sourceUrl}
                             alt={image.node.altText || `Hero image ${index + 1}`}
+                            width={500}
+                            height={500}
+                            sizes="(max-width: 768px) 28vw, 18vw"
+                            loading="eager"
                           />
                         ),
                     )}
@@ -149,9 +158,12 @@ export default async function Home() {
           <div className="left">
             {servicesIntro && <h4 className="h4 dark caps">{servicesIntro}</h4>}
             {servicesImage?.node && (
-              <img
+              <Image
                 src={servicesImage.node.sourceUrl}
                 alt={servicesImage.node.altText || ""}
+                width={servicesImage.node.mediaDetails?.width ?? 1000}
+                height={servicesImage.node.mediaDetails?.height ?? 1000}
+                sizes="(max-width: 768px) 0px, 40vw"
               />
             )}
           </div>
@@ -163,15 +175,21 @@ export default async function Home() {
         <div className="wrapper">
               <div className="parallax-container">
                 {ourTeam?.bgImage?.node && (
-                  <img
+                  <Image
                     src={ourTeam.bgImage.node.sourceUrl}
                     alt={ourTeam.bgImage.node.altText || ""}
+                    width={1600}
+                    height={1200}
+                    sizes="100vw"
                   />
                 )}
                 {ourTeam?.peopleImage?.node && (
-                  <img
+                  <Image
                     src={ourTeam.peopleImage.node.sourceUrl}
                     alt={ourTeam.peopleImage.node.altText || ""}
+                    width={1600}
+                    height={1000}
+                    sizes="100vw"
                   />
                 )}
               </div>

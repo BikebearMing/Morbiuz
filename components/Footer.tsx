@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { getClient } from "@/lib/graphql-client";
 import { GET_FOOTER } from "@/lib/queries/footer";
 import { FooterFields } from "@/types/wordpress";
@@ -19,9 +20,12 @@ export async function Footer() {
         {topTitle && <h1 className="h1 footer-title" data-split-text="scroll">{topTitle}</h1>}
         {/* TODO: arrow graphic */}
         <div className="footer-image">
-          <img
+          <Image
             src="/media/wp-content/uploads/2026/04/Rectangle.png"
             alt=""
+            width={1446}
+            height={569}
+            sizes="(max-width: 768px) 130vw, 70vw"
           />
         </div>
       </div>

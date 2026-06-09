@@ -75,6 +75,10 @@ export const GET_HOME_PAGE = gql`
           node {
             sourceUrl
             altText
+            mediaDetails {
+              width
+              height
+            }
           }
         }
         ourTeam {

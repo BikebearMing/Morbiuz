@@ -1,3 +1,4 @@
+import Image from "next/image";
 import TransitionLink from "./TransitionLink";
 
 export type NextProjectItem = {
@@ -26,11 +27,14 @@ export default function NextProject({
           <span>NEXT</span>
           <span className="next-project-row">
             PROJECT
-            <img
+            <Image
               className="next-project-arrow"
               src="/media/wp-content/uploads/2026/04/Morbius-GIF-4.gif"
               alt=""
               aria-hidden
+              width={406}
+              height={310}
+              unoptimized
             />
           </span>
         </h2>
@@ -43,9 +47,12 @@ export default function NextProject({
               className="next-project-card"
             >
               {item.image && (
-                <img
+                <Image
                   src={item.image.sourceUrl}
                   alt={item.image.altText || item.title}
+                  width={1200}
+                  height={675}
+                  sizes="(max-width: 768px) 100vw, 55vw"
                 />
               )}
               <div className="next-project-card-meta">

@@ -15,6 +15,9 @@ export interface AcfImage {
   node: {
     sourceUrl: string;
     altText: string;
+    // Only queried where an accurate aspect ratio is needed (e.g. images sized
+    // with width:auto / height:auto rather than object-fit in a fixed box).
+    mediaDetails?: { width: number; height: number } | null;
   } | null;
 }
 

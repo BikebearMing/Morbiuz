@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import NextImage from "next/image";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -100,7 +101,13 @@ export default function WorkOverview({ overviewText, images }: Props) {
             {images.map((img, i) => (
               <div key={i} className="overview-image">
                 <div className="overview-image-inner">
-                  <img src={img.sourceUrl} alt={img.altText || ""} />
+                  <NextImage
+                    src={img.sourceUrl}
+                    alt={img.altText || ""}
+                    width={800}
+                    height={760}
+                    sizes="(max-width: 768px) 80vw, 40vw"
+                  />
                 </div>
               </div>
             ))}

@@ -44,6 +44,18 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   poweredByHeader: false,
 
+  images: {
+    // Serve modern formats; AVIF preferred, WebP fallback. Source PNG/JPG on
+    // WordPress are transcoded on the fly by the Next.js optimizer — no
+    // re-uploading needed. Images come through the same-origin /media/* proxy,
+    // so they're treated as local paths (no remotePatterns required).
+    formats: ["image/avif", "image/webp"],
+    // Next 16 requires an explicit qualities allowlist.
+    qualities: [50, 75],
+    // Optimized images are immutable per URL; cache them on the edge for a month.
+    minimumCacheTTL: 2678400,
+  },
+
   async rewrites() {
     return [
       {
@@ -59,6 +71,18 @@ const nextConfig: NextConfig = {
       {
         source: "/(.*)",
         headers: securityHeaders,
+      },
+      {
+        // Proxied CMS media (CSS background GIFs, direct assets) inherit
+        // WordPress's short Cache-Control otherwise. WP upload URLs are
+        // immutable (unique filename per upload), so cache them for a year.
+        source: "/media/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
       },
     ];
   },

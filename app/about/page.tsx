@@ -1,3 +1,4 @@
+import Image from "next/image";
 import SplitTextReveal from "@/components/SplitTextReveal";
 import TeamList from "@/components/TeamList";
 import { getClient } from "@/lib/graphql-client";
@@ -35,7 +36,14 @@ export default async function About() {
       <section className="parallax-banner">
         <div className="parallax-container">
           {bannerImg && (
-            <img src={bannerImg.sourceUrl} alt={bannerImg.altText || ""} />
+            <Image
+              src={bannerImg.sourceUrl}
+              alt={bannerImg.altText || ""}
+              width={1600}
+              height={1100}
+              sizes="100vw"
+              loading="eager"
+            />
           )}
         </div>
 
@@ -77,7 +85,14 @@ export default async function About() {
                 const img = card.image?.node;
                 return (
                   img && (
-                    <img key={i} src={img.sourceUrl} alt={img.altText || ""} />
+                    <Image
+                      key={i}
+                      src={img.sourceUrl}
+                      alt={img.altText || ""}
+                      width={800}
+                      height={1035}
+                      sizes="(max-width: 768px) 60vw, 27vw"
+                    />
                   )
                 );
               })}
@@ -112,7 +127,13 @@ export default async function About() {
           <div className="left">
             <div className="parallax-container">
               {cultureImg && (
-                <img src={cultureImg.sourceUrl} alt={cultureImg.altText || ""} />
+                <Image
+                  src={cultureImg.sourceUrl}
+                  alt={cultureImg.altText || ""}
+                  width={1200}
+                  height={1400}
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
               )}
             </div>
           </div>
