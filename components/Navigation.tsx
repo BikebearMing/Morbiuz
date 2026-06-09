@@ -43,7 +43,7 @@ export async function Navigation() {
       <nav className="nav">
         <TransitionLink href="/">
           <img className="logo"
-            src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/Vector.png"
+            src="/media/wp-content/uploads/2026/04/Vector.png"
             alt="Morbiuz"
           />
         </TransitionLink>

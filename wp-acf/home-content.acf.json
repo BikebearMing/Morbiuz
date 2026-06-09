@@ -1,0 +1,218 @@
+[
+  {
+    "key": "group_home_content",
+    "title": "Home Content",
+    "fields": [
+      {
+        "key": "field_hc_mobius_bg",
+        "label": "Mobius Background Image",
+        "name": "mobiusBgImage",
+        "type": "image",
+        "instructions": "",
+        "required": 0,
+        "conditional_logic": 0,
+        "wrapper": { "width": "", "class": "", "id": "" },
+        "return_format": "array",
+        "preview_size": "medium",
+        "library": "all",
+        "min_width": "",
+        "min_height": "",
+        "min_size": "",
+        "max_width": "",
+        "max_height": "",
+        "max_size": "",
+        "mime_types": ""
+      },
+      {
+        "key": "field_hc_video_zoom",
+        "label": "Video Zoom",
+        "name": "videoZoom",
+        "type": "group",
+        "instructions": "",
+        "required": 0,
+        "conditional_logic": 0,
+        "wrapper": { "width": "", "class": "", "id": "" },
+        "layout": "block",
+        "sub_fields": [
+          {
+            "key": "field_hc_vz_title1",
+            "label": "Title Line 1",
+            "name": "title1",
+            "type": "text",
+            "parent": "field_hc_video_zoom",
+            "wrapper": { "width": "50", "class": "", "id": "" }
+          },
+          {
+            "key": "field_hc_vz_title2",
+            "label": "Title Line 2",
+            "name": "title2",
+            "type": "text",
+            "parent": "field_hc_video_zoom",
+            "wrapper": { "width": "50", "class": "", "id": "" }
+          },
+          {
+            "key": "field_hc_vz_video",
+            "label": "Video URL",
+            "name": "video",
+            "type": "url",
+            "instructions": "Include #t=0.001 at the end so the first frame shows as a poster.",
+            "parent": "field_hc_video_zoom"
+          },
+          {
+            "key": "field_hc_vz_caption",
+            "label": "Caption",
+            "name": "caption",
+            "type": "textarea",
+            "rows": 2,
+            "new_lines": "",
+            "parent": "field_hc_video_zoom"
+          }
+        ]
+      },
+      {
+        "key": "field_hc_services_intro",
+        "label": "Services Intro",
+        "name": "servicesIntro",
+        "type": "textarea",
+        "instructions": "",
+        "required": 0,
+        "rows": 3,
+        "new_lines": "",
+        "wrapper": { "width": "", "class": "", "id": "" }
+      },
+      {
+        "key": "field_hc_services_image",
+        "label": "Services Image",
+        "name": "servicesImage",
+        "type": "image",
+        "return_format": "array",
+        "preview_size": "medium",
+        "library": "all",
+        "wrapper": { "width": "", "class": "", "id": "" }
+      },
+      {
+        "key": "field_hc_our_team",
+        "label": "Our Team Teaser",
+        "name": "ourTeam",
+        "type": "group",
+        "layout": "block",
+        "wrapper": { "width": "", "class": "", "id": "" },
+        "sub_fields": [
+          {
+            "key": "field_hc_ot_bg",
+            "label": "Background Image",
+            "name": "bgImage",
+            "type": "image",
+            "return_format": "array",
+            "preview_size": "medium",
+            "library": "all",
+            "parent": "field_hc_our_team",
+            "wrapper": { "width": "50", "class": "", "id": "" }
+          },
+          {
+            "key": "field_hc_ot_people",
+            "label": "People Image",
+            "name": "peopleImage",
+            "type": "image",
+            "return_format": "array",
+            "preview_size": "medium",
+            "library": "all",
+            "parent": "field_hc_our_team",
+            "wrapper": { "width": "50", "class": "", "id": "" }
+          },
+          {
+            "key": "field_hc_ot_title",
+            "label": "Title (HTML allowed)",
+            "name": "title",
+            "type": "textarea",
+            "instructions": "HTML allowed, e.g. THE <span class=\"cursive\">minds</span> <br /> BEHIND MOBIUS",
+            "rows": 2,
+            "new_lines": "",
+            "parent": "field_hc_our_team"
+          },
+          {
+            "key": "field_hc_ot_btn_label",
+            "label": "Button Label",
+            "name": "buttonLabel",
+            "type": "text",
+            "parent": "field_hc_our_team",
+            "wrapper": { "width": "50", "class": "", "id": "" }
+          },
+          {
+            "key": "field_hc_ot_btn_url",
+            "label": "Button URL",
+            "name": "buttonUrl",
+            "type": "text",
+            "instructions": "Relative path, e.g. /about",
+            "parent": "field_hc_our_team",
+            "wrapper": { "width": "50", "class": "", "id": "" }
+          }
+        ]
+      },
+      {
+        "key": "field_hc_featured",
+        "label": "Featured Project (Video Stack)",
+        "name": "featuredProject",
+        "type": "group",
+        "layout": "block",
+        "wrapper": { "width": "", "class": "", "id": "" },
+        "sub_fields": [
+          {
+            "key": "field_hc_fp_name",
+            "label": "Project Name",
+            "name": "projectName",
+            "type": "text",
+            "parent": "field_hc_featured"
+          },
+          {
+            "key": "field_hc_fp_client",
+            "label": "Client",
+            "name": "client",
+            "type": "text",
+            "parent": "field_hc_featured",
+            "wrapper": { "width": "50", "class": "", "id": "" }
+          },
+          {
+            "key": "field_hc_fp_year",
+            "label": "Year",
+            "name": "year",
+            "type": "text",
+            "parent": "field_hc_featured",
+            "wrapper": { "width": "50", "class": "", "id": "" }
+          },
+          {
+            "key": "field_hc_fp_video1",
+            "label": "Video 1 URL",
+            "name": "video1",
+            "type": "url",
+            "parent": "field_hc_featured"
+          },
+          {
+            "key": "field_hc_fp_video2",
+            "label": "Video 2 URL",
+            "name": "video2",
+            "type": "url",
+            "parent": "field_hc_featured"
+          }
+        ]
+      }
+    ],
+    "location": [
+      [
+        { "param": "page_type", "operator": "==", "value": "front_page" }
+      ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_graphql": 1,
+    "graphql_field_name": "homeContent",
+    "map_graphql_types_from_location_rules": 0,
+    "graphql_types": ""
+  }
+]

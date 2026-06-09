@@ -2,60 +2,103 @@ import SplitTextReveal from "@/components/SplitTextReveal";
 import TeamList from "@/components/TeamList";
 import { getClient } from "@/lib/graphql-client";
 import { GET_TEAM_MEMBERS } from "@/lib/queries/team";
-import { TeamMember } from "@/types/wordpress";
+import { GET_ABOUT_PAGE } from "@/lib/queries/about";
+import { AboutContentFields, TeamMember } from "@/types/wordpress";
+import type { Metadata } from "next";
+import { getPageSeo, buildMetadata } from "@/lib/seo";
 
 export const revalidate = 60;
 
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getPageSeo("about");
+  return buildMetadata(seo, { path: "/about", fallbackTitle: "About" });
+}
+
 export default async function About() {
   const client = getClient();
-  const { teamMembers } = await client.request<{
-    teamMembers: { nodes: TeamMember[] };
-  }>(GET_TEAM_MEMBERS);
+  const [{ teamMembers }, { page }] = await Promise.all([
+    client.request<{ teamMembers: { nodes: TeamMember[] } }>(GET_TEAM_MEMBERS),
+    client.request<{ page: { aboutContent: AboutContentFields | null } | null }>(
+      GET_ABOUT_PAGE
+    ),
+  ]);
   const members = teamMembers?.nodes || [];
+  const about = page?.aboutContent ?? null;
+  const bannerImg = about?.bannerImage?.node;
+  const cultureImg = about?.cultureImage?.node;
+  const slidingCards = about?.slidingCards || [];
+  const cultureParagraphs = about?.cultureParagraphs || [];
 
   return (
     <main>
       <SplitTextReveal />
       <section className="parallax-banner">
         <div className="parallax-container">
-          <img src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/mobiuz-about-banner.webp" alt="" />
+          {bannerImg && (
+            <img src={bannerImg.sourceUrl} alt={bannerImg.altText || ""} />
+          )}
         </div>
 
         <div className="content">
-
-          <h5 className="subhead">ABOUT US</h5>
-          <h1 className="h1 dark">STRATEGY <br /> AND IMAGINATION <br />LOOP <span className="cursive has-underline">ENDLESSLY</span></h1>
-
+          {about?.bannerSubhead && (
+            <h5 className="subhead">{about.bannerSubhead}</h5>
+          )}
+          {about?.bannerTitle && (
+            <h1
+              className="h1 dark"
+              dangerouslySetInnerHTML={{ __html: about.bannerTitle }}
+            />
+          )}
         </div>
-
       </section>
-
 
       <section className="orange-section about-us">
         <div className="wrapper">
-          <h5 className="subhead">ABOUT US</h5>
+          {about?.introSubhead && (
+            <h5 className="subhead">{about.introSubhead}</h5>
+          )}
           <div className="top-content">
-            <h3 className="h3" data-mask-up>Creativity is often treated like a straight line. A beginning, a process, an end. We never believed in that.</h3>
+            {about?.introHeading && (
+              <h3 className="h3" data-mask-up>
+                {about.introHeading}
+              </h3>
+            )}
 
-            <h5 className="h5" data-mask-up>Mobiuz Studio was inspired by the Mobius strip, a form with no clear start or finish. A continuous sur face that loops into itself, where every point connects and evolves into the next. It is a quiet reminder that the best ideas are not created once and lef t behind. They are revisited, refined, and reshaped over time.</h5>
+            {about?.introBody && (
+              <h5 className="h5" data-mask-up>
+                {about.introBody}
+              </h5>
+            )}
           </div>
 
-          <div className="sliding-cards-wrapper">
-            <img src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/sliding-card.png" />
-
-            <img src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/05/img.png" />
-
-            <img src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/05/img-1.png" />
-          </div>
+          {slidingCards.length > 0 && (
+            <div className="sliding-cards-wrapper">
+              {slidingCards.map((card, i) => {
+                const img = card.image?.node;
+                return (
+                  img && (
+                    <img key={i} src={img.sourceUrl} alt={img.altText || ""} />
+                  )
+                );
+              })}
+            </div>
+          )}
         </div>
-
       </section>
 
       <section className="about-our-team">
         <div className="wrapper">
           <div className="top">
-            <h5 className="subhead">WHO WE ARE</h5>
-            <h1 className="h1 orange" data-split-text="scroll">MEET THE <br />TEAM</h1>
+            {about?.teamSubhead && (
+              <h5 className="subhead">{about.teamSubhead}</h5>
+            )}
+            {about?.teamTitle && (
+              <h1
+                className="h1 orange"
+                data-split-text="scroll"
+                dangerouslySetInnerHTML={{ __html: about.teamTitle }}
+              />
+            )}
           </div>
 
           <div className="bottom">
@@ -64,41 +107,43 @@ export default async function About() {
         </div>
       </section>
 
-
       <section className="our-culture orange-section">
         <div className="wrapper">
           <div className="left">
             <div className="parallax-container">
-              <img src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/our-culture.jpg" alt="" />
+              {cultureImg && (
+                <img src={cultureImg.sourceUrl} alt={cultureImg.altText || ""} />
+              )}
             </div>
           </div>
 
           <div className="right">
-            <h5 className="subhead">
-              OUR CULTURE
-            </h5>
+            {about?.cultureSubhead && (
+              <h5 className="subhead">{about.cultureSubhead}</h5>
+            )}
 
             <div className="content-wrapper">
-              <h3 className="h3">Great things happen when different <span className="cursive">minds</span>
-                collide. At Mobiuz, we embrace the <span className="cursive">messy</span> , the
-                <span className="cursive">imperfect</span>, and
-                the unexpected.</h3>
+              {about?.cultureHeading && (
+                <h3
+                  className="h3"
+                  dangerouslySetInnerHTML={{ __html: about.cultureHeading }}
+                />
+              )}
 
-              <div className="bottom-body">
-                <p className="h5" data-mask-up>
-                  Our team thrives on collaboration, pushing boundaries, and bouncing ideas back and forth. Everyone’s voice matters, and that’s where the magic happens. We’re not just co-workers; we’re creators, challengers, and problem solvers together.
-                </p>
-
-                <p className="h5" data-mask-up>
-                  At Mobiuz, everyone is encouraged to take charge of their work. We give our team the space to experiment and the responsibility to drive their ideas forward. If you’ve got a concept, we’ve got your back. Own it, refine it, and bring it to life.
-                </p>
-              </div>
+              {cultureParagraphs.length > 0 && (
+                <div className="bottom-body">
+                  {cultureParagraphs.map(
+                    (p, i) =>
+                      p.text && (
+                        <p key={i} className="h5" data-mask-up>
+                          {p.text}
+                        </p>
+                      )
+                  )}
+                </div>
+              )}
             </div>
-
-
           </div>
-
-
         </div>
       </section>
     </main>

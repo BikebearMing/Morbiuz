@@ -57,6 +57,51 @@ export const GET_HOME_PAGE = gql`
           }
         }
       }
+      homeContent {
+        mobiusBgImage {
+          node {
+            sourceUrl
+            altText
+          }
+        }
+        videoZoom {
+          title1
+          title2
+          video
+          caption
+        }
+        servicesIntro
+        servicesImage {
+          node {
+            sourceUrl
+            altText
+          }
+        }
+        ourTeam {
+          bgImage {
+            node {
+              sourceUrl
+              altText
+            }
+          }
+          peopleImage {
+            node {
+              sourceUrl
+              altText
+            }
+          }
+          title
+          buttonLabel
+          buttonUrl
+        }
+        featuredProject {
+          projectName
+          client
+          year
+          video1
+          video2
+        }
+      }
     }
   }
 `;

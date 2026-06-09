@@ -10,8 +10,25 @@ import { getVideoPoster } from "@/lib/video-poster";
 import { Post } from "@/types/wordpress";
 import { GraphQLClient } from "graphql-request";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+import { getPostSeo, buildMetadata } from "@/lib/seo";
 
 export const revalidate = 60;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const { seo, imageUrl } = await getPostSeo(slug);
+  return buildMetadata(seo, {
+    path: `/video-production/${slug}`,
+    fallbackTitle: decodeURIComponent(slug),
+    type: "article",
+    images: [imageUrl],
+  });
+}
 
 const CATEGORY_SLUG = "video-production";
 

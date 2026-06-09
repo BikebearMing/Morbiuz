@@ -3,10 +3,19 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import type { FeaturedProject } from "@/types/wordpress";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function VideoStack() {
+// Append a tiny start offset so the first frame renders as a poster.
+const withPosterFrame = (url: string | null | undefined) =>
+  url ? (url.includes("#") ? url : `${url}#t=0.001`) : "";
+
+export default function VideoStack({
+  project,
+}: {
+  project?: FeaturedProject | null;
+}) {
   const containerRef = useRef<HTMLDivElement>(null);
   const rollerTween = useRef<gsap.core.Tween | null>(null);
 
@@ -125,9 +134,9 @@ export default function VideoStack() {
     <section className="video-stack" ref={containerRef}>
 
       <div className="overlay">
-        <img className="corner-circle tl" src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/grey-circle.png" alt="" />
-        <img className="corner-circle tr" src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/grey-circle.png" alt="" />
-        <img className="corner-circle bl" src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/grey-circle.png" alt="" />
+        <img className="corner-circle tl" src="/media/wp-content/uploads/2026/04/grey-circle.png" alt="" />
+        <img className="corner-circle tr" src="/media/wp-content/uploads/2026/04/grey-circle.png" alt="" />
+        <img className="corner-circle bl" src="/media/wp-content/uploads/2026/04/grey-circle.png" alt="" />
         <div className="speaker-lines">
           {Array.from({ length: 30 }).map((_, i) => (
             <div
@@ -137,34 +146,34 @@ export default function VideoStack() {
             />
           ))}
         </div>
-        <img className="corner-circle br" src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/grey-circle.png" alt="" />
+        <img className="corner-circle br" src="/media/wp-content/uploads/2026/04/grey-circle.png" alt="" />
         <div className="wrapper">
           <div className="top">
-            <h3 className="h3 title dark" data-mask-up>室内高人 MV</h3>
+            <h3 className="h3 title dark" data-mask-up>{project?.projectName}</h3>
             <div className="meta-wrapper client">
               <p className="body grey" data-mask-up>CLIENT</p>
-              <p className="body dark" data-mask-up>NICOLE LAI</p>
+              <p className="body dark" data-mask-up>{project?.client}</p>
             </div>
 
             <div className="meta-wrapper year">
               <p className="body grey" data-mask-up>YEAR</p>
-              <p className="body dark" data-mask-up>2025</p>
+              <p className="body dark" data-mask-up>{project?.year}</p>
             </div>
           </div>
         </div>
       </div>
 
        <div className="cassete-wrapper">
-          <img className="roller" src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/cassete-roller.png" alt="" />
-          <img className="body" src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/cassete-body.png" alt="" />
-          <img className="roller second" src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/cassete-roller.png" alt="" />
+          <img className="roller" src="/media/wp-content/uploads/2026/04/cassete-roller.png" alt="" />
+          <img className="body" src="/media/wp-content/uploads/2026/04/cassete-body.png" alt="" />
+          <img className="roller second" src="/media/wp-content/uploads/2026/04/cassete-roller.png" alt="" />
           <p className="content dark">01 - 03</p>
         </div>
       <div className="vs-base">
 
         <video
           className="vs-video-1"
-          src="https://streamable.com/l/vcx2gh/mp4.mp4#t=0.001"
+          src={withPosterFrame(project?.video1)}
           muted
           playsInline
           loop
@@ -173,11 +182,10 @@ export default function VideoStack() {
       <div className="vs-slide">
         <video
           className="vs-video-2"
-          src="https://streamable.com/l/pb93s5/mp4.mp4#t=0.001"
+          src={withPosterFrame(project?.video2)}
           muted
           playsInline
           loop
-          // poster="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/video-2-poster.avif"
         />
       </div>
     </section>

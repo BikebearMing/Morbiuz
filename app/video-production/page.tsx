@@ -3,8 +3,18 @@ import WorksList from "@/components/WorksList";
 import { getClient } from "@/lib/graphql-client";
 import { GET_VIDEO_PRODUCTION_PAGE } from "@/lib/queries/video-production";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+import { getPageSeo, buildMetadata } from "@/lib/seo";
 
 export const revalidate = 60;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getPageSeo("video-production");
+  return buildMetadata(seo, {
+    path: "/video-production",
+    fallbackTitle: "Video Production",
+  });
+}
 
 type AcfImage = { node: { sourceUrl: string; altText: string } } | null;
 

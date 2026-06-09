@@ -1,0 +1,155 @@
+[
+  {
+    "key": "group_contact_content",
+    "title": "Contact Content",
+    "fields": [
+      {
+        "key": "field_ct_banner_image",
+        "label": "Banner Image",
+        "name": "bannerImage",
+        "type": "image",
+        "return_format": "array",
+        "preview_size": "medium",
+        "library": "all",
+        "wrapper": { "width": "", "class": "", "id": "" }
+      },
+      {
+        "key": "field_ct_banner_subhead",
+        "label": "Banner Subhead",
+        "name": "bannerSubhead",
+        "type": "text",
+        "wrapper": { "width": "", "class": "", "id": "" }
+      },
+      {
+        "key": "field_ct_banner_title",
+        "label": "Banner Title (HTML allowed)",
+        "name": "bannerTitle",
+        "type": "textarea",
+        "instructions": "HTML allowed, e.g. LET’S <span class=\"cursive has-underline\">talk</span>",
+        "rows": 2,
+        "new_lines": "",
+        "wrapper": { "width": "", "class": "", "id": "" }
+      },
+      {
+        "key": "field_ct_message_subhead",
+        "label": "Message Subhead",
+        "name": "messageSubhead",
+        "type": "text",
+        "wrapper": { "width": "", "class": "", "id": "" }
+      },
+      {
+        "key": "field_ct_message_title",
+        "label": "Message Title (HTML allowed)",
+        "name": "messageTitle",
+        "type": "textarea",
+        "instructions": "HTML allowed, e.g. WE’RE HERE <br /> FOR THE <br /> NEXT <span class=\"cursive\">loop</span>",
+        "rows": 3,
+        "new_lines": "",
+        "wrapper": { "width": "", "class": "", "id": "" }
+      },
+      {
+        "key": "field_ct_intro",
+        "label": "Contact Intro",
+        "name": "contactIntro",
+        "type": "textarea",
+        "rows": 4,
+        "new_lines": "",
+        "wrapper": { "width": "", "class": "", "id": "" }
+      },
+      {
+        "key": "field_ct_email",
+        "label": "Email",
+        "name": "email",
+        "type": "email",
+        "wrapper": { "width": "50", "class": "", "id": "" }
+      },
+      {
+        "key": "field_ct_address",
+        "label": "Address",
+        "name": "address",
+        "type": "textarea",
+        "rows": 3,
+        "new_lines": "",
+        "wrapper": { "width": "50", "class": "", "id": "" }
+      },
+      {
+        "key": "field_ct_faq_subhead",
+        "label": "FAQ Subhead",
+        "name": "faqSubhead",
+        "type": "text",
+        "wrapper": { "width": "50", "class": "", "id": "" }
+      },
+      {
+        "key": "field_ct_faq_title",
+        "label": "FAQ Title",
+        "name": "faqTitle",
+        "type": "text",
+        "wrapper": { "width": "50", "class": "", "id": "" }
+      },
+      {
+        "key": "field_ct_faq_image1",
+        "label": "FAQ Image 1",
+        "name": "faqImage1",
+        "type": "image",
+        "return_format": "array",
+        "preview_size": "medium",
+        "library": "all",
+        "wrapper": { "width": "50", "class": "", "id": "" }
+      },
+      {
+        "key": "field_ct_faq_image2",
+        "label": "FAQ Image 2",
+        "name": "faqImage2",
+        "type": "image",
+        "return_format": "array",
+        "preview_size": "medium",
+        "library": "all",
+        "wrapper": { "width": "50", "class": "", "id": "" }
+      },
+      {
+        "key": "field_ct_faqs",
+        "label": "FAQs",
+        "name": "faqs",
+        "type": "repeater",
+        "layout": "block",
+        "button_label": "Add FAQ",
+        "wrapper": { "width": "", "class": "", "id": "" },
+        "sub_fields": [
+          {
+            "key": "field_ct_faq_question",
+            "label": "Question",
+            "name": "question",
+            "type": "text",
+            "parent": "field_ct_faqs"
+          },
+          {
+            "key": "field_ct_faq_answer",
+            "label": "Answer",
+            "name": "answer",
+            "type": "textarea",
+            "rows": 4,
+            "new_lines": "",
+            "parent": "field_ct_faqs"
+          }
+        ]
+      }
+    ],
+    "location": [
+      [
+        { "param": "page_type", "operator": "==", "value": "top_level" }
+      ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_graphql": 1,
+    "graphql_field_name": "contactContent",
+    "map_graphql_types_from_location_rules": 0,
+    "graphql_types": ["Page"]
+  }
+]

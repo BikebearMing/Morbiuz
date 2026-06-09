@@ -7,14 +7,33 @@ import ServicesList from "@/components/ServicesList";
 import Preloader from "@/components/Preloader";
 import SplitTextReveal from "@/components/SplitTextReveal";
 import TransitionLink from "@/components/TransitionLink";
+import type { Metadata } from "next";
+import { getPageSeo, buildMetadata } from "@/lib/seo";
 
 export const revalidate = 60;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getPageSeo("home");
+  return buildMetadata(seo, {
+    path: "/",
+    fallbackTitle: "Mobiuz",
+    fallbackDescription: "Stories that influence culture",
+  });
+}
 
 export default async function Home() {
   const client = getClient();
   const { page } = await client.request<{ page: HomePage }>(GET_HOME_PAGE);
 
-  const { hero, subtext, heroImages, featuredClients, services } = page.home;
+  const { hero, heroImages, featuredClients, services } = page.home;
+  const {
+    mobiusBgImage,
+    videoZoom,
+    servicesIntro,
+    servicesImage,
+    ourTeam,
+    featuredProject,
+  } = page.homeContent ?? {};
   const serviceItems = services?.serviceRepeater || [];
 
   return (
@@ -26,7 +45,12 @@ export default async function Home() {
           <div className="wrapper">
             <div className="first-half">
               <div className="mobius-bg-wrapper">
-                <img src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/mobius-bg-scaled.png" alt="" />
+                {mobiusBgImage?.node && (
+                  <img
+                    src={mobiusBgImage.node.sourceUrl}
+                    alt={mobiusBgImage.node.altText || ""}
+                  />
+                )}
               </div>
               <div className="content">
                 <h5 className="subhead">
@@ -78,17 +102,19 @@ export default async function Home() {
                 <div className="video-zoom-wrapper">
                   <div className="title">
                     <div className="title-item">
-                      <div className="title-clip"><h2 className="h2 dark">strategy</h2></div>
+                      <div className="title-clip"><h2 className="h2 dark">{videoZoom?.title1}</h2></div>
                     </div>
                     <div className="title-item">
-                      <div className="title-clip"><h2 className="h2 dark">imagination</h2></div>
+                      <div className="title-clip"><h2 className="h2 dark">{videoZoom?.title2}</h2></div>
                     </div>
                   </div>
 
-                  <video src="https://streamable.com/l/4wsqgh/mp4-high.mp4#t=0.001" muted playsInline loop></video>
+                  {videoZoom?.video && (
+                    <video src={videoZoom.video} muted playsInline loop></video>
+                  )}
 
                   <div className="subtext">
-                    <h4 className="h4 dark">We designs infinite creative experiences where strategy and imagination flow as one.</h4>
+                    <h4 className="h4 dark">{videoZoom?.caption}</h4>
                   </div>
                 </div>
             </div>
@@ -112,7 +138,7 @@ export default async function Home() {
           </div>
         </section>
       </HeroAnimation>
-      <VideoStack />
+      <VideoStack project={featuredProject} />
       <section className="hp-services">
         <h5 className="subhead">
           <span className="bracket bracket-left">[</span>
@@ -121,8 +147,13 @@ export default async function Home() {
         </h5>
         <div className="wrapper">
           <div className="left">
-            <h4 className="h4 dark caps">WE Deliver eye-catching motion graphics and campaigns, spark emotion and increase conversions.</h4>
-            <img src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/Rectangle.png" alt="" />
+            {servicesIntro && <h4 className="h4 dark caps">{servicesIntro}</h4>}
+            {servicesImage?.node && (
+              <img
+                src={servicesImage.node.sourceUrl}
+                alt={servicesImage.node.altText || ""}
+              />
+            )}
           </div>
 
           <ServicesList items={serviceItems} />
@@ -131,13 +162,35 @@ export default async function Home() {
       <section className="our-team">
         <div className="wrapper">
               <div className="parallax-container">
-                <img src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/our-team-bg-scaled.jpg" alt="" />
-                <img src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/our-team-ppl-scaled.png" alt="" />
+                {ourTeam?.bgImage?.node && (
+                  <img
+                    src={ourTeam.bgImage.node.sourceUrl}
+                    alt={ourTeam.bgImage.node.altText || ""}
+                  />
+                )}
+                {ourTeam?.peopleImage?.node && (
+                  <img
+                    src={ourTeam.peopleImage.node.sourceUrl}
+                    alt={ourTeam.peopleImage.node.altText || ""}
+                  />
+                )}
               </div>
 
           <h5 className="subhead">OUR TEAM</h5>
-          <h1 className="h1 beige">THE <span className="cursive">minds</span> <br /> BEHIND MOBIUS</h1>
-          <TransitionLink href="/about" className="custom-button"><span className="custom-button-label">About Us</span></TransitionLink>
+          {ourTeam?.title && (
+            <h1
+              className="h1 beige"
+              dangerouslySetInnerHTML={{ __html: ourTeam.title }}
+            />
+          )}
+          <TransitionLink
+            href={ourTeam?.buttonUrl || "/about"}
+            className="custom-button"
+          >
+            <span className="custom-button-label">
+              {ourTeam?.buttonLabel || "About Us"}
+            </span>
+          </TransitionLink>
         </div>
       </section>
     </main>

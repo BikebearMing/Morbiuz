@@ -3,8 +3,18 @@ import WorksList from "@/components/WorksList";
 import { getClient } from "@/lib/graphql-client";
 import { GET_BRAND_DESIGN_PAGE } from "@/lib/queries/brand-design";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+import { getPageSeo, buildMetadata } from "@/lib/seo";
 
 export const revalidate = 60;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getPageSeo("brand-design");
+  return buildMetadata(seo, {
+    path: "/brand-design",
+    fallbackTitle: "Brand Design",
+  });
+}
 
 type AcfImage = { node: { sourceUrl: string; altText: string } } | null;
 

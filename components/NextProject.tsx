@@ -28,7 +28,7 @@ export default function NextProject({
             PROJECT
             <img
               className="next-project-arrow"
-              src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/Morbius-GIF-4.gif"
+              src="/media/wp-content/uploads/2026/04/Morbius-GIF-4.gif"
               alt=""
               aria-hidden
             />

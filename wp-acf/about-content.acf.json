@@ -1,0 +1,162 @@
+[
+  {
+    "key": "group_about_content",
+    "title": "About Content",
+    "fields": [
+      {
+        "key": "field_ab_banner_image",
+        "label": "Banner Image",
+        "name": "bannerImage",
+        "type": "image",
+        "return_format": "array",
+        "preview_size": "medium",
+        "library": "all",
+        "wrapper": { "width": "", "class": "", "id": "" }
+      },
+      {
+        "key": "field_ab_banner_subhead",
+        "label": "Banner Subhead",
+        "name": "bannerSubhead",
+        "type": "text",
+        "wrapper": { "width": "", "class": "", "id": "" }
+      },
+      {
+        "key": "field_ab_banner_title",
+        "label": "Banner Title (HTML allowed)",
+        "name": "bannerTitle",
+        "type": "textarea",
+        "instructions": "HTML allowed, e.g. STRATEGY <br /> AND IMAGINATION <br /> LOOP <span class=\"cursive has-underline\">ENDLESSLY</span>",
+        "rows": 3,
+        "new_lines": "",
+        "wrapper": { "width": "", "class": "", "id": "" }
+      },
+      {
+        "key": "field_ab_intro_subhead",
+        "label": "Intro Subhead",
+        "name": "introSubhead",
+        "type": "text",
+        "wrapper": { "width": "", "class": "", "id": "" }
+      },
+      {
+        "key": "field_ab_intro_heading",
+        "label": "Intro Heading",
+        "name": "introHeading",
+        "type": "textarea",
+        "rows": 3,
+        "new_lines": "",
+        "wrapper": { "width": "", "class": "", "id": "" }
+      },
+      {
+        "key": "field_ab_intro_body",
+        "label": "Intro Body",
+        "name": "introBody",
+        "type": "textarea",
+        "rows": 5,
+        "new_lines": "",
+        "wrapper": { "width": "", "class": "", "id": "" }
+      },
+      {
+        "key": "field_ab_sliding_cards",
+        "label": "Sliding Cards",
+        "name": "slidingCards",
+        "type": "repeater",
+        "layout": "block",
+        "button_label": "Add Card",
+        "wrapper": { "width": "", "class": "", "id": "" },
+        "sub_fields": [
+          {
+            "key": "field_ab_sc_image",
+            "label": "Image",
+            "name": "image",
+            "type": "image",
+            "return_format": "array",
+            "preview_size": "medium",
+            "library": "all",
+            "parent": "field_ab_sliding_cards"
+          }
+        ]
+      },
+      {
+        "key": "field_ab_team_subhead",
+        "label": "Team Subhead",
+        "name": "teamSubhead",
+        "type": "text",
+        "wrapper": { "width": "", "class": "", "id": "" }
+      },
+      {
+        "key": "field_ab_team_title",
+        "label": "Team Title (HTML allowed)",
+        "name": "teamTitle",
+        "type": "textarea",
+        "instructions": "HTML allowed, e.g. MEET THE <br /> TEAM",
+        "rows": 2,
+        "new_lines": "",
+        "wrapper": { "width": "", "class": "", "id": "" }
+      },
+      {
+        "key": "field_ab_culture_image",
+        "label": "Culture Image",
+        "name": "cultureImage",
+        "type": "image",
+        "return_format": "array",
+        "preview_size": "medium",
+        "library": "all",
+        "wrapper": { "width": "", "class": "", "id": "" }
+      },
+      {
+        "key": "field_ab_culture_subhead",
+        "label": "Culture Subhead",
+        "name": "cultureSubhead",
+        "type": "text",
+        "wrapper": { "width": "", "class": "", "id": "" }
+      },
+      {
+        "key": "field_ab_culture_heading",
+        "label": "Culture Heading (HTML allowed)",
+        "name": "cultureHeading",
+        "type": "textarea",
+        "instructions": "HTML allowed; <span class=\"cursive\">word</span> for the cursive style.",
+        "rows": 3,
+        "new_lines": "",
+        "wrapper": { "width": "", "class": "", "id": "" }
+      },
+      {
+        "key": "field_ab_culture_paragraphs",
+        "label": "Culture Paragraphs",
+        "name": "cultureParagraphs",
+        "type": "repeater",
+        "layout": "block",
+        "button_label": "Add Paragraph",
+        "wrapper": { "width": "", "class": "", "id": "" },
+        "sub_fields": [
+          {
+            "key": "field_ab_cp_text",
+            "label": "Text",
+            "name": "text",
+            "type": "textarea",
+            "rows": 4,
+            "new_lines": "",
+            "parent": "field_ab_culture_paragraphs"
+          }
+        ]
+      }
+    ],
+    "location": [
+      [
+        { "param": "page_type", "operator": "==", "value": "top_level" }
+      ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_graphql": 1,
+    "graphql_field_name": "aboutContent",
+    "map_graphql_types_from_location_rules": 0,
+    "graphql_types": ["Page"]
+  }
+]

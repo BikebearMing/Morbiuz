@@ -2,8 +2,20 @@ import { getClient } from "@/lib/graphql-client";
 import { GET_ALL_PAGES, GET_PAGE_BY_SLUG } from "@/lib/queries/pages";
 import { Page } from "@/types/wordpress";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+import { getPageSeo, buildMetadata } from "@/lib/seo";
 
 export const revalidate = 60;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const seo = await getPageSeo(slug);
+  return buildMetadata(seo, { path: `/pages/${slug}`, fallbackTitle: slug });
+}
 
 export async function generateStaticParams() {
   const client = getClient();

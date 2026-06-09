@@ -20,7 +20,7 @@ export async function Footer() {
         {/* TODO: arrow graphic */}
         <div className="footer-image">
           <img
-            src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/Rectangle.png"
+            src="/media/wp-content/uploads/2026/04/Rectangle.png"
             alt=""
           />
         </div>

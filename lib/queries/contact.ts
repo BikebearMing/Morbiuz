@@ -71,3 +71,43 @@ export const SUBMIT_CONTACT_FORM = gql`
     }
   }
 `;
+
+export const GET_CONTACT_PAGE = gql`
+  query GetContactPage {
+    page(id: "contact", idType: URI) {
+      contactContent {
+        bannerImage {
+          node {
+            sourceUrl
+            altText
+          }
+        }
+        bannerSubhead
+        bannerTitle
+        messageSubhead
+        messageTitle
+        contactIntro
+        email
+        address
+        faqSubhead
+        faqTitle
+        faqImage1 {
+          node {
+            sourceUrl
+            altText
+          }
+        }
+        faqImage2 {
+          node {
+            sourceUrl
+            altText
+          }
+        }
+        faqs {
+          question
+          answer
+        }
+      }
+    }
+  }
+`;

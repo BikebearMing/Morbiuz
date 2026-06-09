@@ -2,72 +2,100 @@ import ContactForm, { GfForm } from "@/components/ContactForm";
 import FaqAccordion from "@/components/FaqAccordion";
 import SplitTextReveal from "@/components/SplitTextReveal";
 import { getClient } from "@/lib/graphql-client";
-import { GET_CONTACT_FORM } from "@/lib/queries/contact";
+import { GET_CONTACT_FORM, GET_CONTACT_PAGE } from "@/lib/queries/contact";
+import { ContactContentFields } from "@/types/wordpress";
+import type { Metadata } from "next";
+import { getPageSeo, buildMetadata } from "@/lib/seo";
 
 export const revalidate = 60;
 
 const FORM_ID = 1;
 
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getPageSeo("contact");
+  return buildMetadata(seo, { path: "/contact", fallbackTitle: "Contact" });
+}
+
 export default async function Contact() {
   const client = getClient();
-  const { gfForm } = await client.request<{ gfForm: GfForm | null }>(
-    GET_CONTACT_FORM,
-    { id: String(FORM_ID) }
-  );
+  const [{ gfForm }, { page }] = await Promise.all([
+    client.request<{ gfForm: GfForm | null }>(GET_CONTACT_FORM, {
+      id: String(FORM_ID),
+    }),
+    client.request<{
+      page: { contactContent: ContactContentFields | null } | null;
+    }>(GET_CONTACT_PAGE),
+  ]);
+
+  const contact = page?.contactContent ?? null;
+  const bannerImg = contact?.bannerImage?.node;
+  const faqImg1 = contact?.faqImage1?.node;
+  const faqImg2 = contact?.faqImage2?.node;
+  const faqItems = (contact?.faqs || [])
+    .map((f) => ({ question: f.question || "", answer: f.answer || "" }))
+    .filter((f) => f.question);
 
   return (
     <main>
       <SplitTextReveal />
       <section className="parallax-banner">
         <div className="parallax-container">
-          <img src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/05/contact-banner.png" alt="" />
+          {bannerImg && (
+            <img src={bannerImg.sourceUrl} alt={bannerImg.altText || ""} />
+          )}
         </div>
         <div className="content">
-          <h5 className="subhead">
-            <span className="bracket">[</span>
-            <span className="subhead-text">CONTACT US</span>
-            <span className="bracket">]</span>
-          </h5>
-          <h1 className="h1 dark">LET&rsquo;S <span className="cursive has-underline">talk</span></h1>
+          {contact?.bannerSubhead && (
+            <h5 className="subhead">
+              <span className="bracket">[</span>
+              <span className="subhead-text">{contact.bannerSubhead}</span>
+              <span className="bracket">]</span>
+            </h5>
+          )}
+          {contact?.bannerTitle && (
+            <h1
+              className="h1 dark"
+              dangerouslySetInnerHTML={{ __html: contact.bannerTitle }}
+            />
+          )}
         </div>
       </section>
       <section className="contact-page orange-section">
         <div className="contact-top">
           <div className="contact-heading">
-            <h5 className="subhead">
-              <span className="bracket">[</span>
-              <span className="subhead-text">SEND A MESSAGE</span>
-              <span className="bracket">]</span>
-            </h5>
-            <h1 className="h2-v2">
-              WE&rsquo;RE HERE <br />
-              FOR THE <br />
-              NEXT <span className="cursive">loop</span>
-            </h1>
+            {contact?.messageSubhead && (
+              <h5 className="subhead">
+                <span className="bracket">[</span>
+                <span className="subhead-text">{contact.messageSubhead}</span>
+                <span className="bracket">]</span>
+              </h5>
+            )}
+            {contact?.messageTitle && (
+              <h1
+                className="h2-v2"
+                dangerouslySetInnerHTML={{ __html: contact.messageTitle }}
+              />
+            )}
           </div>
 
           <div className="contact-info">
-            <p className="contact-intro">
-              We believe in collaboration that flows and ideas that never stop
-              evolving. If you&rsquo;re ready to take your brand to the next
-              level, we&rsquo;re ready to make it happen. Reach out, and
-              let&rsquo;s start the cycle of creativity together.
-            </p>
+            {contact?.contactIntro && (
+              <p className="contact-intro">{contact.contactIntro}</p>
+            )}
 
-            <div className="contact-info-block">
-              <h6 className="contact-info-label">EMAIL</h6>
-              <a href="mailto:enquiry@mobiuzstudio.com">
-                enquiry@mobiuzstudio.com
-              </a>
-            </div>
+            {contact?.email && (
+              <div className="contact-info-block">
+                <h6 className="contact-info-label">EMAIL</h6>
+                <a href={`mailto:${contact.email}`}>{contact.email}</a>
+              </div>
+            )}
 
-            <div className="contact-info-block">
-              <h6 className="contact-info-label">ADDRESS</h6>
-              <p>
-                E-35-3, 3 Two Square, 2, Jalan 19/1, Seksyen 19, 46300 Petaling
-                Jaya, Selangor.
-              </p>
-            </div>
+            {contact?.address && (
+              <div className="contact-info-block">
+                <h6 className="contact-info-label">ADDRESS</h6>
+                <p>{contact.address}</p>
+              </div>
+            )}
           </div>
         </div>
 
@@ -83,19 +111,30 @@ export default async function Contact() {
       <section className="contact-faq">
         <div className="wrapper">
             <div className="top">
-                <h5 className="subhead dark">[ ASK US ]</h5>
-                <h1 className="h1 orange" data-split-text="scroll">FAQs</h1>
+                {contact?.faqSubhead && (
+                  <h5 className="subhead dark">[ {contact.faqSubhead} ]</h5>
+                )}
+                {contact?.faqTitle && (
+                  <h1 className="h1 orange" data-split-text="scroll">
+                    {contact.faqTitle}
+                  </h1>
+                )}
             </div>
 
             <div className="bottom">
                 <div className="left">
-                    <img src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/05/faq-img-1.png" alt="" />
-
-                    <img src="https://morbiuz.mydemobb.com/wp-content/uploads/2026/05/faq-img-2-1.png" alt="" />
+                    {faqImg1 && (
+                      <img src={faqImg1.sourceUrl} alt={faqImg1.altText || ""} />
+                    )}
+                    {faqImg2 && (
+                      <img src={faqImg2.sourceUrl} alt={faqImg2.altText || ""} />
+                    )}
                 </div>
 
                 <div className="right">
-                    <FaqAccordion />
+                    <FaqAccordion
+                      items={faqItems.length > 0 ? faqItems : undefined}
+                    />
                 </div>
             </div>
         </div>

@@ -3,8 +3,18 @@ import WorksList from "@/components/WorksList";
 import { getClient } from "@/lib/graphql-client";
 import { GET_SOCIAL_MEDIA_PAGE } from "@/lib/queries/social-media";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+import { getPageSeo, buildMetadata } from "@/lib/seo";
 
 export const revalidate = 60;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getPageSeo("social-media");
+  return buildMetadata(seo, {
+    path: "/social-media",
+    fallbackTitle: "Social Media",
+  });
+}
 
 type AcfImage = { node: { sourceUrl: string; altText: string } } | null;
 

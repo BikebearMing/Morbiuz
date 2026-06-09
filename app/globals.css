@@ -135,7 +135,7 @@ body {
     inset: 0;
     z-index: 9999;
     opacity: 0.065;
-    background-image: url("https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/665c8d2c94e29f993fd958f1_Grain.gif");
+    background-image: url("/media/wp-content/uploads/2026/04/665c8d2c94e29f993fd958f1_Grain.gif");
     background-position: 0 0;
     background-size: auto;
     pointer-events: none;
@@ -172,7 +172,7 @@ body {
         transform: translateX(-50%);
         width: 120%;
         height: 0.2em;
-        background: url("https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/Morbius-GIF-5.gif")
+        background: url("/media/wp-content/uploads/2026/04/Morbius-GIF-5.gif")
             center / 100% 100% no-repeat;
         pointer-events: none;
     }
@@ -473,7 +473,7 @@ section.home-hero {
                 position: absolute;
                 width: 35.987vw;
                 height: 17.103vw;
-                background: url(https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/Morbius-GIF-1B.gif);
+                background: url(/media/wp-content/uploads/2026/04/Morbius-GIF-1B.gif);
                 background-size: 100% 100%;
                 bottom: 2.717vw;
                 left: 50%;
@@ -591,7 +591,7 @@ section.home-hero {
                             transform: translateX(-50%);
                             width: 23.194vw;
                             height: 1.5vw;
-                            background: url(https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/Morbius-GIF-6.gif);
+                            background: url(/media/wp-content/uploads/2026/04/Morbius-GIF-6.gif);
                             background-size: 100% 100%;
                             background-repeat: no-repeat;
                             pointer-events: none;
@@ -605,7 +605,7 @@ section.home-hero {
                             transform: translateX(-50%);
                             width: 100%;
                             height: 1.5vw;
-                            background: url(https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/Morbius-GIF-5.gif);
+                            background: url(/media/wp-content/uploads/2026/04/Morbius-GIF-5.gif);
                             background-size: 100% 100%;
                             background-repeat: no-repeat;
                             pointer-events: none;
@@ -1031,7 +1031,7 @@ section.hp-services {
             transform: rotate(56deg);
             width: 6vw;
             height: 6vw;
-            background: url(https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/Morbius-GIF-4.gif);
+            background: url(/media/wp-content/uploads/2026/04/Morbius-GIF-4.gif);
             background-size: contain;
             background-repeat: no-repeat;
             pointer-events: none;
@@ -1054,7 +1054,7 @@ section.hp-services {
             transform: translateY(-50%);
             width: 6vw;
             height: 6vw;
-            background: url(https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/Morbius-GIF-4.gif);
+            background: url(/media/wp-content/uploads/2026/04/Morbius-GIF-4.gif);
             background-size: contain;
             background-repeat: no-repeat;
             pointer-events: none;
@@ -1095,7 +1095,7 @@ section.hp-services {
             transform: rotate(150deg);
             width: 6vw;
             height: 6vw;
-            background: url(https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/Morbius-GIF-4.gif);
+            background: url(/media/wp-content/uploads/2026/04/Morbius-GIF-4.gif);
             background-size: contain;
             background-repeat: no-repeat;
             pointer-events: none;
@@ -1155,7 +1155,7 @@ footer.site-footer {
                 width: 35vw;
                 height: 8vw;
                 margin-top: 1.5vw;
-                background: url(https://morbiuz.mydemobb.com/wp-content/uploads/2026/04/Morbius-GIF-3.gif);
+                background: url(/media/wp-content/uploads/2026/04/Morbius-GIF-3.gif);
                 background-size: contain;
                 background-repeat: no-repeat;
                 background-position: left center;
@@ -1264,7 +1264,7 @@ footer.site-footer {
 
 section.parallax-banner {
     width: 100%;
-    height: 32.431vw;
+    height: 38.431vw;
     position: relative;
 
     &.tall {
@@ -1416,7 +1416,7 @@ section.about-our-team {
     top: 50%;
     transform: translateY(-50%);
     height: 0.2vw;
-    background: url("https://morbiuz.mydemobb.com/wp-content/uploads/2026/05/Morbius-GIF-8.gif")
+    background: url("/media/wp-content/uploads/2026/05/Morbius-GIF-8.gif")
         left center / auto 100% repeat-x;
     pointer-events: none;
 }
@@ -1940,7 +1940,7 @@ section.contact-faq {
     top: 50%;
     transform: translateY(-50%);
     height: 0.2vw;
-    background: url("https://morbiuz.mydemobb.com/wp-content/uploads/2026/05/Morbius-GIF-8.gif")
+    background: url("/media/wp-content/uploads/2026/05/Morbius-GIF-8.gif")
         left center / auto 100% repeat-x;
     pointer-events: none;
 }
@@ -2097,7 +2097,7 @@ section.our-works {
     top: 50%;
     transform: translateY(-50%);
     height: 0.2vw;
-    background: url("https://morbiuz.mydemobb.com/wp-content/uploads/2026/05/Morbius-GIF-8.gif")
+    background: url("/media/wp-content/uploads/2026/05/Morbius-GIF-8.gif")
         left center / auto 100% repeat-x;
     pointer-events: none;
 }

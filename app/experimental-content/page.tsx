@@ -3,8 +3,18 @@ import WorksList from "@/components/WorksList";
 import { getClient } from "@/lib/graphql-client";
 import { GET_EXPERIMENTAL_CONTENT_PAGE } from "@/lib/queries/experimental-content";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+import { getPageSeo, buildMetadata } from "@/lib/seo";
 
 export const revalidate = 60;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getPageSeo("experimental-content");
+  return buildMetadata(seo, {
+    path: "/experimental-content",
+    fallbackTitle: "Experimental Content",
+  });
+}
 
 type AcfImage = { node: { sourceUrl: string; altText: string } } | null;
 

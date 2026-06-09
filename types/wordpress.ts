@@ -50,9 +50,44 @@ export interface HomeFields {
   services: Services | null;
 }
 
+export interface VideoZoom {
+  title1: string | null;
+  title2: string | null;
+  video: string | null;
+  caption: string | null;
+}
+
+export interface OurTeamTeaser {
+  bgImage: AcfImage | null;
+  peopleImage: AcfImage | null;
+  title: string | null;
+  buttonLabel: string | null;
+  buttonUrl: string | null;
+}
+
+export interface FeaturedProject {
+  projectName: string | null;
+  client: string | null;
+  year: string | null;
+  video1: string | null;
+  video2: string | null;
+}
+
+// Separate ACF group (graphql_field_name: "homeContent") so it can be imported
+// without colliding with the existing `home` group.
+export interface HomeContentFields {
+  mobiusBgImage: AcfImage | null;
+  videoZoom: VideoZoom | null;
+  servicesIntro: string | null;
+  servicesImage: AcfImage | null;
+  ourTeam: OurTeamTeaser | null;
+  featuredProject: FeaturedProject | null;
+}
+
 export interface HomePage {
   title: string;
   home: HomeFields;
+  homeContent: HomeContentFields | null;
 }
 
 export interface AcfLinkValue {
@@ -123,6 +158,28 @@ export interface Page {
   featuredImage: FeaturedImage | null;
 }
 
+export interface FaqItemFields {
+  question: string | null;
+  answer: string | null;
+}
+
+// ACF group (graphql_field_name: "contactContent") on the Contact page.
+export interface ContactContentFields {
+  bannerImage: AcfImage | null;
+  bannerSubhead: string | null;
+  bannerTitle: string | null;
+  messageSubhead: string | null;
+  messageTitle: string | null;
+  contactIntro: string | null;
+  email: string | null;
+  address: string | null;
+  faqSubhead: string | null;
+  faqTitle: string | null;
+  faqImage1: AcfImage | null;
+  faqImage2: AcfImage | null;
+  faqs: FaqItemFields[] | null;
+}
+
 export interface SocialItem {
   socialGroup: {
     socialLink: {
@@ -139,6 +196,31 @@ export interface TeamMember {
     position: string | null;
   } | null;
   featuredImage: FeaturedImage | null;
+}
+
+export interface SlidingCard {
+  image: AcfImage | null;
+}
+
+export interface CultureParagraph {
+  text: string | null;
+}
+
+// ACF group (graphql_field_name: "aboutContent") on the About page.
+export interface AboutContentFields {
+  bannerImage: AcfImage | null;
+  bannerSubhead: string | null;
+  bannerTitle: string | null;
+  introSubhead: string | null;
+  introHeading: string | null;
+  introBody: string | null;
+  slidingCards: SlidingCard[] | null;
+  teamSubhead: string | null;
+  teamTitle: string | null;
+  cultureImage: AcfImage | null;
+  cultureSubhead: string | null;
+  cultureHeading: string | null;
+  cultureParagraphs: CultureParagraph[] | null;
 }
 
 export interface FooterFields {
