@@ -10,6 +10,13 @@ export const SITE_URL = (
 
 export const SITE_NAME = "Mobiuz";
 
+// The Next.js frontend owns its own indexability — NOT RankMath/WordPress.
+// This keeps WordPress's "Discourage search engines" setting (which should stay
+// ON so the WP backend domain isn't indexed) from de-indexing this frontend.
+// Set NEXT_PUBLIC_SITE_INDEXABLE=false to hide the frontend (e.g. pre-launch).
+export const SITE_INDEXABLE =
+  process.env.NEXT_PUBLIC_SITE_INDEXABLE !== "false";
+
 // Fallback share image. Replace with a dedicated 1200x630 image when available.
 export const DEFAULT_OG_IMAGE = "/media/wp-content/uploads/2026/04/Vector.png";
 
@@ -116,7 +123,6 @@ export function buildMetadata(
     images?: (string | null | undefined)[];
   }
 ): Metadata {
-  const robots = seo?.robots ?? [];
   const title = seo?.title?.trim();
   const description = seo?.description?.trim() || opts.fallbackDescription;
   const ogTitle = seo?.openGraph?.title?.trim() || title || opts.fallbackTitle;
@@ -131,10 +137,7 @@ export function buildMetadata(
     title: title ? { absolute: title } : opts.fallbackTitle,
     description,
     alternates: { canonical: opts.path },
-    robots: {
-      index: !robots.includes("noindex"),
-      follow: !robots.includes("nofollow"),
-    },
+    robots: { index: SITE_INDEXABLE, follow: SITE_INDEXABLE },
     openGraph: {
       title: ogTitle,
       description: ogDescription ?? undefined,
