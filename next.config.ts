@@ -39,6 +39,12 @@ const securityHeaders = [
     key: "Permissions-Policy",
     value: "camera=(), microphone=(), geolocation=(), payment=(), usb=()",
   },
+  // Override Vercel's default `Server: Vercel`. Note: `x-vercel-id` is injected
+  // by Vercel's edge after the response leaves Next.js and can't be removed here.
+  {
+    key: "Server",
+    value: "Mobiuz",
+  },
 ];
 
 const nextConfig: NextConfig = {
