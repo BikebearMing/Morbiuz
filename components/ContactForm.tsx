@@ -131,7 +131,7 @@ export default function ContactForm({ form }: { form: GfForm }) {
   if (status === "success") {
     return (
       <div className="contact-form-success">
-        <h3 className="h3">{confirmation}</h3>
+        <p className="body">{confirmation}</p>
       </div>
     );
   }

@@ -46,9 +46,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ errors: result.errors }, { status: 422 });
     }
 
+    const rawMessage = result.confirmation?.message || "Thanks — we'll be in touch.";
+    const confirmation = rawMessage.replace(/<[^>]*>/g, "").trim();
+
     return NextResponse.json({
       ok: true,
-      confirmation: result.confirmation?.message || "Thanks — we'll be in touch.",
+      confirmation,
       redirectUrl: result.confirmation?.type === "REDIRECT" ? result.confirmation.url : null,
     });
   } catch (err) {
