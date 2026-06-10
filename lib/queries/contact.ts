@@ -61,7 +61,9 @@ export const SUBMIT_CONTACT_FORM = gql`
         message
       }
       entry {
-        databaseId
+        ... on GfSubmittedEntry {
+          databaseId
+        }
       }
       confirmation {
         message
