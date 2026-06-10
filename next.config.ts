@@ -62,7 +62,7 @@ const nextConfig: NextConfig = {
       {
         // Proxy CMS media through our own domain: /media/* -> WordPress origin
         source: "/media/:path*",
-        destination: "https://morbiuz.mydemobb.com/:path*",
+        destination: "https://cms.mobiuzstudio.com/:path*",
       },
     ];
   },

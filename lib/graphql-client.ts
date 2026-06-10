@@ -4,7 +4,7 @@ import { GraphQLClient } from "graphql-request";
 // next.config.ts. WordPress returns absolute upload URLs in GraphQL responses
 // (e.g. `sourceUrl`), so rewrite just those to the proxied path. Scoped to
 // `/wp-content/uploads/` so post permalinks / page `uri`s are left untouched.
-const WP_MEDIA_ORIGIN = "https://morbiuz.mydemobb.com/wp-content/uploads/";
+const WP_MEDIA_ORIGIN = "https://cms.mobiuzstudio.com/wp-content/uploads/";
 const PROXY_MEDIA_PATH = "/media/wp-content/uploads/";
 
 function proxyMediaUrls<T>(data: T): T {
