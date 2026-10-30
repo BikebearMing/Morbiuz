@@ -3630,3 +3630,36 @@ main.work-post {
         height: 90vw;
     }
 }
+
+/* ========== MAINTENANCE ========== */
+.maintenance {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5vw;
+    padding: 0 var(--sidepadding-xs);
+    text-align: center;
+}
+
+.maintenance-logo {
+    width: 6vw;
+    height: auto;
+}
+
+.maintenance-subtitle {
+    color: var(--white);
+}
+
+@media (max-width: 768px) {
+    .maintenance {
+        gap: 8vw;
+        padding: 0 5vw;
+    }
+
+    .maintenance-logo {
+        width: 20vw;
+    }
+}
