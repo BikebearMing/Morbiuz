@@ -43,6 +43,13 @@ export const GET_VIDEO_PRODUCTION_PAGE = gql`
                 workLink {
                   nodes {
                     slug
+                    ... on Post {
+                      categories {
+                        nodes {
+                          slug
+                        }
+                      }
+                    }
                   }
                 }
                 workImage {

@@ -11,12 +11,12 @@ export type NextProjectItem = {
 
 type Props = {
   items: NextProjectItem[];
-  basePath?: string;
+  basePath: string;
 };
 
 export default function NextProject({
   items,
-  basePath = "/video-production",
+  basePath,
 }: Props) {
   if (items.length === 0) return null;
 

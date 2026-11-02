@@ -43,6 +43,13 @@ export const GET_BRAND_DESIGN_PAGE = gql`
                 workLink {
                   nodes {
                     slug
+                    ... on Post {
+                      categories {
+                        nodes {
+                          slug
+                        }
+                      }
+                    }
                   }
                 }
                 workImage {

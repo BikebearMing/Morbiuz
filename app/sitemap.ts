@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { getClient } from "@/lib/graphql-client";
 import { GET_ALL_POSTS } from "@/lib/queries/posts";
 import { SITE_URL } from "@/lib/seo";
+import { getWorkPath } from "@/lib/work-categories";
 import type { Post } from "@/types/wordpress";
 
 export const revalidate = 3600;
@@ -37,9 +38,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: "monthly",
         priority: 0.6,
       });
-      if (post.categories?.nodes?.some((c) => c.slug === "video-production")) {
+      const workPath = getWorkPath(post);
+      if (workPath) {
         entries.push({
-          url: `${SITE_URL}/video-production/${post.slug}`,
+          url: `${SITE_URL}${workPath}`,
           lastModified,
           changeFrequency: "monthly",
           priority: 0.6,

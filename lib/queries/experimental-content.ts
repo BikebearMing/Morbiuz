@@ -43,6 +43,13 @@ export const GET_EXPERIMENTAL_CONTENT_PAGE = gql`
                 workLink {
                   nodes {
                     slug
+                    ... on Post {
+                      categories {
+                        nodes {
+                          slug
+                        }
+                      }
+                    }
                   }
                 }
                 workImage {

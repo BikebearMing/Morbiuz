@@ -3,6 +3,7 @@ import SplitTextReveal from "@/components/SplitTextReveal";
 import WorksList from "@/components/WorksList";
 import { getClient } from "@/lib/graphql-client";
 import { GET_SOCIAL_MEDIA_PAGE } from "@/lib/queries/social-media";
+import { getWorkPath } from "@/lib/work-categories";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getPageSeo, buildMetadata } from "@/lib/seo";
@@ -43,7 +44,9 @@ type OrangeSectionInfo = {
 type WorkRow = {
   workGroup: {
     workTitle: string | null;
-    workLink: { nodes: { slug: string | null }[] } | null;
+    workLink: {
+      nodes: { slug: string | null; categories?: { nodes: { slug: string | null }[] } | null }[];
+    } | null;
     workImage: AcfImage;
   } | null;
 };
@@ -97,10 +100,10 @@ export default async function SocialMedia() {
 
   const workItems = workRows
     .map((r) => {
-      const slug = r.workGroup?.workLink?.nodes?.[0]?.slug || null;
+      const linked = r.workGroup?.workLink?.nodes?.[0];
       return {
         title: r.workGroup?.workTitle || "",
-        href: slug ? `/social-media/${slug}` : null,
+        href: linked ? getWorkPath(linked) : null,
         image: r.workGroup?.workImage?.node || null,
       };
     })
