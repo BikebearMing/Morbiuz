@@ -43,3 +43,5 @@ next.config.ts
 
 #Puppeteer
 .verify-shots
+# Local scratch files (guides, screenshots)
+temporary/
