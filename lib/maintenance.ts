@@ -1,7 +1,7 @@
 // Maintenance mode is toggled in WordPress (ACF → Site Settings → Maintenance
-// Mode). MAINTENANCE_MODE=true in the env forces it on regardless — use that
-// if the CMS itself is down.
-const FORCE_ON = process.env.MAINTENANCE_MODE === "true";
+// Mode). FORCE_MAINTENANCE_MODE=true in the env forces it on regardless — use
+// that if the CMS itself is down. (The older MAINTENANCE_MODE var is ignored.)
+const FORCE_ON = process.env.FORCE_MAINTENANCE_MODE === "true";
 
 const QUERY = "{ siteSettings { maintenance { maintenanceMode } } }";
 const TTL_MS = 30_000;

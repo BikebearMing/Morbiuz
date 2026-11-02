@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { getClient } from "@/lib/graphql-client";
-import { GET_MENU_BY_LOCATION } from "@/lib/queries/menus";
+import { GET_MENU_BY_NAME } from "@/lib/queries/menus";
 import { MenuItem } from "@/types/wordpress";
 import NavLink from "@/components/NavLink";
 import TransitionLink from "@/components/TransitionLink";
@@ -29,9 +29,9 @@ export async function Navigation() {
   let menuItems: MenuItem[] = [];
   try {
     const data = await client.request<{
-      menuItems: { nodes: MenuItem[] };
-    }>(GET_MENU_BY_LOCATION, { location: "PRIMARY" });
-    menuItems = data.menuItems.nodes;
+      menu: { menuItems: { nodes: MenuItem[] } } | null;
+    }>(GET_MENU_BY_NAME, { name: "Main Menus" });
+    menuItems = data.menu?.menuItems.nodes ?? [];
   } catch (error) {
     console.error("Navigation menu fetch failed:", error);
   }
@@ -68,12 +68,7 @@ export async function Navigation() {
                   {item.label}
                 </NavLink>
               ))
-            : (
-              <>
-                <NavLink href="/">Home</NavLink>
-                <NavLink href="/blog">Blog</NavLink>
-              </>
-            )}
+            : <NavLink href="/">Home</NavLink>}
         </ul>
       </nav>
     </header>

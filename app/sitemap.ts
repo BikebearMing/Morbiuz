@@ -15,7 +15,6 @@ const STATIC_ROUTES = [
   "/brand-design",
   "/social-media",
   "/experimental-content",
-  "/blog",
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -31,22 +30,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       GET_ALL_POSTS
     );
     for (const post of posts.nodes) {
-      const lastModified = post.date ? new Date(post.date) : new Date();
+      const workPath = getWorkPath(post);
+      if (!workPath) continue;
       entries.push({
-        url: `${SITE_URL}/blog/${post.slug}`,
-        lastModified,
+        url: `${SITE_URL}${workPath}`,
+        lastModified: post.date ? new Date(post.date) : new Date(),
         changeFrequency: "monthly",
         priority: 0.6,
       });
-      const workPath = getWorkPath(post);
-      if (workPath) {
-        entries.push({
-          url: `${SITE_URL}${workPath}`,
-          lastModified,
-          changeFrequency: "monthly",
-          priority: 0.6,
-        });
-      }
     }
   } catch {
     // WordPress unreachable — return the static routes so the sitemap still builds.

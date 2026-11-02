@@ -3,9 +3,9 @@
  * Called by WordPress via webhook on post publish/update.
  *
  * Accepts POST JSON:
- *   { "secret": "...", "path": "/blog/my-post-slug" }   — single path
- *   { "secret": "...", "paths": ["/", "/blog"] }        — multiple paths
- *   { "secret": "...", "all": true }                     — revalidate all known paths
+ *   { "secret": "...", "path": "/video-production/my-work" }  — single path
+ *   { "secret": "...", "paths": ["/", "/about"] }              — multiple paths
+ *   { "secret": "...", "all": true }                           — revalidate the whole site
  *
  * Also accepts GET with query params for simple webhook tools:
  *   /api/revalidate?secret=...&path=/
@@ -14,18 +14,20 @@
 import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
-const ALL_PATHS = ["/", "/blog"];
-
 function revalidate(secret: string | null, path: string | null, paths: string[] | null, all: boolean) {
   if (secret !== process.env.REVALIDATE_SECRET) {
     return NextResponse.json({ message: "Invalid secret" }, { status: 401 });
   }
 
+  if (all) {
+    // Every page shares the root layout, so this invalidates the whole site.
+    revalidatePath("/", "layout");
+    return NextResponse.json({ revalidated: true, paths: ["/ (all)"] });
+  }
+
   const toRevalidate: string[] = [];
 
-  if (all) {
-    toRevalidate.push(...ALL_PATHS);
-  } else if (paths && paths.length > 0) {
+  if (paths && paths.length > 0) {
     toRevalidate.push(...paths);
   } else if (path) {
     toRevalidate.push(path);
