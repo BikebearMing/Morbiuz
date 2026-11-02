@@ -1,13 +1,19 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { MAINTENANCE_MODE } from "@/lib/maintenance";
+import { isMaintenanceMode } from "@/lib/maintenance";
 
 // While in maintenance, serve the placeholder for every page URL (the address
-// bar keeps the requested path).
-export function proxy(request: NextRequest) {
-  if (!MAINTENANCE_MODE || request.nextUrl.pathname === "/maintenance") {
-    return NextResponse.next();
+// bar keeps the requested path). When off, /maintenance itself goes home.
+export async function proxy(request: NextRequest) {
+  const onMaintenancePage = request.nextUrl.pathname === "/maintenance";
+  const maintenance = await isMaintenanceMode();
+
+  if (!maintenance) {
+    return onMaintenancePage
+      ? NextResponse.redirect(new URL("/", request.url))
+      : NextResponse.next();
   }
+  if (onMaintenancePage) return NextResponse.next();
   return NextResponse.rewrite(new URL("/maintenance", request.url));
 }
 

@@ -1,0 +1,53 @@
+[
+    {
+        "key": "group_site_settings_maintenance",
+        "title": "Maintenance",
+        "fields": [
+            {
+                "key": "field_site_settings_maintenance_mode",
+                "label": "Maintenance Mode",
+                "name": "maintenance_mode",
+                "type": "true_false",
+                "instructions": "When on, every page on mobiuzstudio.com shows the \"Scheduled Maintenance\" screen instead. Takes up to about 30 seconds to apply after saving.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "message": "",
+                "default_value": 0,
+                "ui": 1,
+                "ui_on_text": "On",
+                "ui_off_text": "Off",
+                "show_in_graphql": 1,
+                "graphql_description": "",
+                "graphql_field_name": "maintenanceMode",
+                "graphql_non_null": 0
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "options_page",
+                    "operator": "==",
+                    "value": "site-settings"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": true,
+        "description": "",
+        "show_in_rest": 0,
+        "show_in_graphql": 1,
+        "graphql_field_name": "maintenance",
+        "map_graphql_types_from_location_rules": 0,
+        "graphql_types": ""
+    }
+]

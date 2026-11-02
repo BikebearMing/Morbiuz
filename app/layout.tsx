@@ -5,9 +5,7 @@ import DeferredFonts from "@/components/DeferredFonts";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import PageTransition from "@/components/PageTransition";
-import { SITE_URL, SITE_NAME, DEFAULT_OG_IMAGE } from "@/lib/seo";
-import { MAINTENANCE_MODE } from "@/lib/maintenance";
-import "./globals.css";
+import { SITE_URL, SITE_NAME, DEFAULT_OG_IMAGE } from "@/lib/seo";import "./globals.css";
 
 const DEFAULT_TITLE = "Mobiuz — Stories that influence culture";
 const DEFAULT_DESCRIPTION = "Stories that influence culture";
@@ -106,15 +104,11 @@ export default function RootLayout({
       <body>
         <DeferredFonts />
         <div className="noise-overlay" />
-        {MAINTENANCE_MODE ? (
-          children
-        ) : (
-          <PageTransition>
-            <Navigation />
-            <SmoothScroll>{children}</SmoothScroll>
-            <Footer />
-          </PageTransition>
-        )}
+        <PageTransition>
+          <Navigation />
+          <SmoothScroll>{children}</SmoothScroll>
+          <Footer />
+        </PageTransition>
       </body>
     </html>
   );

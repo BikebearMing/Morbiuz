@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { notFound } from "next/navigation";
-import { MAINTENANCE_MODE } from "@/lib/maintenance";
 
+// Only reachable while maintenance mode is on — proxy.ts rewrites every page
+// here and redirects /maintenance home otherwise. Header/footer are hidden via
+// `body:has(.maintenance)` in globals.css.
 export const metadata: Metadata = {
   title: "Scheduled Maintenance",
   robots: { index: false, follow: false },
 };
 
 export default function Maintenance() {
-  if (!MAINTENANCE_MODE) notFound();
-
   return (
     <main className="maintenance">
       <Image

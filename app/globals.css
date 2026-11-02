@@ -3632,6 +3632,11 @@ main.work-post {
 }
 
 /* ========== MAINTENANCE ========== */
+body:has(.maintenance) .header,
+body:has(.maintenance) .site-footer {
+    display: none;
+}
+
 .maintenance {
     min-height: 100vh;
     min-height: 100dvh;
