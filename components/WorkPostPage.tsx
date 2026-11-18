@@ -65,7 +65,13 @@ export default async function WorkPostPage({
   const videoUrl = acf?.videoLink?.url || videos[0]?.videoUrl || null;
   // Social-media works with a video list get the portrait carousel layout
   // (overview + story beside the videos) instead of the landscape hero.
-  const social = category === "social-media" && videos.length > 0;
+  // Only when there is a portrait-format video: a social work whose videos are
+  // all landscape YouTube would be cropped in the 9:16 frame, so it keeps the hero.
+  const social =
+    category === "social-media" &&
+    videos.some((v) =>
+      /tiktok\.com|instagram\.com|youtube\.com\/shorts/.test(v.videoUrl)
+    );
   const heroImage = social
     ? null
     : featured ?? (await getPosterAsImage(videoUrl, post.title));

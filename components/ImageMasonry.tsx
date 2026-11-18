@@ -8,6 +8,7 @@ type Props = {
 
 function columnCount(count: number): number {
   if (count <= 1) return 1;
+  if (count === 3) return 3; // 2 columns would leave the third image alone on a half-empty row
   if (count <= 4) return 2;
   if (count <= 6) return 3;
   if (count <= 8) return 4;

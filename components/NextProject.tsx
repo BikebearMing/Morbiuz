@@ -46,7 +46,7 @@ export default function NextProject({
               href={`${basePath}/${item.slug}`}
               className="next-project-card"
             >
-              {item.image && (
+              {item.image ? (
                 <Image
                   src={item.image.sourceUrl}
                   alt={item.image.altText || item.title}
@@ -54,6 +54,9 @@ export default function NextProject({
                   height={675}
                   sizes="(max-width: 768px) 100vw, 55vw"
                 />
+              ) : (
+                // Keeps the image slot so a work without a cover doesn't collapse to bare text.
+                <span className="next-project-card-blank" aria-hidden />
               )}
               <div className="next-project-card-meta">
                 <div className="next-project-card-text">
