@@ -1,9 +1,10 @@
-import BehindTheScene from "@/components/BehindTheScene";
 import ImageBannerHero from "@/components/ImageBannerHero";
 import ImageMasonry from "@/components/ImageMasonry";
 import NextProject, { NextProjectItem } from "@/components/NextProject";
+import VideoCarousel from "@/components/VideoCarousel";
 import VideoHero from "@/components/VideoHero";
 import WorkOverview from "@/components/WorkOverview";
+import WorkStory from "@/components/WorkStory";
 import { getClient } from "@/lib/graphql-client";
 import { GET_ALL_POSTS, GET_POST_BY_SLUG } from "@/lib/queries/posts";
 import { getVideoPoster } from "@/lib/video-poster";
@@ -55,10 +56,19 @@ export default async function WorkPostPage({
   if (!post || getWorkCategory(post) !== category) notFound();
 
   const acf = post.videoProductionPostGroup;
-  const videoUrl = acf?.videoLink?.url || null;
   const featured = post.featuredImage?.node || null;
-  const heroImage =
-    featured ?? (await getPosterAsImage(videoUrl, post.title));
+  const videos = (acf?.videoList || []).flatMap((v) =>
+    v?.videoUrl?.trim()
+      ? [{ videoUrl: v.videoUrl.trim(), videoLabel: v.videoLabel || null }]
+      : []
+  );
+  const videoUrl = acf?.videoLink?.url || videos[0]?.videoUrl || null;
+  // Social-media works with a video list get the portrait carousel layout
+  // (overview + story beside the videos) instead of the landscape hero.
+  const social = category === "social-media" && videos.length > 0;
+  const heroImage = social
+    ? null
+    : featured ?? (await getPosterAsImage(videoUrl, post.title));
 
   const { posts: allPosts } = await client.request<{
     posts: { nodes: Post[] };
@@ -103,14 +113,34 @@ export default async function WorkPostPage({
         </div>
       </header>
 
-      <VideoHero
-        image={heroImage}
-        videoUrl={videoUrl}
-        title={post.title}
-      />
+      {social ? (
+        <section className="work-social">
+          <VideoCarousel videos={videos} title={post.title} />
+          <div className="work-social-text">
+            {acf?.overviewText && (
+              <div className="work-social-overview">
+                <h5 className="subhead">
+                  <span className="bracket">[</span>
+                  <span className="subhead-text">OVERVIEW</span>
+                  <span className="bracket">]</span>
+                </h5>
+                <h2 className="h3 overview-text">{acf.overviewText}</h2>
+              </div>
+            )}
+            <WorkStory text={acf?.storyText} />
+          </div>
+        </section>
+      ) : (
+        <VideoHero
+          image={heroImage}
+          videoUrl={videoUrl}
+          title={post.title}
+          videos={videos}
+        />
+      )}
 
       <WorkOverview
-        overviewText={acf?.overviewText || null}
+        overviewText={social ? null : acf?.overviewText || null}
         images={acf?.imageGallery?.nodes || []}
       />
 
@@ -118,13 +148,7 @@ export default async function WorkPostPage({
 
       <ImageBannerHero image={acf?.imageBannerHero?.node || null} />
 
-      <BehindTheScene
-        credits={
-          acf?.btsGroup?.btsCreditsRepeater
-            ?.map((r) => r.btsCredit)
-            .filter((c): c is NonNullable<typeof c> => !!c) || []
-        }
-      />
+      {!social && <WorkStory text={acf?.storyText} />}
 
       <NextProject items={nextItems} basePath={`/${category}`} />
     </main>

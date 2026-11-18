@@ -14,8 +14,8 @@ const securityHeaders = [
       "media-src 'self' blob: data: https:",
       "font-src 'self' data: https:",
       "connect-src 'self' https:",
-      // Video embeds rendered in iframes (YouTube / Vimeo players).
-      "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://player.vimeo.com",
+      // Video embeds rendered in iframes (YouTube / Vimeo / TikTok / Instagram players).
+      "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://player.vimeo.com https://www.tiktok.com https://www.instagram.com",
       "frame-ancestors 'self'",
       "base-uri 'self'",
       "form-action 'self'",

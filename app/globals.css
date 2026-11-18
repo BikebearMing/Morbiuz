@@ -2453,6 +2453,34 @@ main.work-post {
     background: #000;
 }
 
+/* Episode switcher under the hero (non-social works with 2+ videos). */
+.work-hero-videos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5vw 2vw;
+    padding: 1.5vw var(--sidepadding-xs) 0;
+    background: var(--black);
+}
+
+.work-hero-video {
+    background: none;
+    border: 0;
+    padding: 0.4vw 0;
+    cursor: pointer;
+    text-transform: uppercase;
+    opacity: 0.45;
+    transition: opacity 0.25s ease;
+}
+
+.work-hero-video:hover,
+.work-hero-video.active {
+    opacity: 1;
+}
+
+.work-hero-video.active {
+    color: var(--orange);
+}
+
 .work-overview {
     position: relative;
     width: 100%;
@@ -2556,54 +2584,115 @@ main.work-post {
     display: block;
 }
 
-.behind-the-scene {
+.work-story {
     background: var(--black);
     color: var(--white);
     padding: 4.792vw 0 15.972vw;
 }
 
-.behind-the-scene .wrapper {
+.work-story .wrapper {
     padding-inline: var(--sidepadding-xs);
-    display: flex;
-    flex-direction: column;
-    gap: 1.5vw;
-}
-
-.bts-row {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     gap: 4vw;
 }
 
-.bts-title {
-    margin: 0;
-    flex-shrink: 0;
-}
-
-.bts-credits {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: 4vw;
-    row-gap: 3vw;
-    width: 36vw;
-}
-
-.bts-credit {
+.work-story-body {
+    width: 50vw;
     display: flex;
     flex-direction: column;
-    gap: 0.5vw;
+    gap: 1.2em;
+
+    & p {
+        margin: 0;
+        line-height: 1.35;
+        white-space: pre-line;
+    }
 }
 
-.bts-role {
-    text-transform: uppercase;
+/* Social-media works: portrait video carousel beside overview + story. */
+.work-social {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4vw;
+    align-items: start;
+    padding: 2vw var(--sidepadding-xs) 6vw;
+    background: var(--black);
     color: var(--white);
-    opacity: 0.7;
 }
 
-.bts-name {
-    text-transform: uppercase;
+.video-carousel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5vw;
+}
+
+.video-carousel-frame {
+    position: relative;
+    height: min(44vw, 80vh);
+    aspect-ratio: 9 / 16;
+    overflow: hidden;
+    background: #000;
+
+    & iframe,
+    & video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+        display: block;
+    }
+}
+
+.video-carousel-arrow {
+    background: transparent;
+    border: 0;
+    padding: 0.5vw;
     color: var(--white);
+    cursor: pointer;
+    transition: color 0.25s ease;
+
+    & svg {
+        display: block;
+        width: 1.2vw;
+        height: auto;
+    }
+}
+
+.video-carousel-arrow:hover {
+    color: var(--orange);
+}
+
+.work-social-text {
+    display: flex;
+    flex-direction: column;
+    gap: 5vw;
+    padding-top: 1vw;
+}
+
+.work-social-overview {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5vw;
+}
+
+/* Story sits inside the right column here, so drop its own section chrome. */
+.work-social .work-story {
+    padding: 0;
+    background: none;
+
+    & .wrapper {
+        padding-inline: 0;
+        flex-direction: column;
+        gap: 1.5vw;
+    }
+
+    & .work-story-body {
+        width: 100%;
+    }
 }
 
 .next-project {
@@ -2737,6 +2826,11 @@ main.work-post {
         margin-top: 1vw;
     }
 
+    .work-hero-videos {
+        gap: 2vw 5vw;
+        padding: 4vw 5vw 0;
+    }
+
     .work-overview {
         height: auto;
         padding: 12vw 5vw 8vw;
@@ -2771,32 +2865,50 @@ main.work-post {
         gap: 1vw;
     }
 
-    .behind-the-scene {
+    .work-story {
         padding: 16vw 5vw 18vw;
 
         .wrapper {
+            padding-inline: 0;
             flex-direction: column;
-            gap: 10vw;
-
-            .bts-row {
-                flex-direction: column;
-                gap: 5vw;
-            }
+            gap: 5vw;
         }
     }
 
-    .bts-credits {
+    .work-story-body {
         width: 100%;
-        column-gap: 6vw;
-        row-gap: 6vw;
     }
 
-    .bts-role {
-        font-size: 2.5vw;
+    .work-social {
+        grid-template-columns: 1fr;
+        gap: 12vw;
+        padding: 4vw 5vw 12vw;
     }
 
-    .bts-name {
-        font-size: 3.5vw;
+    .video-carousel {
+        gap: 3vw;
+    }
+
+    .video-carousel-frame {
+        height: auto;
+        width: 70vw;
+    }
+
+    .video-carousel-arrow svg {
+        width: 4vw;
+    }
+
+    .work-social-text {
+        gap: 12vw;
+        padding-top: 0;
+    }
+
+    .work-social-overview {
+        gap: 5vw;
+    }
+
+    .work-social .work-story .wrapper {
+        gap: 5vw;
     }
 
     .next-project {

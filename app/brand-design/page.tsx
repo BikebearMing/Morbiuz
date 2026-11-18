@@ -3,7 +3,7 @@ import SplitTextReveal from "@/components/SplitTextReveal";
 import WorksList from "@/components/WorksList";
 import { getClient } from "@/lib/graphql-client";
 import { GET_BRAND_DESIGN_PAGE } from "@/lib/queries/brand-design";
-import { getWorkPath } from "@/lib/work-categories";
+import { getCategoryWorks } from "@/lib/work-categories";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getPageSeo, buildMetadata } from "@/lib/seo";
@@ -41,22 +41,9 @@ type OrangeSectionInfo = {
   } | null;
 } | null;
 
-type WorkRow = {
-  workGroup: {
-    workTitle: string | null;
-    workLink: {
-      nodes: { slug: string | null; categories?: { nodes: { slug: string | null }[] } | null }[];
-    } | null;
-    workImage: AcfImage;
-  } | null;
-};
-
 type OurWorks = {
   ourWorkSubheader: string | null;
   ourWorkTitle: string | null;
-  worksWrapper: {
-    ourWorkRepeater: WorkRow[] | null;
-  } | null;
 } | null;
 
 type BrandDesignPage = {
@@ -96,18 +83,7 @@ export default async function BrandDesign() {
   const info = page.workPages?.orangeSectionInfo;
   const pillars = info?.infoPillarWrapper?.infoPillarRepeater || [];
   const ourWorks = page.workPages?.ourWorks;
-  const workRows = ourWorks?.worksWrapper?.ourWorkRepeater || [];
-
-  const workItems = workRows
-    .map((r) => {
-      const linked = r.workGroup?.workLink?.nodes?.[0];
-      return {
-        title: r.workGroup?.workTitle || "",
-        href: linked ? getWorkPath(linked) : null,
-        image: r.workGroup?.workImage?.node || null,
-      };
-    })
-    .filter((w) => w.title);
+  const workItems = await getCategoryWorks("brand-design");
 
   return (
     <main>

@@ -1,3 +1,7 @@
+import { getClient } from "@/lib/graphql-client";
+import { GET_ALL_POSTS } from "@/lib/queries/posts";
+import type { Post } from "@/types/wordpress";
+
 // Each work type is a WordPress post category with its own listing page
 // (/video-production) and work pages (/video-production/<slug>). The category
 // slug in WordPress must match the key here.
@@ -25,4 +29,19 @@ export function getWorkCategory(post: CategorisedPost): WorkCategory | null {
 export function getWorkPath(post: CategorisedPost): string | null {
   const category = getWorkCategory(post);
   return category && post.slug ? `/${category}/${post.slug}` : null;
+}
+
+// Published works in a category for its listing page, newest first
+// (WordPress's default date order).
+export async function getCategoryWorks(category: WorkCategory) {
+  const { posts } = await getClient().request<{ posts: { nodes: Post[] } }>(
+    GET_ALL_POSTS
+  );
+  return posts.nodes
+    .filter((p) => getWorkCategory(p) === category)
+    .map((p) => ({
+      title: p.title,
+      href: getWorkPath(p),
+      image: p.featuredImage?.node || null,
+    }));
 }

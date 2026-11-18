@@ -84,16 +84,16 @@ export default function WorkOverview({ overviewText, images }: Props) {
 
   return (
     <section className="work-overview" ref={sectionRef}>
-      <div className="wrapper">
-        <h5 className="subhead">
-          <span className="bracket">[</span>
-          <span className="subhead-text">OVERVIEW</span>
-          <span className="bracket">]</span>
-        </h5>
-        {overviewText && (
+      {overviewText && (
+        <div className="wrapper">
+          <h5 className="subhead">
+            <span className="bracket">[</span>
+            <span className="subhead-text">OVERVIEW</span>
+            <span className="bracket">]</span>
+          </h5>
           <h2 className="h3 overview-text">{overviewText}</h2>
-        )}
-      </div>
+        </div>
+      )}
 
       {images.length > 0 && (
         <div className="overview-track-viewport">

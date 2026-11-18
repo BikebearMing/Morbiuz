@@ -1,8 +1,10 @@
 import { gql } from "graphql-request";
 
+// ponytail: hard ceiling of 100 posts (WPGraphQL's max page size); switch to
+// cursor pagination (pageInfo.endCursor + after:) if the site outgrows it.
 export const GET_ALL_POSTS = gql`
   query GetAllPosts {
-    posts {
+    posts(first: 100) {
       nodes {
         title
         slug
@@ -77,15 +79,10 @@ export const GET_POST_BY_SLUG = gql`
             altText
           }
         }
-        btsGroup {
-          btsCreditsRepeater {
-            btsCredit {
-              role
-              nameRepeater {
-                name
-              }
-            }
-          }
+        storyText
+        videoList {
+          videoUrl
+          videoLabel
         }
       }
     }

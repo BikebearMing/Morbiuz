@@ -36,31 +36,6 @@ export const GET_BRAND_DESIGN_PAGE = gql`
         ourWorks {
           ourWorkSubheader
           ourWorkTitle
-          worksWrapper {
-            ourWorkRepeater {
-              workGroup {
-                workTitle
-                workLink {
-                  nodes {
-                    slug
-                    ... on Post {
-                      categories {
-                        nodes {
-                          slug
-                        }
-                      }
-                    }
-                  }
-                }
-                workImage {
-                  node {
-                    sourceUrl
-                    altText
-                  }
-                }
-              }
-            }
-          }
         }
       }
     }

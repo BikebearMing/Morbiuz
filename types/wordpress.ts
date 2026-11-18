@@ -104,21 +104,9 @@ export interface GalleryImage {
   altText: string;
 }
 
-export interface BtsName {
-  name: string | null;
-}
-
-export interface BtsCredit {
-  role: string | null;
-  nameRepeater: BtsName[] | null;
-}
-
-export interface BtsCreditRow {
-  btsCredit: BtsCredit | null;
-}
-
-export interface BtsGroup {
-  btsCreditsRepeater: BtsCreditRow[] | null;
+export interface WorkVideo {
+  videoUrl: string | null;
+  videoLabel: string | null;
 }
 
 export interface VideoProductionPostGroup {
@@ -130,7 +118,9 @@ export interface VideoProductionPostGroup {
   imageGallery: { nodes: GalleryImage[] } | null;
   imageMasonry: { nodes: GalleryImage[] } | null;
   imageBannerHero: AcfImage | null;
-  btsGroup: BtsGroup | null;
+  // Plain text; paragraphs separated by blank lines.
+  storyText: string | null;
+  videoList: WorkVideo[] | null;
 }
 
 export interface Post {

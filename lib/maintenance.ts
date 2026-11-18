@@ -2,6 +2,11 @@
 // Mode). FORCE_MAINTENANCE_MODE=true in the env forces it on regardless — use
 // that if the CMS itself is down. (The older MAINTENANCE_MODE var is ignored.)
 const FORCE_ON = process.env.FORCE_MAINTENANCE_MODE === "true";
+// MAINTENANCE_BYPASS=true turns it off for local previews only. NODE_ENV is
+// inlined as "production" by `next build`, so this is always false there.
+const BYPASS =
+  process.env.NODE_ENV !== "production" &&
+  process.env.MAINTENANCE_BYPASS === "true";
 
 const QUERY = "{ siteSettings { maintenance { maintenanceMode } } }";
 const TTL_MS = 30_000;
@@ -12,6 +17,7 @@ let cached = { value: false, expires: 0 };
 
 export async function isMaintenanceMode(): Promise<boolean> {
   if (FORCE_ON) return true;
+  if (BYPASS) return false;
   if (Date.now() < cached.expires) return cached.value;
 
   const url = process.env.WORDPRESS_API_URL;

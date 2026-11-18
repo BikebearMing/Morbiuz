@@ -36,31 +36,6 @@ export const GET_VIDEO_PRODUCTION_PAGE = gql`
         ourWorks {
           ourWorkSubheader
           ourWorkTitle
-          worksWrapper {
-            ourWorkRepeater {
-              workGroup {
-                workTitle
-                workLink {
-                  nodes {
-                    slug
-                    ... on Post {
-                      categories {
-                        nodes {
-                          slug
-                        }
-                      }
-                    }
-                  }
-                }
-                workImage {
-                  node {
-                    sourceUrl
-                    altText
-                  }
-                }
-              }
-            }
-          }
         }
       }
     }
